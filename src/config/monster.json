@@ -1,0 +1,7 @@
+{
+  "slime": {
+    "name": "Slime",
+    "health": 10,
+    "weapon": 1
+  }
+}

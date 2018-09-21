@@ -1,0 +1,34 @@
+{
+  "light_leather": {
+    "name": "Light Leather Armor",
+    "description": "A simple armor made of leather covering vital parts of the body.",
+    "image": "leather",
+    "value": 3,
+    "resistance": {
+      "impact": 1,
+      "puncture": 3,
+      "slash": 5
+    }
+  },
+  "iron": {
+    "name": "Iron Armor",
+    "description": "A bulky armor made of sturdy iron and mostly used by knights.",
+    "image": "armor",
+    "value": 50,
+    "resistance": {
+      "impact": 5,
+      "puncture": 15,
+      "slash": 30
+    }
+  },
+  "helmet": {
+    "name": "Iron Helmet",
+    "description": "A heavy helmet used to protect the head primarily against ranged attacks.",
+    "image": "helmet",
+    "value": 30,
+    "resistance": {
+      "puncture": 20,
+      "slash": 5
+    }
+  }
+}

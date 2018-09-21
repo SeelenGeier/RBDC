@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>RDBC - Room Based Dungeon Crawler</title>
+    <!-- import Phaser 3 Game Framework -->
+    <!-- TODO: replace with minified version -->
+    <script src="../vendor/phaser.js"></script>
+    <!-- load Google Web Fonts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ['MedievalSharp']
+            }
+        });
+    </script>
+</head>
+<body>
+    <div><a href="../../index.html">Back to Overview</a></div>
+    <div class="game" id="rbdcGame"></div>
+    <!-- import helper -->
+    <script src="js/helper/save_data.js"></script>
+    <script src="js/helper/inventory.js"></script>
+    <script src="js/helper/animation.js"></script>
+    <!-- import components -->
+    <script src="js/component/button.js"></script>
+    <script src="js/component/dialog.js"></script>
+    <!-- import scenes -->
+    <script src="js/scene/splash.js"></script>
+    <script src="js/scene/profile_management.js"></script>
+    <script src="js/scene/profile_overview.js"></script>
+    <script src="js/scene/config.js"></script>
+    <script src="js/scene/shop.js"></script>
+    <script src="js/scene/dungeon.js"></script>
+    <script src="js/scene/result.js"></script>
+    <!-- start game -->
+    <script src="js/game.js"></script>
+</body>
+</html>

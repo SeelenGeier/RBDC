@@ -1,0 +1,8 @@
+{
+  "emblem": {
+    "name": "Emblem",
+    "description": "An emblem used to identify noble households.",
+    "image": "necklace",
+    "value": 10
+  }
+}

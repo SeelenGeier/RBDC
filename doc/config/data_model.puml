@@ -1,0 +1,176 @@
+@startuml
+
+!define type(x) <color:blue>x</color>
+!define attribute(x) <color:green>x</color>
+
+package Configurations{
+    object default {
+        setting
+            attribute(\tmusic) -> type(bool)
+            attribute(\tsound) -> type(bool)
+            attribute(\tsaveName) -> type(string)
+            attribute(\ttitle) -> type(string)
+            attribute(\tauthor) -> type(string)
+            attribute(\tfontFamily) -> type(string)
+        equipment
+            attribute(\tweapon) -> type(string)
+            attribute(\tarmor) -> type(string)
+            attribute(\toffhand) -> type(string)
+            attribute(\ttrinket) -> type(string)
+        status
+            attribute(\tcurrency) -> type(int)
+            attribute(\thealth) -> type(int)
+            attribute(\tinventorySize) -> type(int)
+    }
+
+    package TypeLists{
+        object trapType {
+            attribute(description) -> type(string)
+            attribute(actionMessage) -> type(string)
+            attribute(valueDescription) -> type(string)
+        }
+    }
+
+    package Lists{
+
+        object monster {
+            attribute(name) -> type(string)
+            attribute(health) -> type(int)
+            attribute(weapon) -> type(string)
+            attribute(armor) -> type(string)
+            attribute(offhand) -> type(string)
+            attribute(trinket) -> type(string)
+        }
+
+        object weapon {
+            attribute(name) -> type(string)
+            attribute(description) -> type(string)
+            attribute(image) -> type(string|array)
+            attribute(value) -> type(int)
+            damage
+                \tdamageA -> type(int)
+                \tdamageB -> type(int)
+                \t...
+        }
+
+        object armor {
+            attribute(name) -> type(string)
+            attribute(description) -> type(string)
+            attribute(image) -> type(string|array)
+            attribute(value) -> type(int)
+            resistance
+                \tdamageA -> type(int)
+                \tdamageB -> type(int)
+                \t...
+        }
+
+        object trinket {
+            attribute(name) -> type(string)
+            attribute(description) -> type(string)
+            attribute(image) -> type(string|array)
+            attribute(value) -> type(int)
+            resistance
+                \tdamageA -> type(int)
+                \tdamageB -> type(int)
+                \t...
+            damage
+                \tdamageA -> type(int)
+                \tdamageB -> type(int)
+                \t...
+        }
+
+        object offhand {
+            attribute(name) -> type(string)
+            attribute(description) -> type(string)
+            attribute(image) -> type(string|array)
+            attribute(value) -> type(int)
+            resistance
+                \tdamageA -> type(int)
+                \tdamageB -> type(int)
+                \t...
+            damage
+                \tdamageA -> type(int)
+                \tdamageB -> type(int)
+                \t...
+        }
+
+        object valuable {
+            attribute(name) -> type(string)
+            attribute(description) -> type(string)
+            attribute(image) -> type(string|array)
+            attribute(value) -> type(int)
+        }
+
+        object trap {
+            attribute(trapType) -> type(string)
+            attribute(name) -> type(string)
+            attribute(message) -> type(string)
+            attribute(value) -> type(int)
+        }
+    }
+}
+
+package Memory{
+    object character {
+        stats
+            \thealth
+                attribute(\t\tmaximum) -> type(int)
+                attribute(\t\tcurrent) -> type(int)
+            \t...
+        experiences
+            \texperienceA -> type(int)
+            \texperienceB -> type(int)
+            \t...
+        attribute(weapon) -> type(string)
+        attribute(armor) -> type(string)
+        attribute(offhand) -> type(string)
+        attribute(trinket) -> type(string)
+    }
+
+    object room {
+        monster
+            attribute(\ttype) -> type(string)
+            attribute(\thealth) -> type(int)
+        attribute(chestItem) -> type(string)
+        attribute(trap) -> type(string)
+        attribute(portal) -> type(bool)
+    }
+
+    object inventory {
+        attribute(currency) -> type(int)
+        items
+            \titemA
+                attribute(\t\titemType) -> type(string)
+                attribute(\t\titemName) -> type(string)
+                attribute(\t\tdurability) -> type(int)
+            \titemB
+                attribute(\t\titemType) -> type(string)
+                attribute(\t\titemName) -> type(string)
+                attribute(\t\tdurability) -> type(int)
+            \t...
+    }
+}
+
+database Storage {
+    object saveObject {
+        profiles
+            \tprofileA
+                attribute(\t\tscene) -> type(string)
+                attribute(\t\tmusic) -> type(bool)
+                attribute(\t\tsound) -> type(bool)
+                attribute(\t\tinventory) -> type(inventory)
+                attribute(\t\tcharacter) -> type(character)
+                attribute(\t\troom) -> type(room)
+            \tprofileB
+                attribute(\t\tscene) -> type(string)
+                attribute(\t\tmusic) -> type(bool)
+                attribute(\t\tsound) -> type(bool)
+                attribute(\t\tinventory) -> type(inventory)
+                attribute(\t\tcharacter) -> type(character)
+                attribute(\t\troom) -> type(room)
+            \t...
+        attribute(current_profile) -> type(string)
+    }
+}
+
+@enduml
