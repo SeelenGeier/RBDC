@@ -314,7 +314,29 @@ class dungeonScene extends Phaser.Scene {
 
     calculateDamage(attacker, defender) {
         let attackerDamage = {};
-        let defenderDefense = {};
+        let defenderResistance = {};
+
+        let equipmentTypes = ['weapon', 'offhand', 'armor', 'trinket'];
+
+        for(let equipmentType in equipmentTypes) {
+
+            console.log(config[equipmentType][attacker[equipmentType]].damage);
+            // collect all damage from current equipment type for attacker
+            if (typeof attacker.equipmentType != 'undefined') {
+                for (let damage in config[equipmentType][attacker[equipmentType]].damage) {
+                    attackerDamage[damage] += config[equipmentType][attacker[equipmentType]].damage[damage];
+                }
+            }
+
+            // collect all resistances from currecnt equipment type for defender
+            if (typeof defender.equipmentType != 'undefined') {
+                for (let resistance in config[equipmentType][attacker[equipmentType]].resistances) {
+                    defenderResistance[resistance] += config[equipmentType][attacker[equipmentType]].resistance[resistance];
+                }
+            }
+        }
+        console.log(attackerDamage);
+        console.log(defenderResistance);
 
         return 0;
     }
