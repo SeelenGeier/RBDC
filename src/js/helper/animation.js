@@ -68,6 +68,11 @@ function loadAnimationCharacter() {
         frames: game.anims.generateFrameNumbers('character', { start: 52, end: 58 }),
         frameRate: 12
     });
+    game.anims.create({
+        key: 'characterDie',
+        frames: game.anims.generateFrameNumbers('character', { start: 59, end: 68 }),
+        frameRate: 12
+    });
 }
 
 function loadAnimationSlime() {
@@ -87,5 +92,11 @@ function loadAnimationSlime() {
         key: 'slimeAttack',
         frames: game.anims.generateFrameNumbers('slime', { start: 8, end: 11 }),
         frameRate: 12
+    });
+    game.anims.create({
+        key: 'slimeDie',
+        frames: game.anims.generateFrameNumbers('slime', { start: 16, end: 20 }),
+        frameRate: 12,
+        repeat: -1
     });
 }
