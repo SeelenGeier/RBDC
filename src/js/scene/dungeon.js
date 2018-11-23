@@ -74,12 +74,11 @@ class dungeonScene extends Phaser.Scene {
         // TODO: add actions based on current room contents
         // check if living enemy, closed chest or armed trap is present
         if (this.isEnemyAlive()) {
+            // let player and enemy both attack
             this.attackPlayer();
             this.attackEnemy();
         }else if(this.isChestClosed()) {
-
         }else if(this.isTrapArmed()) {
-
         }
     }
 
@@ -138,9 +137,8 @@ class dungeonScene extends Phaser.Scene {
         // go to the center of the room
         if (this.parent.scene.isEnemyAlive()) {
             this.parent.scene.attackEnemy();
-        }else {
-            this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
         }
+        this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
     }
 
     leaveRoom() {
@@ -306,9 +304,18 @@ class dungeonScene extends Phaser.Scene {
 
     enemyDamaged() {
         // TODO: resolve damage
+        console.log('enemy took ' + this.calculateDamage(this.character, this.enemy) + 'damage');
     }
 
     playerDamaged() {
         // TODO: resolve damage
+        console.log('enemy took ' + this.calculateDamage(this.enemy, this.character) + 'damage');
+    }
+
+    calculateDamage(attacker, defender) {
+        let attackerDamage = {};
+        let defenderDefense = {};
+
+        return 0;
     }
 }
