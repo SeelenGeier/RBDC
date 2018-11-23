@@ -131,7 +131,18 @@ package Memory{
         monster
             attribute(\ttype) -> type(string)
             attribute(\thealth) -> type(int)
-        attribute(chestItem) -> type(string)
+        chest
+            attribute(\topen) -> type(bool)
+            \tcontent
+                \t\titemA
+                    attribute(\t\t\titemType) -> type(string)
+                    attribute(\t\t\titemName) -> type(string)
+                    attribute(\t\t\tdurability) -> type(int)
+                \t\titemB
+                    attribute(\t\t\titemType) -> type(string)
+                    attribute(\t\t\titemName) -> type(string)
+                    attribute(\t\t\tdurability) -> type(int)
+                \t\t...
         attribute(trap) -> type(string)
         attribute(portal) -> type(bool)
     }

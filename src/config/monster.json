@@ -1,6 +1,13 @@
 {
   "slime": {
+    "type": "slime",
     "name": "Slime",
+    "image": {
+      "file": "slime.png",
+      "width": 32,
+      "height": 25,
+      "scale": 3
+    },
     "health": 10,
     "weapon": 1
   }

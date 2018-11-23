@@ -11,11 +11,11 @@ class dungeonScene extends Phaser.Scene {
     }
 
     create() {
-        // add content placeholder to keep track of what is currently inside the room
-        this.roomContent = {};
-
         // save new current scene in saveObject
         saveObject.profiles[saveObject.currentProfile].scene = 'dungeon';
+        if(typeof saveObject.profiles[saveObject.currentProfile].room == 'undefined'){
+            saveObject.profiles[saveObject.currentProfile].room = {};
+        }
         saveData();
 
         // add button to navigate to config
@@ -35,6 +35,13 @@ class dungeonScene extends Phaser.Scene {
 
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
+
+        // TODO: replace with randomized chance of encounter
+        this.spawnEnemy();
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy != 'undefined') {
+            // add character to the left center of the screen
+            this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
+        }
     }
 
     addBackground() {
@@ -46,35 +53,8 @@ class dungeonScene extends Phaser.Scene {
     addNavigationExit(x, y) {
         // add navigation button to return to profile overview and register corresponding function
         new Button('buttonExit', ['gameicons', 'exitLeft.png'], x, y, this);
-        this.buttonExit.on('pointerup', this.exitDungeon, this);
+        this.buttonExit.on('pointerup', this.goTo, [this, 'exit']);
         this.buttonExit.setTint(0x6666aa);
-    }
-
-    exitDungeon() {
-        // stop animation complete listener
-        this.character.off('animationcomplete');
-
-        // stop character from moving when entering the scene
-        this.characterEnterTween.stop();
-
-        // stop character from moving when already moving to a side
-        if (this.characterMovingTween != undefined) {
-            this.characterMovingTween.stop();
-        }
-
-        // flip character to face the correct direction
-        this.character.setScale(-1, 1);
-
-        // play running animation if not already playing
-        this.character.anims.play('characterRun', true);
-
-        // move character to destination
-        this.characterMovingTween = this.tweens.add({
-            targets: [this.character],
-            x: -100,
-            duration: (-100 - this.character.x) * 5 * this.character.scaleX,
-            onComplete: this.loadProfileOverviewScene
-        });
     }
 
     loadProfileOverviewScene() {
@@ -97,12 +77,82 @@ class dungeonScene extends Phaser.Scene {
     addNavigationNextRoom(x, y) {
         // add navigation button to perform action based on room contents
         new Button('buttonNextRoom', ['gameicons', 'arrowRight.png'], x, y, this);
-        this.buttonNextRoom.on('pointerup', this.goToNextRoom, this);
+        this.buttonNextRoom.on('pointerup', this.goToCenter, [this, 'center']);
         this.buttonNextRoom.setTint(0x009966);
     }
 
+    goTo() {
+        let destination = this[1];
+
+        // stop animation complete listener
+        this[0].character.off('animationcomplete');
+
+        // stop character from moving when entering the scene
+        this[0].characterEnterTween.stop();
+
+        // stop character from moving when already moving to a side
+        if (this[0].characterMovingTween != undefined) {
+            this[0].characterMovingTween.stop();
+        }
+
+        // flip character to face the correct direction
+        if (destination == 'exit') {
+            this[0].character.setScale(-1, 1);
+        } else {
+            this[0].character.setScale(1, 1);
+        }
+
+        // play running animation if not already playing
+        this[0].character.anims.play('characterRun', true);
+
+        // set destination to be 100px outside of the screen (to make the character run off the screen)
+        let destinationX = destination == 'exit' ? -100 : destination == 'center' ? this[0].sys.game.config.width / 2 : this[0].sys.game.config.width + 100;
+
+        // move character to destination
+        this[0].characterMovingTween = this[0].tweens.add({
+            targets: [this[0].character],
+            x: destinationX,
+            duration: (destinationX - this[0].character.x) * 5 * this[0].character.scaleX,
+            onComplete: destination == 'exit' ? this[0].loadProfileOverviewScene : destination == 'center' ? this[0].goToNextRoom : this[0].reloadRoom
+        });
+    }
+
+    goToCenter() {
+        // check if player is in the center of the room
+        if(this[0].character.x < this[0].sys.game.config.width / 2) {
+            this[0].goTo.call(this);
+        }
+    }
+
     goToNextRoom() {
-        // TODO: go to next room with one attack before leaving if an enemy is still in the room
+        // go to the center of the room
+        if (this.parent.scene.isEnemyAlive()) {
+            this.parent.scene.attackEnemy();
+        }else {
+            this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
+        }
+    }
+
+    isEnemyAlive() {
+        // check if any enemy exists at all
+        if(typeof saveObject.profiles[saveObject.currentProfile].enemy == 'undefined') {
+            return false;
+        }else {
+            // return true if enemy has more than 0 health (is still alive)
+            return (saveObject.profiles[saveObject.currentProfile].enemy.health > 0);
+        }
+    }
+
+    leaveRoom() {
+        // unset current room
+        saveObject.profiles[saveObject.currentProfile].room = undefined;
+        // open next room
+        this.reloadRoom();
+    }
+
+    reloadRoom() {
+        // hide current scene and start config scene
+        this.parent.scene.scene.start('dungeon');
     }
 
     addNavigationInventory(x, y) {
@@ -139,6 +189,19 @@ class dungeonScene extends Phaser.Scene {
         });
     }
 
+    addEnemy(x, y) {
+        // add character outside of view
+        this.enemy = this.add.sprite(x, y, saveObject.profiles[saveObject.currentProfile].room.enemy.type);
+        this.enemy.setOrigin(0.5, 1);
+        this.enemy.setScale(saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale);
+
+        // load animations if not done already
+        addCharacterAnimations(saveObject.profiles[saveObject.currentProfile].room.enemy.type);
+
+        // start enemy in idle animation
+        this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Idle');
+    }
+
     characterIdle() {
         // deactivate any event trigger when completing an animation as precaution
         this.parent.scene.character.off('animationcomplete');
@@ -147,23 +210,32 @@ class dungeonScene extends Phaser.Scene {
         this.parent.scene.character.anims.play('characterIdleWithSword');
     }
 
-    addChest() {
+    spawnChest() {
         let chest = {
-            content: {},
-            open: false
+            open: false,
+            content: {}
         };
-        this.roomContent.chest = chest;
+        // TODO: generate and add item to chest
+        saveObject.profiles[saveObject.currentProfile].room.chest = chest;
     }
 
-    addEnemy() {
-        let enemy = {
-        };
-        this.roomContent.enemy = enemy;
+    spawnEnemy() {
+        // TODO: generate actual enemy
+        let enemy = config.monster['slime'];
+        saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
     }
 
-    addTrap() {
+    spawnTrap() {
         let trap = {
         };
-        this.roomContent.trap = trap;
+        saveObject.profiles[saveObject.currentProfile].room.trap = trap;
+    }
+
+    attackPlayer() {
+        // TODO: add attack animation and resolve damage
+    }
+
+    attackEnemy() {
+        // TODO: add attack animation and resolve damage
     }
 }

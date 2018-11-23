@@ -12,6 +12,9 @@ function addCharacterAnimations(unit) {
         case 'character':
             loadAnimationCharacter();
             break;
+        case 'slime':
+            loadAnimationSlime();
+            break;
         default:
             break;
     }
@@ -64,5 +67,14 @@ function loadAnimationCharacter() {
         key: 'characterAttack3',
         frames: game.anims.generateFrameNumbers('character', { start: 52, end: 58 }),
         frameRate: 12
+    });
+}
+
+function loadAnimationSlime() {
+    game.anims.create({
+        key: 'slimeIdle',
+        frames: game.anims.generateFrameNumbers('slime', { start: 0, end: 3 }),
+        frameRate: 6,
+        repeat: -1
     });
 }

@@ -81,6 +81,11 @@ function create() {
         }
     }
 
+    // load images for configured enemies
+    for(let monster in config.monster) {
+        this.load.spritesheet(config.monster[monster].type, '../assets/unit/enemy/' + config.monster[monster].image.file, {frameWidth: config.monster[monster].image.width, frameHeight: config.monster[monster].image.height});
+    }
+
     // load image for "nothing"
     this.load.image('X', '../assets/item/X.png');
 
