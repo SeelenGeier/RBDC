@@ -6,7 +6,7 @@
       "file": "slime.png",
       "width": 32,
       "height": 25,
-      "scale": 3
+      "scale": 2.5
     },
     "health": 10,
     "weapon": 1

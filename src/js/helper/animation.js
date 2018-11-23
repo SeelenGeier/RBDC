@@ -77,4 +77,15 @@ function loadAnimationSlime() {
         frameRate: 6,
         repeat: -1
     });
+    game.anims.create({
+        key: 'slimeRun',
+        frames: game.anims.generateFrameNumbers('slime', { start: 4, end: 7 }),
+        frameRate: 6,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'slimeAttack',
+        frames: game.anims.generateFrameNumbers('slime', { start: 8, end: 11 }),
+        frameRate: 12
+    });
 }
