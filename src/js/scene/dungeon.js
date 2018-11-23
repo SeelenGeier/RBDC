@@ -72,6 +72,15 @@ class dungeonScene extends Phaser.Scene {
 
     performAction() {
         // TODO: add actions based on current room contents
+        // check if living enemy, closed chest or armed trap is present
+        if (this.isEnemyAlive()) {
+            this.attackPlayer();
+            this.attackEnemy();
+        }else if(this.isChestClosed()) {
+
+        }else if(this.isTrapArmed()) {
+
+        }
     }
 
     addNavigationNextRoom(x, y) {
@@ -113,13 +122,14 @@ class dungeonScene extends Phaser.Scene {
             targets: [this[0].character],
             x: destinationX,
             duration: (destinationX - this[0].character.x) * 5 * this[0].character.scaleX,
-            onComplete: destination == 'exit' ? this[0].loadProfileOverviewScene : destination == 'center' ? this[0].goToNextRoom : this[0].reloadRoom
+            onComplete: destination == 'exit' ? this[0].loadProfileOverviewScene : destination == 'center' ? this[0].goToNextRoom : this[0].leaveRoom
         });
     }
 
     goToCenter() {
-        // check if player is in the center of the room
+        // check if player is on the left of the center of the room
         if(this[0].character.x < this[0].sys.game.config.width / 2) {
+            // move player to center
             this[0].goTo.call(this);
         }
     }
@@ -133,25 +143,11 @@ class dungeonScene extends Phaser.Scene {
         }
     }
 
-    isEnemyAlive() {
-        // check if any enemy exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].enemy == 'undefined') {
-            return false;
-        }else {
-            // return true if enemy has more than 0 health (is still alive)
-            return (saveObject.profiles[saveObject.currentProfile].enemy.health > 0);
-        }
-    }
-
     leaveRoom() {
         // unset current room
         saveObject.profiles[saveObject.currentProfile].room = undefined;
-        // open next room
-        this.reloadRoom();
-    }
 
-    reloadRoom() {
-        // hide current scene and start config scene
+        // open next room
         this.parent.scene.scene.start('dungeon');
     }
 
@@ -185,7 +181,7 @@ class dungeonScene extends Phaser.Scene {
             targets: [this.character],
             x: x,
             duration: (x - this.character.x) * 5,
-            onComplete: this.characterIdle
+            onComplete: this.characterIdle,
         });
     }
 
@@ -199,20 +195,39 @@ class dungeonScene extends Phaser.Scene {
         addCharacterAnimations(saveObject.profiles[saveObject.currentProfile].room.enemy.type);
 
         // start enemy in idle animation
-        this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Idle');
+        this.enemyIdle();
     }
 
     characterIdle() {
+        let that;
+        if(this.constructor.name == 'Tween') {
+            that = this.parent.scene;
+        }else {
+            that = this;
+        }
         // deactivate any event trigger when completing an animation as precaution
-        this.parent.scene.character.off('animationcomplete');
+        that.character.off('animationcomplete');
 
         // start idle animation with sword
-        this.parent.scene.character.anims.play('characterIdleWithSword');
+        that.character.anims.play('characterIdleWithSword');
+    }
+
+    enemyIdle() {
+        // deactivate any event trigger when completing an animation as precaution
+        this.enemy.off('animationcomplete');
+
+        if(this.isEnemyAlive()) {
+            // set enemy to idle animation
+            this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Idle');
+        }else  {
+            // set enemy to die animation
+            this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
+        }
     }
 
     spawnChest() {
         let chest = {
-            open: false,
+            closed: true,
             content: {}
         };
         // TODO: generate and add item to chest
@@ -226,16 +241,74 @@ class dungeonScene extends Phaser.Scene {
     }
 
     spawnTrap() {
+        // TODO: generate actual trap
         let trap = {
+            armed: true
         };
         saveObject.profiles[saveObject.currentProfile].room.trap = trap;
     }
 
+    isEnemyAlive() {
+        // check if any enemy exists at all
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy == 'undefined') {
+            return false;
+        }else {
+            // return true if enemy has more than 0 health (is still alive)
+            return (saveObject.profiles[saveObject.currentProfile].room.enemy.health > 0);
+        }
+    }
+
+    isChestClosed() {
+        // check if any chest exists at all
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.chest == 'undefined') {
+            return false;
+        }else {
+            // return true if chest is still closed
+            return saveObject.profiles[saveObject.currentProfile].room.chest.closed;
+        }
+    }
+
+    isTrapArmed() {
+        // check if any trap exists at all
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.trap == 'undefined') {
+            return false;
+        }else {
+            // return true if trap is still armed
+            return saveObject.profiles[saveObject.currentProfile].room.trap.armed;
+        }
+    }
+
     attackPlayer() {
-        // TODO: add attack animation and resolve damage
+        // deactivate any event trigger when completing an animation as precaution
+        this.character.off('animationcomplete');
+
+        // start idle animation with sword
+        this.character.anims.play('characterAttack' + Math.trunc(Math.random() * 3 + 1));
+
+        this.enemyDamaged();
+
+        // play idle animation after attack
+        this.character.on('animationcomplete', this.characterIdle, this);
     }
 
     attackEnemy() {
-        // TODO: add attack animation and resolve damage
+        // deactivate any event trigger when completing an animation as precaution
+        this.enemy.off('animationcomplete');
+
+        // start idle animation with sword
+        this.enemy.anims.play('slimeAttack');
+
+        this.playerDamaged();
+
+        // play idle animation after attack
+        this.enemy.on('animationcomplete', this.enemyIdle, this);
+    }
+
+    enemyDamaged() {
+        // TODO: resolve damage
+    }
+
+    playerDamaged() {
+        // TODO: resolve damage
     }
 }
