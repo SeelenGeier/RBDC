@@ -315,6 +315,7 @@ class dungeonScene extends Phaser.Scene {
     calculateDamage(attacker, defender) {
         let attackerDamage = {};
         let defenderResistance = {};
+        let damageTotal = 0;
 
         // set array of equipment types to check for calculation
         let equipmentTypes = {'weapon': null, 'offhand': null, 'armor': null, 'trinket': null};
@@ -382,9 +383,23 @@ class dungeonScene extends Phaser.Scene {
                 }
             }
         }
-        console.log(attackerDamage);
-        console.log(defenderResistance);
 
-        return 0;
+        // add damage to total for all types of damage the attacker has
+        for (let damageType in attackerDamage) {
+            // calculate damage by subtracting defender resistance from attacker damage
+            let damage = attackerDamage[damageType] - attackerDamage[damageType];
+
+            // add damage number to total if any damage comes through
+            if(damage > 0) {
+                damageTotal += damage;
+            }
+        }
+
+        // make at least 1 damage per attack
+        if(damageTotal < 1) {
+            damageTotal = 1;
+        }
+
+        return damageTotal;
     }
 }
