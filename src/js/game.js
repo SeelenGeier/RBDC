@@ -55,6 +55,8 @@ function preload() {
 
     // load character spritesheet
     this.load.spritesheet('character', '../assets/unit/character.png', {frameWidth: 200, frameHeight: 148});
+
+    // TODO: config.default.setting.chestImage
 }
 
 function create() {

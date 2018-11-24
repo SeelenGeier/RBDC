@@ -36,11 +36,16 @@ class dungeonScene extends Phaser.Scene {
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
 
-        // TODO: replace with randomized chance of encounter
-        this.spawnEnemy();
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy != 'undefined') {
-            // add character to the left center of the screen
-            this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
+        // add random encounter to room
+        if(Math.random() < config.default.setting.enemySpawnChance) {
+            this.spawnEnemy();
+        }else if(Math.random() < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
+            this.spawnChest()
+        }
+
+        // add traps in a few rooms
+        if(Math.random() < config.default.setting.trapSpawnChance) {
+            this.spawnTrap()
         }
 
         // set enemy to idle per default
@@ -61,6 +66,9 @@ class dungeonScene extends Phaser.Scene {
     }
 
     loadProfileOverviewScene() {
+        // unset current room
+        saveObject.profiles[saveObject.currentProfile].room = undefined;
+
         // hide current scene and start config scene
         this.parent.scene.scene.sleep();
         this.parent.scene.scene.start('profileOverview');
@@ -82,7 +90,9 @@ class dungeonScene extends Phaser.Scene {
                 this.attackPlayer();
                 this.attackEnemy();
             }else if(this.isChestClosed()) {
+                console.log('closed chest present');
             }else if(this.isTrapArmed()) {
+                console.log('armed trap present')
             }
         }
     }
@@ -192,7 +202,7 @@ class dungeonScene extends Phaser.Scene {
     }
 
     addEnemy(x, y) {
-        // add character outside of view
+        // add enemy sprite
         this.enemy = this.add.sprite(x, y, saveObject.profiles[saveObject.currentProfile].room.enemy.type);
         this.enemy.setOrigin(0.5, 1);
         this.enemy.setScale(saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale);
@@ -202,6 +212,15 @@ class dungeonScene extends Phaser.Scene {
 
         // start enemy in idle animation
         this.enemyIdle();
+    }
+
+    addChest(x, y) {
+        // add character outside of view
+        this.enemy = this.add.sprite(x, y, config.default.setting.chestImage);
+        this.enemy.setOrigin(0.5, 1);
+
+        // load animations if not done already
+        addCharacterAnimations(saveObject.profiles[saveObject.currentProfile].room.enemy.type);
     }
 
     characterIdle() {
@@ -244,8 +263,12 @@ class dungeonScene extends Phaser.Scene {
             closed: true,
             content: {}
         };
+
         // TODO: generate and add item to chest
         saveObject.profiles[saveObject.currentProfile].room.chest = chest;
+
+        // add character to the left center of the screen
+        this.addChest(this.sys.game.config.width * 0.50, this.sys.game.config.height * 0.62);
     }
 
     spawnEnemy() {
@@ -253,6 +276,9 @@ class dungeonScene extends Phaser.Scene {
         let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random()*Object.keys(config.monster).length)]];
         let enemy = JSON.parse(JSON.stringify(enemyStats));
         saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
+
+        // add character to the left center of the screen
+        this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
     }
 
     spawnTrap() {
@@ -332,7 +358,7 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.enemy.anims.play('slimeDie');
 
-        // TODO: couple chance with amount of rooms cleared
+        // TODO: modify chance with amount of rooms cleared
         // spawn chest with fixed chance
         if(Math.random() < 0.2) {
             this.spawnChest();

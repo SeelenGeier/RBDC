@@ -5,7 +5,6 @@ class profileOverviewScene extends Phaser.Scene {
     }
 
     preload() {
-        // TODO: replace background
         // load background image for profile overview
         this.load.image('backgroundProfileOverview', '../assets/background/profile_overview_mockup.png');
     }
@@ -40,6 +39,9 @@ class profileOverviewScene extends Phaser.Scene {
 
         // add character to the center of the screen
         this.addCurrency(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.66);
+
+        // heal character to full health
+        saveObject.profiles[saveObject.currentProfile].character.health = config.default.status.health;
     }
 
     goToConfig() {
