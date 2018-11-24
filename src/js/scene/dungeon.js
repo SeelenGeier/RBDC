@@ -43,8 +43,7 @@ class dungeonScene extends Phaser.Scene {
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
         }
 
-        // set character and enemy to idle
-        this.characterIsIdle = true;
+        // set enemy to idle per default
         this.enemyIsIdle = true;
     }
 
@@ -97,6 +96,9 @@ class dungeonScene extends Phaser.Scene {
 
     goTo() {
         let destination = this[1];
+
+        // set character to not being idle
+        this[0].characterIsIdle = false;
 
         // stop animation complete listener
         this[0].character.off('animationcomplete');
@@ -218,7 +220,7 @@ class dungeonScene extends Phaser.Scene {
         that.character.anims.play('characterIdleWithSword');
 
         // set character to being idle
-        this.characterIsIdle = true;
+        that.characterIsIdle = true;
     }
 
     enemyIdle() {
@@ -247,8 +249,9 @@ class dungeonScene extends Phaser.Scene {
     }
 
     spawnEnemy() {
-        // TODO: generate actual enemy
-        let enemy = config.monster['slime'];
+        // pick random monster
+        let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random()*Object.keys(config.monster).length)]];
+        let enemy = JSON.parse(JSON.stringify(enemyStats));
         saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
     }
 
@@ -328,19 +331,68 @@ class dungeonScene extends Phaser.Scene {
 
         // start idle animation with sword
         this.enemy.anims.play('slimeDie');
-    }
 
-    enemyDamaged() {
-        saveObject.profiles[saveObject.currentProfile].room.enemy.health -= this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy);
-        console.log('enemy health: ' + saveObject.profiles[saveObject.currentProfile].room.enemy.health);
-        if(saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
-            this.enemyDie();
+        // TODO: couple chance with amount of rooms cleared
+        // spawn chest with fixed chance
+        if(Math.random() < 0.2) {
+            this.spawnChest();
         }
     }
 
+    enemyDamaged() {
+        // calculate damage based on weapon and defense
+        let damage = this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy);
+
+        // subtract damage from enemy health
+        saveObject.profiles[saveObject.currentProfile].room.enemy.health -= damage;
+
+        // spawn damage number on top of enemy
+        let damageNumber = this.add.text(this.enemy.x, this.enemy.y - this.enemy.height - 20, damage, {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 32,
+            color: '#FF3333'
+        });
+
+        // add up motion to damage number
+        this.tweens.add({
+            targets: [damageNumber],
+            y: damageNumber.y - 100,
+            alpha: 0,
+            duration: 600,
+            onComplete: damageNumber.destroy,
+        });
+
+        // process death if enemy lost all his health
+        if(saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
+            this.enemyDie();
+        }
+
+    }
+
     playerDamaged() {
-        // TODO: resolve damage
-        console.log('player took ' + this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character) + ' damage');
+        // calculate damage based on weapon and defense
+        let damage = this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character);
+
+        // subtract damage from enemy health
+        saveObject.profiles[saveObject.currentProfile].character.health -= damage;
+
+        // spawn damage number on top of enemy
+        let damageNumber = this.add.text(this.character.x, this.character.y - this.character.height, damage, {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 32,
+            color: '#FF3333'
+        });
+
+        // add up motion to damage number
+        this.tweens.add({
+            targets: [damageNumber],
+            y: damageNumber.y - 100,
+            alpha: 0,
+            duration: 600,
+            onComplete: damageNumber.destroy,
+        });
+
+        // TODO: make player die
     }
 
     calculateDamage(attacker, defender) {
