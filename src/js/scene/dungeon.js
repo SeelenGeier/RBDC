@@ -13,7 +13,7 @@ class dungeonScene extends Phaser.Scene {
     create() {
         // save new current scene in saveObject
         saveObject.profiles[saveObject.currentProfile].scene = 'dungeon';
-        if(typeof saveObject.profiles[saveObject.currentProfile].room == 'undefined'){
+        if(typeof saveObject.profiles[saveObject.currentProfile].room === 'undefined'){
             saveObject.profiles[saveObject.currentProfile].room = {};
         }
         saveData();
@@ -104,7 +104,7 @@ class dungeonScene extends Phaser.Scene {
         }
 
         // flip character to face the correct direction
-        if (destination == 'exit') {
+        if (destination === 'exit') {
             this[0].character.setScale(-1, 1);
         } else {
             this[0].character.setScale(1, 1);
@@ -114,14 +114,14 @@ class dungeonScene extends Phaser.Scene {
         this[0].character.anims.play('characterRun', true);
 
         // set destination to be 100px outside of the screen (to make the character run off the screen)
-        let destinationX = destination == 'exit' ? -100 : destination == 'center' ? this[0].sys.game.config.width / 2 : this[0].sys.game.config.width + 100;
+        let destinationX = destination === 'exit' ? -100 : destination === 'center' ? this[0].sys.game.config.width / 2 : this[0].sys.game.config.width + 100;
 
         // move character to destination
         this[0].characterMovingTween = this[0].tweens.add({
             targets: [this[0].character],
             x: destinationX,
             duration: (destinationX - this[0].character.x) * 5 * this[0].character.scaleX,
-            onComplete: destination == 'exit' ? this[0].loadProfileOverviewScene : destination == 'center' ? this[0].goToNextRoom : this[0].leaveRoom
+            onComplete: destination === 'exit' ? this[0].loadProfileOverviewScene : destination === 'center' ? this[0].goToNextRoom : this[0].leaveRoom
         });
     }
 
@@ -198,7 +198,7 @@ class dungeonScene extends Phaser.Scene {
 
     characterIdle() {
         let that;
-        if(this.constructor.name == 'Tween') {
+        if(this.constructor.name === 'Tween') {
             that = this.parent.scene;
         }else {
             that = this;
@@ -248,7 +248,7 @@ class dungeonScene extends Phaser.Scene {
 
     isEnemyAlive() {
         // check if any enemy exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy == 'undefined') {
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy === 'undefined') {
             return false;
         }else {
             // return true if enemy has more than 0 health (is still alive)
@@ -258,7 +258,7 @@ class dungeonScene extends Phaser.Scene {
 
     isChestClosed() {
         // check if any chest exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.chest == 'undefined') {
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.chest === 'undefined') {
             return false;
         }else {
             // return true if chest is still closed
@@ -268,7 +268,7 @@ class dungeonScene extends Phaser.Scene {
 
     isTrapArmed() {
         // check if any trap exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.trap == 'undefined') {
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.trap === 'undefined') {
             return false;
         }else {
             // return true if trap is still armed
@@ -304,45 +304,82 @@ class dungeonScene extends Phaser.Scene {
 
     enemyDamaged() {
         // TODO: resolve damage
-        console.log('enemy took ' + this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy) + 'damage');
+        console.log('enemy took ' + this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy) + ' damage');
     }
 
     playerDamaged() {
         // TODO: resolve damage
-        console.log('player took ' + this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character) + 'damage');
+        console.log('player took ' + this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character) + ' damage');
     }
 
     calculateDamage(attacker, defender) {
         let attackerDamage = {};
         let defenderResistance = {};
 
-        let equipmentTypes = {'weapon': true, 'offhand': true, 'armor': true, 'trinket': true};
-
-        let attackerWeapon = {};
-        let defenderEquipment = {};
+        // set array of equipment types to check for calculation
+        let equipmentTypes = {'weapon': null, 'offhand': null, 'armor': null, 'trinket': null};
 
         for(let equipmentType in equipmentTypes) {
 
-            if(attacker == this.character){
-                attackerWeapon[equipmentType] = config[equipmentType][getItem(attacker[equipmentType])];
+            let attackerItem = {};
+            let defenderItem = {};
+            let attackerItemName = '';
+            let defenderItemName = '';
+
+            // get equipment item for attacker
+            if(attacker == saveObject.profiles[saveObject.currentProfile].character){
+                // set attacker item to item in current character equipment
+                if(attacker[equipmentType] != null) {
+                    attackerItemName = getItem(attacker[equipmentType]).itemName;
+                    attackerItem = config[equipmentType][attackerItemName];
+                }
             }else {
-                attackerWeapon[equipmentType] = config[equipmentType][getItem(attacker[equipmentType])];
+                // set attacker item to item in monster configuration
+                if(config.monster[attacker.texture.key][equipmentType] != null) {
+                    attackerItemName = config.monster[attacker.texture.key][equipmentType];
+                    attackerItem = config[equipmentType][attackerItemName];
+                }
             }
 
-            if(attacker == this.character){
-                defenderEquipment[equipmentType] = config[equipmentType][getItem(defender[equipmentType])];
+            // get equipment item for defender
+            if(defender == saveObject.profiles[saveObject.currentProfile].character){
+                // set defender item to item in current character equipment
+                if(defender[equipmentType] != null) {
+                    defenderItemName = getItem(defender[equipmentType]).itemName;
+                    defenderItem = config[equipmentType][defenderItemName];
+                }
             }else {
-                defenderEquipment[equipmentType] = config[equipmentType][getItem(defender[equipmentType])];
+                // set defender item to item in monster configuration
+                if(config.monster[defender.texture.key][equipmentType] != null) {
+                    defenderItemName = config.monster[defender.texture.key][equipmentType];
+                    defenderItem = config[equipmentType][defenderItemName];
+                }
             }
 
-            // collect all damage from current equipment type for attacker
-            for (let damage in attackerWeapon.damage) {
-                attackerDamage[damage] += attackerWeapon.damage[damage];
+            // check if attacker has an item in this slot
+            if(typeof attackerItem != 'undefined') {
+                // collect all damage from current equipment type for attacker
+                for (let damage in attackerItem.damage) {
+
+                    // set damage type to 0 if not set already
+                    if(typeof attackerDamage[damage] == 'undefined') {
+                        attackerDamage[damage] = 0;
+                    }
+                    attackerDamage[damage] += attackerItem.damage[damage];
+                }
             }
 
-            // collect all resistances from currecnt equipment type for defender
-            for (let resistance in defenderEquipment.resistance) {
-                defenderResistance[resistance] += defenderWeapon.resistance[resistance];
+            // check if defender has an item in this slot
+            if(typeof defenderItem != 'undefined') {
+                // collect all resistances from current equipment type for defender
+                for (let resistance in defenderItem.resistance) {
+
+                    // set resistance type to 0 if not set already
+                    if(typeof defenderResistance[resistance] == 'undefined') {
+                        defenderResistance[resistance] = 0;
+                    }
+                    defenderResistance[resistance] += defenderItem.resistance[resistance];
+                }
             }
         }
         console.log(attackerDamage);
