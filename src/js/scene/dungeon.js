@@ -318,20 +318,31 @@ class dungeonScene extends Phaser.Scene {
 
         let equipmentTypes = {'weapon': true, 'offhand': true, 'armor': true, 'trinket': true};
 
+        let attackerWeapon = {};
+        let defenderEquipment = {};
+
         for(let equipmentType in equipmentTypes) {
 
+            if(attacker == this.character){
+                attackerWeapon[equipmentType] = config[equipmentType][getItem(attacker[equipmentType])];
+            }else {
+                attackerWeapon[equipmentType] = config[equipmentType][getItem(attacker[equipmentType])];
+            }
+
+            if(attacker == this.character){
+                defenderEquipment[equipmentType] = config[equipmentType][getItem(defender[equipmentType])];
+            }else {
+                defenderEquipment[equipmentType] = config[equipmentType][getItem(defender[equipmentType])];
+            }
+
             // collect all damage from current equipment type for attacker
-            if (typeof attacker[equipmentType] != 'undefined') {
-                for (let damage in config[equipmentType][getItem(attacker[equipmentType]).itemType].damage) {
-                    attackerDamage[damage] += config[equipmentType][attacker[equipmentType]].damage[damage];
-                }
+            for (let damage in attackerWeapon.damage) {
+                attackerDamage[damage] += attackerWeapon.damage[damage];
             }
 
             // collect all resistances from currecnt equipment type for defender
-            if (typeof defender[equipmentType] != 'undefined') {
-                for (let resistance in config[equipmentType][defender[equipmentType]].resistances) {
-                    defenderResistance[resistance] += config[equipmentType][getItem(defender[equipmentType]).itemType].resistance[resistance];
-                }
+            for (let resistance in defenderEquipment.resistance) {
+                defenderResistance[resistance] += defenderWeapon.resistance[resistance];
             }
         }
         console.log(attackerDamage);
