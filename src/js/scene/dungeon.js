@@ -42,6 +42,10 @@ class dungeonScene extends Phaser.Scene {
             // add character to the left center of the screen
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
         }
+
+        // set character and enemy to idle
+        this.characterIsIdle = true;
+        this.enemyIsIdle = true;
     }
 
     addBackground() {
@@ -73,12 +77,14 @@ class dungeonScene extends Phaser.Scene {
     performAction() {
         // TODO: add actions based on current room contents
         // check if living enemy, closed chest or armed trap is present
-        if (this.isEnemyAlive()) {
-            // let player and enemy both attack
-            this.attackPlayer();
-            this.attackEnemy();
-        }else if(this.isChestClosed()) {
-        }else if(this.isTrapArmed()) {
+        if(this.characterIsIdle && this.enemyIsIdle) {
+            if (this.isEnemyAlive()) {
+                // let player and enemy both attack
+                this.attackPlayer();
+                this.attackEnemy();
+            }else if(this.isChestClosed()) {
+            }else if(this.isTrapArmed()) {
+            }
         }
     }
 
@@ -198,6 +204,8 @@ class dungeonScene extends Phaser.Scene {
 
     characterIdle() {
         let that;
+
+        // make sure the correct context is used
         if(this.constructor.name === 'Tween') {
             that = this.parent.scene;
         }else {
@@ -208,6 +216,9 @@ class dungeonScene extends Phaser.Scene {
 
         // start idle animation with sword
         that.character.anims.play('characterIdleWithSword');
+
+        // set character to being idle
+        this.characterIsIdle = true;
     }
 
     enemyIdle() {
@@ -221,6 +232,9 @@ class dungeonScene extends Phaser.Scene {
             // set enemy to die animation
             this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
         }
+
+        // set enemy to being idle
+        this.enemyIsIdle = true;
     }
 
     spawnChest() {
@@ -277,6 +291,9 @@ class dungeonScene extends Phaser.Scene {
     }
 
     attackPlayer() {
+        // set enemy to be not idle
+        this.characterIsIdle = false;
+
         // deactivate any event trigger when completing an animation as precaution
         this.character.off('animationcomplete');
 
@@ -290,6 +307,9 @@ class dungeonScene extends Phaser.Scene {
     }
 
     attackEnemy() {
+        // set enemy to be not idle
+        this.enemyIsIdle = false;
+
         // deactivate any event trigger when completing an animation as precaution
         this.enemy.off('animationcomplete');
 
