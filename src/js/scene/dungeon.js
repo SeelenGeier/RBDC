@@ -304,34 +304,33 @@ class dungeonScene extends Phaser.Scene {
 
     enemyDamaged() {
         // TODO: resolve damage
-        console.log('enemy took ' + this.calculateDamage(this.character, this.enemy) + 'damage');
+        console.log('enemy took ' + this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy) + 'damage');
     }
 
     playerDamaged() {
         // TODO: resolve damage
-        console.log('enemy took ' + this.calculateDamage(this.enemy, this.character) + 'damage');
+        console.log('enemy took ' + this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character) + 'damage');
     }
 
     calculateDamage(attacker, defender) {
         let attackerDamage = {};
         let defenderResistance = {};
 
-        let equipmentTypes = ['weapon', 'offhand', 'armor', 'trinket'];
+        let equipmentTypes = {'weapon': true, 'offhand': true, 'armor': true, 'trinket': true};
 
         for(let equipmentType in equipmentTypes) {
 
-            console.log(config[equipmentType][attacker[equipmentType]].damage);
             // collect all damage from current equipment type for attacker
-            if (typeof attacker.equipmentType != 'undefined') {
-                for (let damage in config[equipmentType][attacker[equipmentType]].damage) {
+            if (typeof attacker[equipmentType] != 'undefined') {
+                for (let damage in config[equipmentType][getItem(attacker[equipmentType]).itemType].damage) {
                     attackerDamage[damage] += config[equipmentType][attacker[equipmentType]].damage[damage];
                 }
             }
 
             // collect all resistances from currecnt equipment type for defender
-            if (typeof defender.equipmentType != 'undefined') {
-                for (let resistance in config[equipmentType][attacker[equipmentType]].resistances) {
-                    defenderResistance[resistance] += config[equipmentType][attacker[equipmentType]].resistance[resistance];
+            if (typeof defender[equipmentType] != 'undefined') {
+                for (let resistance in config[equipmentType][defender[equipmentType]].resistances) {
+                    defenderResistance[resistance] += config[equipmentType][getItem(defender[equipmentType]).itemType].resistance[resistance];
                 }
             }
         }
