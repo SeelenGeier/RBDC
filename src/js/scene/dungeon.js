@@ -322,9 +322,20 @@ class dungeonScene extends Phaser.Scene {
         this.enemy.on('animationcomplete', this.enemyIdle, this);
     }
 
+    enemyDie() {
+        // deactivate any event trigger when completing an animation as precaution
+        this.enemy.off('animationcomplete');
+
+        // start idle animation with sword
+        this.enemy.anims.play('slimeDie');
+    }
+
     enemyDamaged() {
-        // TODO: resolve damage
-        console.log('enemy took ' + this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy) + ' damage');
+        saveObject.profiles[saveObject.currentProfile].room.enemy.health -= this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy);
+        console.log('enemy health: ' + saveObject.profiles[saveObject.currentProfile].room.enemy.health);
+        if(saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
+            this.enemyDie();
+        }
     }
 
     playerDamaged() {

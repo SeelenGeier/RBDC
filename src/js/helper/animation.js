@@ -96,7 +96,6 @@ function loadAnimationSlime() {
     game.anims.create({
         key: 'slimeDie',
         frames: game.anims.generateFrameNumbers('slime', { start: 16, end: 20 }),
-        frameRate: 12,
-        repeat: -1
+        frameRate: 12
     });
 }
