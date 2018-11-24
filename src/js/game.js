@@ -55,8 +55,6 @@ function preload() {
 
     // load character spritesheet
     this.load.spritesheet('character', '../assets/unit/character.png', {frameWidth: 200, frameHeight: 148});
-
-    // TODO: config.default.setting.chestImage
 }
 
 function create() {
@@ -93,6 +91,10 @@ function create() {
 
     // load image for currency
     this.load.image('currency', '../assets/item/coin.png');
+
+    // load chest image
+    this.load.image('chestClosed', '../assets/' + config.default.setting.chestImageClosed);
+    this.load.image('chestOpen', '../assets/' + config.default.setting.chestImageOpen);
 
     // run loader to load all prepared images in create function
     this.load.start();
