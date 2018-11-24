@@ -366,7 +366,6 @@ class dungeonScene extends Phaser.Scene {
         if(saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
             this.enemyDie();
         }
-
     }
 
     playerDamaged() {
@@ -469,8 +468,11 @@ class dungeonScene extends Phaser.Scene {
 
         // add damage to total for all types of damage the attacker has
         for (let damageType in attackerDamage) {
+            if(typeof defenderResistance[damageType] == 'undefined') {
+                defenderResistance[damageType] = 0;
+            }
             // calculate damage by subtracting defender resistance from attacker damage
-            let damage = attackerDamage[damageType] - attackerDamage[damageType];
+            let damage = attackerDamage[damageType] - defenderResistance[damageType];
 
             // add damage number to total if any damage comes through
             if(damage > 0) {
