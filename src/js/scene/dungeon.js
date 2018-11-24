@@ -309,7 +309,7 @@ class dungeonScene extends Phaser.Scene {
 
     playerDamaged() {
         // TODO: resolve damage
-        console.log('enemy took ' + this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character) + 'damage');
+        console.log('player took ' + this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character) + 'damage');
     }
 
     calculateDamage(attacker, defender) {
