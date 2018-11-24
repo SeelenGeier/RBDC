@@ -222,9 +222,9 @@ class dungeonScene extends Phaser.Scene {
 
     openChest() {
         // check if player inventory is already full
-        if(saveObject.profiles[saveObject.currentProfile].inventory.length >= config.default.status.inventorySize) {
+        if(Object.keys(saveObject.profiles[saveObject.currentProfile].inventory.items).length >= config.default.status.inventorySize) {
             // show 'Inventory full' message
-            new Dialog('Inventory full', 'Your Inventory already has a maximum of ' + sss + 'items.', this.scene);
+            new Dialog('Inventory full!', 'You can not have more than\n' + config.default.status.inventorySize + ' items.', this.scene);
         }else {
             // open chest
             this.chest.setTexture('chestOpen');
@@ -370,9 +370,9 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.enemy.anims.play('slimeDie');
 
-        // TODO: modify chance with amount of rooms cleared
+        // TODO: modify chance with amount of rooms cleared (replace 1)
         // spawn chest with fixed chance
-        if(Math.random() < config.default.setting.enemyChestSpawnChance) {
+        if(Math.random() < 0.1 * 1) {
             this.spawnChest();
         }
     }

@@ -10,7 +10,6 @@
     "trapSpawnChance": 0.2,
     "enemySpawnChance": 0.7,
     "chestSpawnChance": 0.05,
-    "enemyChestSpawnChance": 0.2,
     "chestImageOpen": "chest/chest_open.png",
     "chestImageClosed": "chest/chest_closed.png"
   },
