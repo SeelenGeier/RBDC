@@ -40,12 +40,12 @@ class dungeonScene extends Phaser.Scene {
         if(Math.random() < config.default.setting.enemySpawnChance) {
             this.spawnEnemy();
         }else if(Math.random() < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
-            this.spawnChest()
+            this.spawnChest();
         }
 
         // add traps in a few rooms
         if(Math.random() < config.default.setting.trapSpawnChance) {
-            this.spawnTrap()
+            this.spawnTrap();
         }
 
         // set enemy to idle per default
@@ -162,6 +162,9 @@ class dungeonScene extends Phaser.Scene {
     leaveRoom() {
         // unset current room
         saveObject.profiles[saveObject.currentProfile].room = undefined;
+
+        // add a room to the cleared counter
+        saveObject.profiles[saveObject.currentProfile].roomsCleared++;
 
         // open next room
         this.parent.scene.scene.start('dungeon');
@@ -370,9 +373,8 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.enemy.anims.play('slimeDie');
 
-        // TODO: modify chance with amount of rooms cleared (replace 1)
         // spawn chest with fixed chance
-        if(Math.random() < 0.1 * 1) {
+        if(Math.random() < 0.01 * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
             this.spawnChest();
         }
     }

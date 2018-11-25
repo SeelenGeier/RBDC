@@ -97,6 +97,10 @@ class profileOverviewScene extends Phaser.Scene {
     }
 
     loadDungeonScene() {
+        // start dungeon room counter
+        saveObject.profiles[saveObject.currentProfile].roomsCleared = 0;
+        saveData();
+
         // hide current scene and start config scene
         this.parent.scene.scene.sleep();
         this.parent.scene.scene.start('dungeon');
