@@ -62,9 +62,10 @@ class dungeonScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].room = {};
 
         // add random encounter to room
-        if(Math.random() < config.default.setting.enemySpawnChance) {
+        let chance = Math.random();
+        if(chance < config.default.setting.enemySpawnChance) {
             this.spawnEnemy();
-        }else if(Math.random() < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
+        }else if(chance < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
             this.spawnChest();
         }
 
@@ -211,7 +212,6 @@ class dungeonScene extends Phaser.Scene {
 
         // add a room to the cleared counter
         saveObject.profiles[saveObject.currentProfile].roomsCleared++;
-
         saveData();
 
         // open next room
@@ -329,11 +329,12 @@ class dungeonScene extends Phaser.Scene {
             item: {}
         };
 
+        // save chest to room
+        saveObject.profiles[saveObject.currentProfile].room.chest = chest;
+
         // add item to chest
         saveObject.profiles[saveObject.currentProfile].room.chest.item = this.getRandomItem();
 
-        // save chest to room
-        saveObject.profiles[saveObject.currentProfile].room.chest = chest;
         saveData();
 
         // add character to the left center of the screen
@@ -426,8 +427,8 @@ class dungeonScene extends Phaser.Scene {
         // deactivate any event trigger when completing an animation as precaution
         this.enemy.off('animationcomplete');
 
-        // start idle animation with sword
-        this.enemy.anims.play('slimeDie');
+        // start death animation
+        this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
 
         // spawn chest with fixed chance
         if(Math.random() < 0.01 * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
@@ -489,7 +490,10 @@ class dungeonScene extends Phaser.Scene {
             onComplete: damageNumber.destroy,
         });
 
-        // TODO: make player die
+        // process death if enemy lost all his health
+        if(saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
+            this.characterDie();
+        }
     }
 
     calculateDamage(attacker, defender) {
@@ -587,13 +591,44 @@ class dungeonScene extends Phaser.Scene {
     }
 
     getRandomItem() {
-        // TODO: generate random item
+        let category;
+        let type;
+        let durability;
+        let keys = [];
+
+        let chance = Math.random();
+        if(chance < 0.25) {
+            category = 'weapon';
+        }else if(chance < 0.50) {
+            category = 'offhand';
+        }else if(chance < 0.75) {
+            category = 'armor';
+        }else {
+            category = 'trinket';
+        }
+
+        for (let prop in config[category]) {
+            if (config[category].hasOwnProperty(prop)) {
+                keys.push(prop);
+            }
+        }
+        type = keys[keys.length * Math.random() << 0];
+
+        durability = Math.random() * 10 * saveObject.profiles[saveObject.currentProfile].roomsCleared;
+
         let item = {
-            category: 'weapon',
-            type: 'knife',
-            durability: 22
+            category: category,
+            type: type,
+            durability: durability
         };
         return item;
     }
 
+    characterDie() {
+        // deactivate any event trigger when completing an animation as precaution
+        this.character.off('animationcomplete');
+
+        // start idle animation with sword
+        this.character.anims.play('characterDie');
+    }
 }
