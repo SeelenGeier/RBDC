@@ -282,8 +282,7 @@ class dungeonScene extends Phaser.Scene {
             saveObject.profiles[saveObject.currentProfile].room.chest.closed = false;
             saveData();
 
-            // TODO: give correct item to player
-            giveItem('weapon', 'knife', 111);
+            giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.category, saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
         }
     }
 
@@ -323,12 +322,17 @@ class dungeonScene extends Phaser.Scene {
     }
 
     spawnChest() {
+
+        // generate empty chest.
         let chest = {
             closed: true,
-            content: {}
+            item: {}
         };
 
-        // TODO: generate and add item to chest
+        // add item to chest
+        saveObject.profiles[saveObject.currentProfile].room.chest.item = this.getRandomItem();
+
+        // save chest to room
         saveObject.profiles[saveObject.currentProfile].room.chest = chest;
         saveData();
 
@@ -581,4 +585,15 @@ class dungeonScene extends Phaser.Scene {
 
         return damageTotal;
     }
+
+    getRandomItem() {
+        // TODO: generate random item
+        let item = {
+            category: 'weapon',
+            type: 'knife',
+            durability: 22
+        };
+        return item;
+    }
+
 }
