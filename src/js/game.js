@@ -8,7 +8,9 @@ let gameConfig = {
     scene: [{
         preload: preload,
         create: create
-    }, splashScene, profileManagementScene, profileOverviewScene, configScene, shopScene, dungeonScene, resultScene]
+    }, splashScene, profileManagementScene, profileOverviewScene, configScene, shopScene, dungeonScene, resultScene],
+    pixelArt: true,
+    antialiasing: false
 };
 
 // always keep the screen centered in the browser
@@ -90,7 +92,7 @@ function create() {
     this.load.image('X', '../assets/item/X.png');
 
     // load image for currency
-    this.load.image('currency', '../assets/item/coin.png');
+    this.load.image('currency', '../assets/' + config.default.setting.coinImage);
 
     // load chest image
     this.load.image('chestClosed', '../assets/' + config.default.setting.chestImageClosed);

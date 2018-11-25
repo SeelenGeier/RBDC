@@ -14,7 +14,7 @@ class dungeonScene extends Phaser.Scene {
         // save new current scene in saveObject
         saveObject.profiles[saveObject.currentProfile].scene = 'dungeon';
         if(typeof saveObject.profiles[saveObject.currentProfile].room === 'undefined'){
-            saveObject.profiles[saveObject.currentProfile].room = {};
+            this.restartRoom();
         }
         saveData();
 
@@ -36,6 +36,31 @@ class dungeonScene extends Phaser.Scene {
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
 
+        // add counter in top right corner for current room number
+        this.addRoomCounter(this.sys.game.config.width * 0.85, this.sys.game.config.height * 0.07);
+
+        if(this.isEnemyAlive()) {
+            // add character to the left center of the screen
+            this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
+        }
+
+        // set enemy to idle per default
+        this.enemyIsIdle = true;
+    }
+
+    addRoomCounter(x, y) {
+        // add visible counter for rooms
+        this.roomCounter = this.add.text(x, y, (saveObject.profiles[saveObject.currentProfile].roomsCleared + 1), {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 32,
+            color: '#FFFFFF'
+        });
+    }
+
+    restartRoom() {
+        // invalidate any currently saved room
+        saveObject.profiles[saveObject.currentProfile].room = {};
+
         // add random encounter to room
         if(Math.random() < config.default.setting.enemySpawnChance) {
             this.spawnEnemy();
@@ -43,13 +68,13 @@ class dungeonScene extends Phaser.Scene {
             this.spawnChest();
         }
 
-        // add traps in a few rooms
+        // add random trap to room
         if(Math.random() < config.default.setting.trapSpawnChance) {
             this.spawnTrap();
         }
 
-        // set enemy to idle per default
-        this.enemyIsIdle = true;
+        // save just in case
+        saveData();
     }
 
     addBackground() {
@@ -61,13 +86,22 @@ class dungeonScene extends Phaser.Scene {
     addNavigationExit(x, y) {
         // add navigation button to return to profile overview and register corresponding function
         new Button('buttonExit', ['gameicons', 'exitLeft.png'], x, y, this);
-        this.buttonExit.on('pointerup', this.goTo, [this, 'exit']);
+        this.buttonExit.on('pointerup', this.exitWarning, this);
         this.buttonExit.setTint(0x6666aa);
+    }
+
+    exitWarning() {
+        // show confirmation dialog with warning
+        new Dialog('End Run?', '- keep items found\n- the room counter will be reset!', this.scene, true);
+
+        // only exit dungeon if player is ok with resetting the counter
+        this.dialogButtonYES.on('pointerup', this.goTo, [this, 'exit']);
     }
 
     loadProfileOverviewScene() {
         // unset current room
         saveObject.profiles[saveObject.currentProfile].room = undefined;
+        saveData();
 
         // hide current scene and start config scene
         this.parent.scene.scene.sleep();
@@ -100,8 +134,20 @@ class dungeonScene extends Phaser.Scene {
     addNavigationNextRoom(x, y) {
         // add navigation button to perform action based on room contents
         new Button('buttonNextRoom', ['gameicons', 'arrowRight.png'], x, y, this);
-        this.buttonNextRoom.on('pointerup', this.goToCenter, [this, 'center']);
+        this.buttonNextRoom.on('pointerup', this.nextRoomWarning, this);
         this.buttonNextRoom.setTint(0x009966);
+    }
+
+    nextRoomWarning() {
+        if(this.isEnemyAlive()) {
+            // show confirmation dialog with warning
+            new Dialog('Run past enemy?', 'The enemy still present will hit you!', this.scene, true);
+
+            // only exit dungeon if player is ok with resetting the counter
+            this.dialogButtonYES.on('pointerup', this.goToCenter, [this, 'center']);
+        }else {
+            this.goToCenter.call([this, 'center']);
+        }
     }
 
     goTo() {
@@ -165,6 +211,8 @@ class dungeonScene extends Phaser.Scene {
 
         // add a room to the cleared counter
         saveObject.profiles[saveObject.currentProfile].roomsCleared++;
+
+        saveData();
 
         // open next room
         this.parent.scene.scene.start('dungeon');
@@ -232,6 +280,7 @@ class dungeonScene extends Phaser.Scene {
             // open chest
             this.chest.setTexture('chestOpen');
             saveObject.profiles[saveObject.currentProfile].room.chest.closed = false;
+            saveData();
 
             // TODO: give correct item to player
             giveItem('weapon', 'knife', 111);
@@ -281,6 +330,7 @@ class dungeonScene extends Phaser.Scene {
 
         // TODO: generate and add item to chest
         saveObject.profiles[saveObject.currentProfile].room.chest = chest;
+        saveData();
 
         // add character to the left center of the screen
         this.addChest(this.sys.game.config.width * 0.50, this.sys.game.config.height * 0.62);
@@ -291,6 +341,7 @@ class dungeonScene extends Phaser.Scene {
         let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random()*Object.keys(config.monster).length)]];
         let enemy = JSON.parse(JSON.stringify(enemyStats));
         saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
+        saveData();
 
         // add character to the left center of the screen
         this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
@@ -302,6 +353,7 @@ class dungeonScene extends Phaser.Scene {
             armed: true
         };
         saveObject.profiles[saveObject.currentProfile].room.trap = trap;
+        saveData();
     }
 
     isEnemyAlive() {
@@ -385,6 +437,7 @@ class dungeonScene extends Phaser.Scene {
 
         // subtract damage from enemy health
         saveObject.profiles[saveObject.currentProfile].room.enemy.health -= damage;
+        saveData();
 
         // spawn damage number on top of enemy
         let damageNumber = this.add.text(this.enemy.x, this.enemy.y - this.enemy.height - 20, damage, {
@@ -414,6 +467,7 @@ class dungeonScene extends Phaser.Scene {
 
         // subtract damage from enemy health
         saveObject.profiles[saveObject.currentProfile].character.health -= damage;
+        saveData();
 
         // spawn damage number on top of enemy
         let damageNumber = this.add.text(this.character.x, this.character.y - this.character.height, damage, {

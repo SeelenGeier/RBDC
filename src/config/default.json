@@ -11,7 +11,8 @@
     "enemySpawnChance": 0.7,
     "chestSpawnChance": 0.01,
     "chestImageOpen": "chest/chest_open.png",
-    "chestImageClosed": "chest/chest_closed.png"
+    "chestImageClosed": "chest/chest_closed.png",
+    "coinImage": "item/coin.png"
   },
   "equipment": {
     "weapon": "knife",
