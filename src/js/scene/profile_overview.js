@@ -47,7 +47,7 @@ class profileOverviewScene extends Phaser.Scene {
         // heal character to full health
         saveObject.profiles[saveObject.currentProfile].character.health = config.default.status.health;
 
-        // check if default weapon and armor are present
+        // check if default weapon and armor are in inventory
         let defaultWeapon = false;
         let defaultArmor = false;
         for(let item in saveObject.profiles[saveObject.currentProfile].inventory.items) {
@@ -58,6 +58,8 @@ class profileOverviewScene extends Phaser.Scene {
                 defaultArmor = true;
             }
         }
+
+        // if the default weapon or armor have not been found, add them to the inventory
         if(!defaultWeapon) {
             giveItem('weapon', 'knife', null);
         }

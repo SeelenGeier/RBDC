@@ -44,7 +44,6 @@ function giveItem(itemType, itemName, durability, profile = saveObject.currentPr
 function removeItem(id, profile = saveObject.currentProfile) {
     // check if the given item ID is even present in profile inventory
     if (!saveObject.profiles[profile].inventory.items.hasOwnProperty(id)) {
-        console.log('Item id not in inventory');
         return false;
     }
 
