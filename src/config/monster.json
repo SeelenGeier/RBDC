@@ -10,7 +10,7 @@
     },
     "health": 12,
     "damage": {
-      "impact": 50,
+      "impact": 5,
       "poison": 2
     },
     "resistance": {
