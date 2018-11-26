@@ -30,14 +30,5 @@
       "impact": 3,
       "slash": 5
     }
-  },
-  "slime": {
-    "name": "Slime",
-    "description": "A slime attacks with his body.",
-    "image": null,
-    "value": 1,
-    "damage": {
-      "impact": 1
-    }
   }
 }

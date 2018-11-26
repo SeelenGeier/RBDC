@@ -40,8 +40,30 @@ class profileOverviewScene extends Phaser.Scene {
         // add character to the center of the screen
         this.addCurrency(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.66);
 
+        this.resetCharacter();
+    }
+
+    resetCharacter() {
         // heal character to full health
         saveObject.profiles[saveObject.currentProfile].character.health = config.default.status.health;
+
+        // check if default weapon and armor are present
+        let defaultWeapon = false;
+        let defaultArmor = false;
+        for(let item in saveObject.profiles[saveObject.currentProfile].inventory.items) {
+            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].itemType == 'weapon' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
+                defaultWeapon = true;
+            }
+            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].itemType == 'armor' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
+                defaultArmor = false;
+            }
+        }
+        if(!defaultWeapon) {
+            giveItem('weapon', 'knife', null);
+        }
+        if(!defaultArmor) {
+            giveItem('armor', 'leather', null);
+        }
     }
 
     goToConfig() {

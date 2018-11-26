@@ -343,14 +343,14 @@ class shopScene extends Phaser.Scene {
         // TODO: use config to get common items
         items[0] = {itemName: 'sword', itemType: 'weapon', durability: 100};
         items[1] = {itemName: 'axe', itemType: 'weapon', durability: 70};
-        items[2] = {itemName: 'light_leather', itemType: 'armor', durability: 150};
+        items[2] = {itemName: 'leather', itemType: 'armor', durability: 150};
         items[3] = {itemName: 'sword', itemType: 'weapon', durability: 234};
         items[4] = {itemName: 'iron', itemType: 'armor', durability: 400};
         items[5] = {itemName: 'axe', itemType: 'weapon', durability: 352};
         items[6] = {itemName: 'sword', itemType: 'weapon', durability: 2};
         items[7] = {itemName: 'axe', itemType: 'weapon', durability: 5};
         items[8] = {itemName: 'helmet', itemType: 'armor', durability: 300};
-        items[9] = {itemName: 'light_leather', itemType: 'armor', durability: 160};
+        items[9] = {itemName: 'leather', itemType: 'armor', durability: 160};
 
         return items;
     }

@@ -1,6 +1,6 @@
 {
-  "light_leather": {
-    "name": "Light Leather Armor",
+  "leather": {
+    "name": "Leather Armor",
     "description": "A simple armor made of leather covering vital parts of the body.",
     "image": "leather",
     "value": 3,

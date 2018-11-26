@@ -562,10 +562,11 @@ class dungeonScene extends Phaser.Scene {
                     attackerItem = config[equipmentType][attackerItemName];
                 }
             } else {
-                // set attacker item to item in monster configuration
-                if (config.monster[attacker.texture.key][equipmentType] != null) {
-                    attackerItemName = config.monster[attacker.texture.key][equipmentType];
-                    attackerItem = config[equipmentType][attackerItemName];
+                // set attacker item to use monster configuration
+                if(equipmentType == 'weapon') {
+                    attackerItem = config.monster[this.enemy.texture.key];
+                }else {
+                    attackerItem = undefined;
                 }
             }
 
@@ -577,10 +578,11 @@ class dungeonScene extends Phaser.Scene {
                     defenderItem = config[equipmentType][defenderItemName];
                 }
             } else {
-                // set defender item to item in monster configuration
-                if (config.monster[defender.texture.key][equipmentType] != null) {
-                    defenderItemName = config.monster[defender.texture.key][equipmentType];
-                    defenderItem = config[equipmentType][defenderItemName];
+                // set defender item to use monster configuration
+                if(equipmentType == 'armor') {
+                    defenderItem = config.monster[this.enemy.texture.key];
+                }else {
+                    defenderItem = undefined;
                 }
             }
 
@@ -680,9 +682,14 @@ class dungeonScene extends Phaser.Scene {
 
     showDeadDialog() {
         // show "retreat" dialog
-        new Dialog('You have to retreat!', 'You have to draw back in order to survive.\nDuring your escape you lost a few items.', this.scene);
+        new Dialog('You have to retreat!', 'You have to draw back in order to survive.\nDuring your escape you lost your equipped items.', this.scene);
 
-        // TODO: lose items on retreat
+        // remove all currently equipped items
+        removeItem(saveObject.profiles[saveObject.currentProfile].character.weapon);
+        removeItem(saveObject.profiles[saveObject.currentProfile].character.offhand);
+        removeItem(saveObject.profiles[saveObject.currentProfile].character.armor);
+        removeItem(saveObject.profiles[saveObject.currentProfile].character.trinket);
+        saveData();
 
         // exit dungeon after retreat
         this.dialogButtonOK.on('pointerup', this.goTo, [this, 'exit']);

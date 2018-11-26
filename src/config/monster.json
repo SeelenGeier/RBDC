@@ -9,6 +9,14 @@
       "scale": 2.5
     },
     "health": 12,
-    "weapon": "slime"
+    "damage": {
+      "impact": 50,
+      "poison": 2
+    },
+    "resistance": {
+      "impact": 10,
+      "slash": 3,
+      "poison": 20
+    }
   }
 }
