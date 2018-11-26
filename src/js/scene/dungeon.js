@@ -14,7 +14,7 @@ class dungeonScene extends Phaser.Scene {
         // save new current scene in saveObject
         saveObject.profiles[saveObject.currentProfile].scene = 'dungeon';
         if (typeof saveObject.profiles[saveObject.currentProfile].room === 'undefined') {
-            this.restartRoom();
+            this.startRoom();
         }
         saveData();
 
@@ -44,6 +44,11 @@ class dungeonScene extends Phaser.Scene {
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
         }
 
+        if (this.isChestClosed()) {
+            // add character to the left center of the screen
+            this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+        }
+
         // set enemy to idle per default
         this.enemyIsIdle = true;
     }
@@ -57,7 +62,7 @@ class dungeonScene extends Phaser.Scene {
         });
     }
 
-    restartRoom() {
+    startRoom() {
         // invalidate any currently saved room
         saveObject.profiles[saveObject.currentProfile].room = {};
 
@@ -111,9 +116,32 @@ class dungeonScene extends Phaser.Scene {
 
     addNavigationAction(x, y) {
         // add navigation button to perform action based on room contents
-        new Button('buttonAction', ['gameicons_exp', 'fightFist.png'], x, y, this);
+        new Button('buttonAction', ['gameicons_exp', ''], x, y, this);
+
+        // set action function on click
         this.buttonAction.on('pointerup', this.performAction, this);
-        this.buttonAction.setTint(0xcc0000);
+
+        // update action button
+        this.changeActionButton();
+    }
+
+    changeActionButton() {
+        // change action button according to current room content
+        if(this.isEnemyAlive()) {
+            console.log('living enemy');
+            this.buttonAction.setTexture('gameicons_exp');
+            this.buttonAction.setFrame('fightFist.png');
+            this.buttonAction.setTint(0xcc0000);
+        }else if(this.isChestClosed()) {
+            console.log('closed chest');
+            this.buttonAction.setTexture('gameicons');
+            this.buttonAction.setFrame('basket.png');
+            this.buttonAction.setTint(0xeeaa00);
+        }else {
+            this.buttonAction.setTexture('gameicons');
+            this.buttonAction.setFrame('wrench.png');
+            this.buttonAction.setTint(0xcccccc);
+        }
     }
 
     performAction() {
@@ -220,7 +248,7 @@ class dungeonScene extends Phaser.Scene {
 
     addNavigationInventory(x, y) {
         // add navigation button to perform action based on room contents
-        new Button('buttonInventory', ['gameicons', 'video.png'], x, y, this);
+        new Button('buttonInventory', ['gameicons', 'phone.png'], x, y, this);
         this.buttonInventory.on('pointerup', this.openInventory, this);
         this.buttonInventory.setTint(0xeeaa00);
     }
@@ -284,6 +312,9 @@ class dungeonScene extends Phaser.Scene {
 
             giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.category, saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
         }
+
+        // update action button
+        this.changeActionButton();
     }
 
     characterIdle() {
@@ -335,20 +366,16 @@ class dungeonScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].room.chest.item = this.getRandomItem();
 
         saveData();
-
-        // add character to the left center of the screen
-        this.addChest(this.sys.game.config.width * 0.50, this.sys.game.config.height * 0.62);
     }
 
     spawnEnemy() {
         // pick random monster
         let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random() * Object.keys(config.monster).length)]];
         let enemy = JSON.parse(JSON.stringify(enemyStats));
+
+        // save enemy to room
         saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
         saveData();
-
-        // add character to the left center of the screen
-        this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
     }
 
     spawnTrap() {
@@ -430,9 +457,12 @@ class dungeonScene extends Phaser.Scene {
         this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
 
         // spawn chest with fixed chance
-        if (Math.random() < 0.01 * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
+        if (Math.random() < config.default.setting.chestSpawnChanceAfterKill * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
             this.spawnChest();
         }
+
+        // update action button
+        this.changeActionButton();
     }
 
     enemyDamaged() {
