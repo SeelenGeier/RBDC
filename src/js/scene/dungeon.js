@@ -40,12 +40,12 @@ class dungeonScene extends Phaser.Scene {
         this.addRoomCounter(this.sys.game.config.width * 0.85, this.sys.game.config.height * 0.07);
 
         if (this.isEnemyAlive()) {
-            // add character to the left center of the screen
+            // add enemy to the right of the room
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
         }
 
         if (this.isChestClosed()) {
-            // add character to the left center of the screen
+            // add chest in center of the room
             this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
         }
 
@@ -128,19 +128,17 @@ class dungeonScene extends Phaser.Scene {
     changeActionButton() {
         // change action button according to current room content
         if(this.isEnemyAlive()) {
-            console.log('living enemy');
             this.buttonAction.setTexture('gameicons_exp');
             this.buttonAction.setFrame('fightFist.png');
             this.buttonAction.setTint(0xcc0000);
         }else if(this.isChestClosed()) {
-            console.log('closed chest');
             this.buttonAction.setTexture('gameicons');
             this.buttonAction.setFrame('basket.png');
             this.buttonAction.setTint(0xeeaa00);
         }else {
-            this.buttonAction.setTexture('gameicons');
-            this.buttonAction.setFrame('wrench.png');
-            this.buttonAction.setTint(0xcccccc);
+            this.buttonAction.setTexture('gameicons_exp');
+            this.buttonAction.setFrame('coin.png');
+            this.buttonAction.setTint(0xaaaaaa);
         }
     }
 
@@ -155,7 +153,7 @@ class dungeonScene extends Phaser.Scene {
             } else if (this.isChestClosed()) {
                 this.openChest();
             } else if (this.isTrapArmed()) {
-                console.log('armed trap present')
+                console.log('trap triggered!')
             }
         }
     }
@@ -168,14 +166,19 @@ class dungeonScene extends Phaser.Scene {
     }
 
     nextRoomWarning() {
-        if (this.isEnemyAlive()) {
-            // show confirmation dialog with warning
-            new Dialog('Run past enemy?', 'The enemy still present will hit you!', this.scene, true);
+        // only go to next room if character is alive
+        if(saveObject.profiles[saveObject.currentProfile].character.health > 0) {
+            if (this.isEnemyAlive()) {
+                // show confirmation dialog with warning
+                new Dialog('Run past enemy?', 'The enemy still present will hit you!', this.scene, true);
 
-            // only exit dungeon if player is ok with resetting the counter
-            this.dialogButtonYES.on('pointerup', this.goToCenter, [this, 'center']);
-        } else {
-            this.goToCenter.call([this, 'center']);
+                // only exit dungeon if player is ok with resetting the counter
+                this.dialogButtonYES.on('pointerup', this.goToCenter, [this, 'center']);
+            } else {
+                this.goToCenter.call([this, 'center']);
+            }
+        }else {
+            this.characterDie();
         }
     }
 
@@ -310,7 +313,10 @@ class dungeonScene extends Phaser.Scene {
             saveObject.profiles[saveObject.currentProfile].room.chest.closed = false;
             saveData();
 
-            giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.category, saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
+            let newItemId = giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.category, saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
+
+            let newItem = getItem(newItemId);
+            new Dialog('Item found!', 'You found a ' + config[newItem.itemType][newItem.itemName].name + ' with ' + newItem.durability + ' durability.', this.scene);
         }
 
         // update action button
@@ -326,14 +332,20 @@ class dungeonScene extends Phaser.Scene {
         } else {
             that = this;
         }
-        // deactivate any event trigger when completing an animation as precaution
-        that.character.off('animationcomplete');
 
-        // start idle animation with sword
-        that.character.anims.play('characterIdleWithSword');
+        // process death if character lost all his health
+        if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
+            that.characterDie();
+        }else {
+            // deactivate any event trigger when completing an animation as precaution
+            that.character.off('animationcomplete');
 
-        // set character to being idle
-        that.characterIsIdle = true;
+            // start idle animation with sword
+            that.character.anims.play('characterIdleWithSword');
+
+            // set character to being idle
+            that.characterIsIdle = true;
+        }
     }
 
     enemyIdle() {
@@ -459,6 +471,9 @@ class dungeonScene extends Phaser.Scene {
         // spawn chest with fixed chance
         if (Math.random() < config.default.setting.chestSpawnChanceAfterKill * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
             this.spawnChest();
+
+            // add chest in center of the room
+            this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
         }
 
         // update action button
@@ -519,7 +534,7 @@ class dungeonScene extends Phaser.Scene {
             onComplete: damageNumber.destroy,
         });
 
-        // process death if enemy lost all his health
+        // process death if character lost all his health
         if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
             this.characterDie();
         }
@@ -643,7 +658,7 @@ class dungeonScene extends Phaser.Scene {
         }
         type = keys[keys.length * Math.random() << 0];
 
-        durability = Math.random() * 10 * saveObject.profiles[saveObject.currentProfile].roomsCleared;
+        durability = 10 + Math.trunc(Math.random() * 10 * saveObject.profiles[saveObject.currentProfile].roomsCleared);
 
         let item = {
             category: category,
@@ -659,5 +674,16 @@ class dungeonScene extends Phaser.Scene {
 
         // start idle animation with sword
         this.character.anims.play('characterDie');
+
+        // play idle animation after attack
+        this.character.on('animationcomplete', this.showDeadDialog, this);
+    }
+
+    showDeadDialog() {
+        // show "retreat" dialog
+        new Dialog('You have to retreat!', 'You have to draw back in order to survive.\nDuring your escape you lost a few items.', this.scene);
+
+        // exit dungeon after retreat
+        this.dialogButtonOK.on('pointerup', this.goTo, [this, 'exit']);
     }
 }
