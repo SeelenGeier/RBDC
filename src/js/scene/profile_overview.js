@@ -55,7 +55,7 @@ class profileOverviewScene extends Phaser.Scene {
                 defaultWeapon = true;
             }
             if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].itemType == 'armor' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
-                defaultArmor = false;
+                defaultArmor = true;
             }
         }
         if(!defaultWeapon) {
