@@ -28,7 +28,7 @@ function loadAnimationCharacter() {
     game.anims.create({
         key: 'characterRun',
         frames: game.anims.generateFrameNumbers('character', { start: 8, end: 13 }),
-        frameRate: 8,
+        frameRate: 9,
         repeat: -1
     });
     game.anims.create({
@@ -71,7 +71,7 @@ function loadAnimationCharacter() {
     game.anims.create({
         key: 'characterDie',
         frames: game.anims.generateFrameNumbers('character', { start: 59, end: 68 }),
-        frameRate: 12
+        frameRate: 6
     });
 }
 
