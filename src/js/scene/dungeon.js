@@ -127,15 +127,15 @@ class dungeonScene extends Phaser.Scene {
 
     changeActionButton() {
         // change action button according to current room content
-        if(this.isEnemyAlive()) {
+        if (this.isEnemyAlive()) {
             this.buttonAction.setTexture('gameicons_exp');
             this.buttonAction.setFrame('fightFist.png');
             this.buttonAction.setTint(0xcc0000);
-        }else if(this.isChestClosed()) {
+        } else if (this.isChestClosed()) {
             this.buttonAction.setTexture('gameicons');
             this.buttonAction.setFrame('basket.png');
             this.buttonAction.setTint(0xeeaa00);
-        }else {
+        } else {
             this.buttonAction.setTexture('gameicons_exp');
             this.buttonAction.setFrame('coin.png');
             this.buttonAction.setTint(0xaaaaaa);
@@ -143,7 +143,6 @@ class dungeonScene extends Phaser.Scene {
     }
 
     performAction() {
-        // TODO: add actions based on current room contents
         // check if living enemy, closed chest or armed trap is present
         if (this.characterIsIdle && this.enemyIsIdle) {
             if (this.isEnemyAlive()) {
@@ -167,7 +166,7 @@ class dungeonScene extends Phaser.Scene {
 
     nextRoomWarning() {
         // only go to next room if character is alive
-        if(saveObject.profiles[saveObject.currentProfile].character.health > 0) {
+        if (saveObject.profiles[saveObject.currentProfile].character.health > 0) {
             if (this.isEnemyAlive()) {
                 // show confirmation dialog with warning
                 new Dialog('Run past enemy?', 'The enemy still present will hit you!', this.scene, true);
@@ -177,7 +176,7 @@ class dungeonScene extends Phaser.Scene {
             } else {
                 this.goToCenter.call([this, 'center']);
             }
-        }else {
+        } else {
             this.characterDie();
         }
     }
@@ -336,7 +335,7 @@ class dungeonScene extends Phaser.Scene {
         // process death if character lost all his health
         if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
             that.characterDie();
-        }else {
+        } else {
             // deactivate any event trigger when completing an animation as precaution
             that.character.off('animationcomplete');
 
@@ -682,6 +681,8 @@ class dungeonScene extends Phaser.Scene {
     showDeadDialog() {
         // show "retreat" dialog
         new Dialog('You have to retreat!', 'You have to draw back in order to survive.\nDuring your escape you lost a few items.', this.scene);
+
+        // TODO: lose items on retreat
 
         // exit dungeon after retreat
         this.dialogButtonOK.on('pointerup', this.goTo, [this, 'exit']);
