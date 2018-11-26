@@ -152,6 +152,8 @@ class dungeonScene extends Phaser.Scene {
             } else if (this.isChestClosed()) {
                 this.openChest();
             } else if (this.isTrapArmed()) {
+                console.log('trap disarmed!')
+            }else {
                 console.log('trap triggered!')
             }
         }
@@ -232,6 +234,9 @@ class dungeonScene extends Phaser.Scene {
         // go to the center of the room
         if (this.parent.scene.isEnemyAlive()) {
             this.parent.scene.attackEnemy();
+        }
+        if (this.parent.scene.isTrapArmed()) {
+            console.log('trap triggered!')
         }
         this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
     }
