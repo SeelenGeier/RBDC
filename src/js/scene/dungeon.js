@@ -443,6 +443,7 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.character.anims.play('characterAttack' + Math.trunc(Math.random() * 3 + 1));
 
+        // deal damage to the enemy
         this.enemyDamaged();
 
         // play idle animation after attack
@@ -459,6 +460,7 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.enemy.anims.play('slimeAttack');
 
+        // deal damage to the player
         this.playerDamaged();
 
         // play idle animation after attack
