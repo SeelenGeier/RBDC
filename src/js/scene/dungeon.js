@@ -13,7 +13,7 @@ class dungeonScene extends Phaser.Scene {
     create() {
         // save new current scene in saveObject
         saveObject.profiles[saveObject.currentProfile].scene = 'dungeon';
-        if(typeof saveObject.profiles[saveObject.currentProfile].room === 'undefined'){
+        if (typeof saveObject.profiles[saveObject.currentProfile].room === 'undefined') {
             this.restartRoom();
         }
         saveData();
@@ -39,7 +39,7 @@ class dungeonScene extends Phaser.Scene {
         // add counter in top right corner for current room number
         this.addRoomCounter(this.sys.game.config.width * 0.85, this.sys.game.config.height * 0.07);
 
-        if(this.isEnemyAlive()) {
+        if (this.isEnemyAlive()) {
             // add character to the left center of the screen
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
         }
@@ -63,14 +63,14 @@ class dungeonScene extends Phaser.Scene {
 
         // add random encounter to room
         let chance = Math.random();
-        if(chance < config.default.setting.enemySpawnChance) {
+        if (chance < config.default.setting.enemySpawnChance) {
             this.spawnEnemy();
-        }else if(chance < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
+        } else if (chance < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
             this.spawnChest();
         }
 
         // add random trap to room
-        if(Math.random() < config.default.setting.trapSpawnChance) {
+        if (Math.random() < config.default.setting.trapSpawnChance) {
             this.spawnTrap();
         }
 
@@ -119,14 +119,14 @@ class dungeonScene extends Phaser.Scene {
     performAction() {
         // TODO: add actions based on current room contents
         // check if living enemy, closed chest or armed trap is present
-        if(this.characterIsIdle && this.enemyIsIdle) {
+        if (this.characterIsIdle && this.enemyIsIdle) {
             if (this.isEnemyAlive()) {
                 // let player and enemy both attack
                 this.attackPlayer();
                 this.attackEnemy();
-            }else if(this.isChestClosed()) {
+            } else if (this.isChestClosed()) {
                 this.openChest();
-            }else if(this.isTrapArmed()) {
+            } else if (this.isTrapArmed()) {
                 console.log('armed trap present')
             }
         }
@@ -140,13 +140,13 @@ class dungeonScene extends Phaser.Scene {
     }
 
     nextRoomWarning() {
-        if(this.isEnemyAlive()) {
+        if (this.isEnemyAlive()) {
             // show confirmation dialog with warning
             new Dialog('Run past enemy?', 'The enemy still present will hit you!', this.scene, true);
 
             // only exit dungeon if player is ok with resetting the counter
             this.dialogButtonYES.on('pointerup', this.goToCenter, [this, 'center']);
-        }else {
+        } else {
             this.goToCenter.call([this, 'center']);
         }
     }
@@ -192,7 +192,7 @@ class dungeonScene extends Phaser.Scene {
 
     goToCenter() {
         // check if player is on the left of the center of the room
-        if(this[0].character.x < this[0].sys.game.config.width / 2) {
+        if (this[0].character.x < this[0].sys.game.config.width / 2) {
             // move player to center
             this[0].goTo.call(this);
         }
@@ -273,10 +273,10 @@ class dungeonScene extends Phaser.Scene {
 
     openChest() {
         // check if player inventory is already full
-        if(Object.keys(saveObject.profiles[saveObject.currentProfile].inventory.items).length >= config.default.status.inventorySize) {
+        if (Object.keys(saveObject.profiles[saveObject.currentProfile].inventory.items).length >= config.default.status.inventorySize) {
             // show 'Inventory full' message
             new Dialog('Inventory full!', 'You can not have more than\n' + config.default.status.inventorySize + ' items.', this.scene);
-        }else {
+        } else {
             // open chest
             this.chest.setTexture('chestOpen');
             saveObject.profiles[saveObject.currentProfile].room.chest.closed = false;
@@ -290,9 +290,9 @@ class dungeonScene extends Phaser.Scene {
         let that;
 
         // make sure the correct context is used
-        if(this.constructor.name === 'Tween') {
+        if (this.constructor.name === 'Tween') {
             that = this.parent.scene;
-        }else {
+        } else {
             that = this;
         }
         // deactivate any event trigger when completing an animation as precaution
@@ -309,10 +309,10 @@ class dungeonScene extends Phaser.Scene {
         // deactivate any event trigger when completing an animation as precaution
         this.enemy.off('animationcomplete');
 
-        if(this.isEnemyAlive()) {
+        if (this.isEnemyAlive()) {
             // set enemy to idle animation
             this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Idle');
-        }else  {
+        } else {
             // set enemy to die animation
             this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
         }
@@ -322,7 +322,6 @@ class dungeonScene extends Phaser.Scene {
     }
 
     spawnChest() {
-
         // generate empty chest.
         let chest = {
             closed: true,
@@ -343,7 +342,7 @@ class dungeonScene extends Phaser.Scene {
 
     spawnEnemy() {
         // pick random monster
-        let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random()*Object.keys(config.monster).length)]];
+        let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random() * Object.keys(config.monster).length)]];
         let enemy = JSON.parse(JSON.stringify(enemyStats));
         saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
         saveData();
@@ -363,9 +362,9 @@ class dungeonScene extends Phaser.Scene {
 
     isEnemyAlive() {
         // check if any enemy exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy === 'undefined') {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.enemy === 'undefined') {
             return false;
-        }else {
+        } else {
             // return true if enemy has more than 0 health (is still alive)
             return (saveObject.profiles[saveObject.currentProfile].room.enemy.health > 0);
         }
@@ -373,9 +372,9 @@ class dungeonScene extends Phaser.Scene {
 
     isChestClosed() {
         // check if any chest exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.chest === 'undefined') {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.chest === 'undefined') {
             return false;
-        }else {
+        } else {
             // return true if chest is still closed
             return saveObject.profiles[saveObject.currentProfile].room.chest.closed;
         }
@@ -383,9 +382,9 @@ class dungeonScene extends Phaser.Scene {
 
     isTrapArmed() {
         // check if any trap exists at all
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.trap === 'undefined') {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.trap === 'undefined') {
             return false;
-        }else {
+        } else {
             // return true if trap is still armed
             return saveObject.profiles[saveObject.currentProfile].room.trap.armed;
         }
@@ -431,7 +430,7 @@ class dungeonScene extends Phaser.Scene {
         this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
 
         // spawn chest with fixed chance
-        if(Math.random() < 0.01 * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
+        if (Math.random() < 0.01 * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
             this.spawnChest();
         }
     }
@@ -461,7 +460,7 @@ class dungeonScene extends Phaser.Scene {
         });
 
         // process death if enemy lost all his health
-        if(saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
+        if (saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
             this.enemyDie();
         }
     }
@@ -491,7 +490,7 @@ class dungeonScene extends Phaser.Scene {
         });
 
         // process death if enemy lost all his health
-        if(saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
+        if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
             this.characterDie();
         }
     }
@@ -504,7 +503,7 @@ class dungeonScene extends Phaser.Scene {
         // set array of equipment types to check for calculation
         let equipmentTypes = {'weapon': null, 'offhand': null, 'armor': null, 'trinket': null};
 
-        for(let equipmentType in equipmentTypes) {
+        for (let equipmentType in equipmentTypes) {
 
             let attackerItem = {};
             let defenderItem = {};
@@ -512,42 +511,42 @@ class dungeonScene extends Phaser.Scene {
             let defenderItemName = '';
 
             // get equipment item for attacker
-            if(attacker == saveObject.profiles[saveObject.currentProfile].character){
+            if (attacker == saveObject.profiles[saveObject.currentProfile].character) {
                 // set attacker item to item in current character equipment
-                if(attacker[equipmentType] != null) {
+                if (attacker[equipmentType] != null) {
                     attackerItemName = getItem(attacker[equipmentType]).itemName;
                     attackerItem = config[equipmentType][attackerItemName];
                 }
-            }else {
+            } else {
                 // set attacker item to item in monster configuration
-                if(config.monster[attacker.texture.key][equipmentType] != null) {
+                if (config.monster[attacker.texture.key][equipmentType] != null) {
                     attackerItemName = config.monster[attacker.texture.key][equipmentType];
                     attackerItem = config[equipmentType][attackerItemName];
                 }
             }
 
             // get equipment item for defender
-            if(defender == saveObject.profiles[saveObject.currentProfile].character){
+            if (defender == saveObject.profiles[saveObject.currentProfile].character) {
                 // set defender item to item in current character equipment
-                if(defender[equipmentType] != null) {
+                if (defender[equipmentType] != null) {
                     defenderItemName = getItem(defender[equipmentType]).itemName;
                     defenderItem = config[equipmentType][defenderItemName];
                 }
-            }else {
+            } else {
                 // set defender item to item in monster configuration
-                if(config.monster[defender.texture.key][equipmentType] != null) {
+                if (config.monster[defender.texture.key][equipmentType] != null) {
                     defenderItemName = config.monster[defender.texture.key][equipmentType];
                     defenderItem = config[equipmentType][defenderItemName];
                 }
             }
 
             // check if attacker has an item in this slot
-            if(typeof attackerItem != 'undefined') {
+            if (typeof attackerItem != 'undefined') {
                 // collect all damage from current equipment type for attacker
                 for (let damage in attackerItem.damage) {
 
                     // set damage type to 0 if not set already
-                    if(typeof attackerDamage[damage] == 'undefined') {
+                    if (typeof attackerDamage[damage] == 'undefined') {
                         attackerDamage[damage] = 0;
                     }
                     attackerDamage[damage] += attackerItem.damage[damage];
@@ -555,12 +554,12 @@ class dungeonScene extends Phaser.Scene {
             }
 
             // check if defender has an item in this slot
-            if(typeof defenderItem != 'undefined') {
+            if (typeof defenderItem != 'undefined') {
                 // collect all resistances from current equipment type for defender
                 for (let resistance in defenderItem.resistance) {
 
                     // set resistance type to 0 if not set already
-                    if(typeof defenderResistance[resistance] == 'undefined') {
+                    if (typeof defenderResistance[resistance] == 'undefined') {
                         defenderResistance[resistance] = 0;
                     }
                     defenderResistance[resistance] += defenderItem.resistance[resistance];
@@ -570,20 +569,20 @@ class dungeonScene extends Phaser.Scene {
 
         // add damage to total for all types of damage the attacker has
         for (let damageType in attackerDamage) {
-            if(typeof defenderResistance[damageType] == 'undefined') {
+            if (typeof defenderResistance[damageType] == 'undefined') {
                 defenderResistance[damageType] = 0;
             }
             // calculate damage by subtracting defender resistance from attacker damage
             let damage = attackerDamage[damageType] - defenderResistance[damageType];
 
             // add damage number to total if any damage comes through
-            if(damage > 0) {
+            if (damage > 0) {
                 damageTotal += damage;
             }
         }
 
         // make at least 1 damage per attack
-        if(damageTotal < 1) {
+        if (damageTotal < 1) {
             damageTotal = 1;
         }
 
@@ -597,13 +596,13 @@ class dungeonScene extends Phaser.Scene {
         let keys = [];
 
         let chance = Math.random();
-        if(chance < 0.25) {
+        if (chance < 0.25) {
             category = 'weapon';
-        }else if(chance < 0.50) {
+        } else if (chance < 0.50) {
             category = 'offhand';
-        }else if(chance < 0.75) {
+        } else if (chance < 0.75) {
             category = 'armor';
-        }else {
+        } else {
             category = 'trinket';
         }
 
