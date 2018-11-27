@@ -36,12 +36,18 @@ class dungeonScene extends Phaser.Scene {
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
 
+        // add health indicator for player character
+        this.addCharacterHealth(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.3);
+
         // add counter in top right corner for current room number
         this.addRoomCounter(this.sys.game.config.width * 0.85, this.sys.game.config.height * 0.07);
 
         if (this.isEnemyAlive()) {
             // add enemy to the right of the room
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
+
+            // add health indicator for player character
+            this.addEnemyHealth(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.3);
         }
 
         if (this.isChestClosed()) {
@@ -300,6 +306,60 @@ class dungeonScene extends Phaser.Scene {
         this.enemyIdle();
     }
 
+    addCharacterHealth(x, y) {
+        // add frame image for character health indicator
+        this.characterHealthFrame = this.add.sprite(x, y, 'gameicons_exp', 'fightJ.png');
+        this.characterHealthFrame.setTint(0x222222);
+
+        // add image for character health indicator
+        this.characterHealth = this.add.sprite(x, y, 'gameicons_exp', 'fightJ.png');
+
+        // update color of character health indicator
+        this.updateCharacterHealth();
+    }
+
+    updateCharacterHealth() {
+        // update color of health indicator to correspond with character health
+        let currentHealth = saveObject.profiles[saveObject.currentProfile].character.health;
+        let maxHealth = config.default.status.health;
+        let red = Math.trunc((1 - (currentHealth / maxHealth)) * 255);
+        let green = Math.trunc((currentHealth / maxHealth) * 255);
+        let color = Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
+        this.characterHealth.setTint(color.color);
+        if(currentHealth > 0) {
+            this.characterHealth.setScale(((currentHealth / maxHealth) * 0.8) + 0.2);
+        }else {
+            this.characterHealth.setScale(0);
+        }
+    }
+
+    addEnemyHealth(x, y) {
+        // add frame image for enemy health indicator
+        this.enemyHealthFrame = this.add.sprite(x, y, 'gameicons_exp', 'fightJ.png');
+        this.enemyHealthFrame.setTint(0x222222);
+
+        // add image for enemy health indicator
+        this.enemyHealth = this.add.sprite(x, y, 'gameicons_exp', 'fightJ.png');
+
+        // update color of enemy health indicator
+        this.updateEnemyHealth();
+    }
+
+    updateEnemyHealth() {
+        // update color of health indicator to correspond with enemy health
+        let currentHealth = saveObject.profiles[saveObject.currentProfile].room.enemy.health;
+        let maxHealth = config.monster[saveObject.profiles[saveObject.currentProfile].room.enemy.type].health;
+        let red = Math.trunc((1 - (currentHealth / maxHealth)) * 255);
+        let green = Math.trunc((currentHealth / maxHealth) * 255);
+        let color =Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
+        this.enemyHealth.setTint(color.color);
+        if(currentHealth > 0) {
+            this.enemyHealth.setScale(((currentHealth / maxHealth) * 0.8) + 0.2);
+        }else {
+            this.enemyHealth.setScale(0);
+        }
+    }
+
     addChest(x, y) {
         // add character outside of view
         this.chest = this.add.sprite(x, y, 'chestClosed');
@@ -510,6 +570,9 @@ class dungeonScene extends Phaser.Scene {
             onComplete: damageNumber.destroy,
         });
 
+        // update color of character health indicator
+        this.updateEnemyHealth();
+
         // process death if enemy lost all his health
         if (saveObject.profiles[saveObject.currentProfile].room.enemy.health <= 0) {
             this.enemyDie();
@@ -539,6 +602,9 @@ class dungeonScene extends Phaser.Scene {
             duration: 600,
             onComplete: damageNumber.destroy,
         });
+
+        // update color of character health indicator
+        this.updateCharacterHealth();
 
         // process death if character lost all his health
         if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
