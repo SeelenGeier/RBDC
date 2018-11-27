@@ -133,16 +133,10 @@ package Memory{
             attribute(\thealth) -> type(int)
         chest
             attribute(\topen) -> type(bool)
-            \tcontent
-                \t\titemA
-                    attribute(\t\t\titemType) -> type(string)
-                    attribute(\t\t\titemName) -> type(string)
-                    attribute(\t\t\tdurability) -> type(int)
-                \t\titemB
-                    attribute(\t\t\titemType) -> type(string)
-                    attribute(\t\t\titemName) -> type(string)
-                    attribute(\t\t\tdurability) -> type(int)
-                \t\t...
+            \titem
+                attribute(\t\ttype) -> type(string)
+                attribute(\t\tiname) -> type(string)
+                attribute(\t\tdurability) -> type(int)
         attribute(trap) -> type(string)
         attribute(portal) -> type(bool)
     }
@@ -151,12 +145,12 @@ package Memory{
         attribute(currency) -> type(int)
         items
             \titemA
-                attribute(\t\titemType) -> type(string)
-                attribute(\t\titemName) -> type(string)
+                attribute(\t\ttype) -> type(string)
+                attribute(\t\tname) -> type(string)
                 attribute(\t\tdurability) -> type(int)
             \titemB
-                attribute(\t\titemType) -> type(string)
-                attribute(\t\titemName) -> type(string)
+                attribute(\t\ttype) -> type(string)
+                attribute(\t\tname) -> type(string)
                 attribute(\t\tdurability) -> type(int)
             \t...
     }

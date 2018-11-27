@@ -170,11 +170,11 @@ class shopScene extends Phaser.Scene {
         this.itemsDisplayed[itemId] = {};
 
         // display image of item on the left side
-        this.itemsDisplayed[itemId].image = this.add.sprite(this.backgroundTabImage.x + 50, this.backgroundTabImage.y - 10 + (64 * Object.keys(this.itemsDisplayed).length), config[item.itemType][item.itemName].image);
+        this.itemsDisplayed[itemId].image = this.add.sprite(this.backgroundTabImage.x + 50, this.backgroundTabImage.y - 10 + (64 * Object.keys(this.itemsDisplayed).length), config[item.type][item.name].image);
 
         // display item name
         this.itemsDisplayed[itemId].headlineText = this.add.text(this.itemsDisplayed[itemId].image.x + this.itemsDisplayed[itemId].image.width * 0.5,
-            this.itemsDisplayed[itemId].image.y - this.itemsDisplayed[itemId].image.height * 0.5 + 5, config[item.itemType][item.itemName].name, {
+            this.itemsDisplayed[itemId].image.y - this.itemsDisplayed[itemId].image.height * 0.5 + 5, config[item.type][item.name].name, {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 20,
                 color: '#99ffff'
@@ -190,7 +190,7 @@ class shopScene extends Phaser.Scene {
 
         // display value
         this.itemsDisplayed[itemId].valueText = this.add.text(this.itemsDisplayed[itemId].image.x + this.itemsDisplayed[itemId].image.width * 0.5,
-            this.itemsDisplayed[itemId].image.y - this.itemsDisplayed[itemId].image.height * 0.5 + 41, 'Value: ' + config[item.itemType][item.itemName].value, {
+            this.itemsDisplayed[itemId].image.y - this.itemsDisplayed[itemId].image.height * 0.5 + 41, 'Value: ' + config[item.type][item.name].value, {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 16,
                 color: '#ffffff'
@@ -264,7 +264,7 @@ class shopScene extends Phaser.Scene {
         // get total value of all selected items
         let totalValue = 0;
         for (let selectedItem in this.selectedItems) {
-            totalValue += config[allItems[selectedItem].itemType][allItems[selectedItem].itemName].value;
+            totalValue += config[allItems[selectedItem].type][allItems[selectedItem].name].value;
         }
 
         // update text under buy/sell button to display current currency and value of selected items
@@ -341,24 +341,24 @@ class shopScene extends Phaser.Scene {
 
     addCommonShopItems(items) {
         // TODO: use config to get common items
-        items[0] = {itemName: 'sword', itemType: 'weapon', durability: 100};
-        items[1] = {itemName: 'axe', itemType: 'weapon', durability: 70};
-        items[2] = {itemName: 'leather', itemType: 'armor', durability: 150};
-        items[3] = {itemName: 'sword', itemType: 'weapon', durability: 234};
-        items[4] = {itemName: 'iron', itemType: 'armor', durability: 400};
-        items[5] = {itemName: 'axe', itemType: 'weapon', durability: 352};
-        items[6] = {itemName: 'sword', itemType: 'weapon', durability: 2};
-        items[7] = {itemName: 'axe', itemType: 'weapon', durability: 5};
-        items[8] = {itemName: 'helmet', itemType: 'armor', durability: 300};
-        items[9] = {itemName: 'leather', itemType: 'armor', durability: 160};
+        items[0] = {name: 'sword', type: 'weapon', durability: 100};
+        items[1] = {name: 'axe', type: 'weapon', durability: 70};
+        items[2] = {name: 'leather', type: 'armor', durability: 150};
+        items[3] = {name: 'sword', type: 'weapon', durability: 234};
+        items[4] = {name: 'iron', type: 'armor', durability: 400};
+        items[5] = {name: 'axe', type: 'weapon', durability: 352};
+        items[6] = {name: 'sword', type: 'weapon', durability: 2};
+        items[7] = {name: 'axe', type: 'weapon', durability: 5};
+        items[8] = {name: 'helmet', type: 'armor', durability: 300};
+        items[9] = {name: 'leather', type: 'armor', durability: 160};
 
         return items;
     }
 
     addRareShopItems(items) {
         // TODO: use saved rare items that have been generated after a run
-        items[10] = {itemName: 'lamp', itemType: 'trinket', durability: 1};
-        items[11] = {itemName: 'torch', itemType: 'offhand', durability: 2};
+        items[10] = {name: 'lamp', type: 'trinket', durability: 1};
+        items[11] = {name: 'torch', type: 'offhand', durability: 2};
 
         return items;
     }
@@ -478,7 +478,7 @@ class shopScene extends Phaser.Scene {
             let currentItem = selectedItem - soldItems;
 
             // get infos on current item including the value
-            let currentItemInfo = config[saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem].itemType][saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem].itemName];
+            let currentItemInfo = config[saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem].type][saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem].name];
 
             // add value to currency
             saveObject.profiles[saveObject.currentProfile].inventory.currency += currentItemInfo.value;
@@ -495,7 +495,7 @@ class shopScene extends Phaser.Scene {
                     saveObject.profiles[saveObject.currentProfile].inventory.items[itemId - 1] = saveObject.profiles[saveObject.currentProfile].inventory.items[itemId];
 
                     // check if moved item is currently equipped
-                    if (saveObject.profiles[saveObject.currentProfile].character[getItem(itemId).itemType] == itemId) {
+                    if (saveObject.profiles[saveObject.currentProfile].character[getItem(itemId).type] == itemId) {
                         // equip same item with new id
                         equipItem(itemId - 1);
                     }
@@ -533,7 +533,7 @@ class shopScene extends Phaser.Scene {
         // get total value of all selected items
         let totalValue = 0;
         for (let selectedItem in this.selectedItems) {
-            totalValue += config[allItems[selectedItem].itemType][allItems[selectedItem].itemName].value;
+            totalValue += config[allItems[selectedItem].type][allItems[selectedItem].name].value;
         }
 
         // check if player has enough currency to buy all selected items
@@ -548,10 +548,10 @@ class shopScene extends Phaser.Scene {
         // loop through all selected items
         for (let selectedItem in this.selectedItems) {
             // add item to inventory
-            giveItem(allItems[selectedItem].itemType, allItems[selectedItem].itemName, allItems[selectedItem].durability);
+            giveItem(allItems[selectedItem].type, allItems[selectedItem].name, allItems[selectedItem].durability);
 
             // remove value from currency
-            saveObject.profiles[saveObject.currentProfile].inventory.currency -= config[allItems[selectedItem].itemType][allItems[selectedItem].itemName].value;
+            saveObject.profiles[saveObject.currentProfile].inventory.currency -= config[allItems[selectedItem].type][allItems[selectedItem].name].value;
         }
 
         // save changes to profile

@@ -1,4 +1,4 @@
-function giveItem(itemType, itemName, durability, profile = saveObject.currentProfile) {
+function giveItem(type, name, durability, profile = saveObject.currentProfile) {
     // check if a correct profile has been selected
     if (profile == null || !saveObject.profiles.hasOwnProperty(profile)) {
         console.log('Invalid profile to give Item to');
@@ -15,12 +15,12 @@ function giveItem(itemType, itemName, durability, profile = saveObject.currentPr
         return false;
     }
     // check if item type exists
-    if (!config.hasOwnProperty(itemType)) {
+    if (!config.hasOwnProperty(type)) {
         console.log('Item type does not exist');
         return false;
     }
     // check if item exists in item type
-    if (!config[itemType].hasOwnProperty(itemName)) {
+    if (!config[type].hasOwnProperty(name)) {
         console.log('Item does not exist in item type');
         return false;
     }
@@ -30,8 +30,8 @@ function giveItem(itemType, itemName, durability, profile = saveObject.currentPr
 
     // add item to profile inventory
     saveObject.profiles[profile].inventory.items[newId] = {
-        itemType: itemType,
-        itemName: itemName,
+        type: type,
+        name: name,
         durability: durability
     };
 
@@ -47,9 +47,9 @@ function removeItem(id, profile = saveObject.currentProfile) {
         return false;
     }
 
-    if(saveObject.profiles[profile].character[getItem(id, profile).itemType] == id) {
+    if(saveObject.profiles[profile].character[getItem(id, profile).type] == id) {
         // unequip item if equipped
-        unequipItemtype(getItem(id, profile).itemType);
+        unequiptype(getItem(id, profile).type);
     }
 
     // remove item from inventory
@@ -74,13 +74,13 @@ function generateItemId(profile = saveObject.currentProfile) {
 function equipItem(id, profile = saveObject.currentProfile) {
 
     // check if the item is a valuable which can not be equipped
-    if (getItem(id, profile).itemType != 'valuable') {
+    if (getItem(id, profile).type != 'valuable') {
         // set the equipped item to the selected item for the corresponding item type
-        saveObject.profiles[profile].character[getItem(id, profile).itemType] = id;
+        saveObject.profiles[profile].character[getItem(id, profile).type] = id;
     }
 }
 
-function unequipItemtype(type, profile = saveObject.currentProfile) {
+function unequiptype(type, profile = saveObject.currentProfile) {
     // check if the item type is 'valuable' which can not be (un)equipped
     if (type != 'valuable') {
         // unset the equipped item for the selected item type

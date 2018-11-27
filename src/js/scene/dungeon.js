@@ -380,7 +380,7 @@ class dungeonScene extends Phaser.Scene {
             let newItemId = giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.category, saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
 
             let newItem = getItem(newItemId);
-            new Dialog('Item found!', 'You found a ' + config[newItem.itemType][newItem.itemName].name + ' with ' + newItem.durability + ' durability.', this.scene);
+            new Dialog('Item found!', 'You found a ' + config[newItem.type][newItem.name].name + ' with ' + newItem.durability + ' durability.', this.scene);
         }
 
         // update action button
@@ -624,15 +624,15 @@ class dungeonScene extends Phaser.Scene {
 
             let attackerItem = {};
             let defenderItem = {};
-            let attackerItemName = '';
-            let defenderItemName = '';
+            let attackername = '';
+            let defendername = '';
 
             // get equipment item for attacker
             if (attacker == saveObject.profiles[saveObject.currentProfile].character) {
                 // set attacker item to item in current character equipment
                 if (attacker[equipmentType] != null) {
-                    attackerItemName = getItem(attacker[equipmentType]).itemName;
-                    attackerItem = config[equipmentType][attackerItemName];
+                    attackername = getItem(attacker[equipmentType]).name;
+                    attackerItem = config[equipmentType][attackername];
                 }
             } else {
                 // set attacker item to use monster configuration
@@ -647,8 +647,8 @@ class dungeonScene extends Phaser.Scene {
             if (defender == saveObject.profiles[saveObject.currentProfile].character) {
                 // set defender item to item in current character equipment
                 if (defender[equipmentType] != null) {
-                    defenderItemName = getItem(defender[equipmentType]).itemName;
-                    defenderItem = config[equipmentType][defenderItemName];
+                    defendername = getItem(defender[equipmentType]).name;
+                    defenderItem = config[equipmentType][defendername];
                 }
             } else {
                 // set defender item to use monster configuration

@@ -51,10 +51,10 @@ class profileOverviewScene extends Phaser.Scene {
         let defaultWeapon = false;
         let defaultArmor = false;
         for(let item in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].itemType == 'weapon' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
+            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].type == 'weapon' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
                 defaultWeapon = true;
             }
-            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].itemType == 'armor' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
+            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].type == 'armor' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
                 defaultArmor = true;
             }
         }
@@ -180,7 +180,7 @@ class profileOverviewScene extends Phaser.Scene {
         let durabilityText = '';
         if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
             // get image from item config
-            image = config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).itemName].image;
+            image = config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).name].image;
             durabilityText = getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability != null ? getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability + '' : 'X';
         } else {
             image = 'X';
@@ -209,7 +209,7 @@ class profileOverviewScene extends Phaser.Scene {
         // check if item slot has an item equipped
         if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
             // change image of this item type to current item image
-            this['equipped' + type[0].toUpperCase() + type.substring(1)].setTexture(config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).itemName].image);
+            this['equipped' + type[0].toUpperCase() + type.substring(1)].setTexture(config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).name].image);
             durabilityText = getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability != null ? getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability + '' : 'X';
         } else {
             // use "nothing" image and no durability if nothing is equipped
@@ -228,7 +228,7 @@ class profileOverviewScene extends Phaser.Scene {
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
         // loop through all items of this type in inventory
         for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-            if (getItem(itemId).itemType == type) {
+            if (getItem(itemId).type == type) {
                 // check if the item before the current item is the currently equipped item
                 if (previousItem == equippedItemId) {
                     // equip current item
@@ -243,7 +243,7 @@ class profileOverviewScene extends Phaser.Scene {
         // check if last found item is the current item
         if (previousItem == equippedItemId) {
             // unequip current item
-            unequipItemtype(type);
+            unequiptype(type);
             this[1].updateEquipped(type);
             return true;
         }
@@ -260,13 +260,13 @@ class profileOverviewScene extends Phaser.Scene {
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
         // loop through all items of this type in inventory
         for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-            if (getItem(itemId).itemType == type) {
+            if (getItem(itemId).type == type) {
                 // set first item of array for future checks
                 if (firstItem == null) {
                     // check if first item is the currently equipped item
                     if (itemId == equippedItemId) {
                         // unequip currently equipped item
-                        unequipItemtype(type);
+                        unequiptype(type);
                         this[1].updateEquipped(type);
                         return true;
                     }
