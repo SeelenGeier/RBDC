@@ -359,6 +359,7 @@ class shopScene extends Phaser.Scene {
         // TODO: use saved rare items that have been generated after a run
         items[10] = {name: 'lamp', type: 'trinket', durability: 1};
         items[11] = {name: 'torch', type: 'offhand', durability: 2};
+        items[12] = {name: 'antidote', type: 'trinket', durability: 1};
 
         return items;
     }

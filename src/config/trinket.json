@@ -10,12 +10,21 @@
   },
   "bomb": {
     "name": "Firebombs",
-    "description": "Bombs that explode in a big fire",
+    "description": "Bombs that explode in a big fire.",
     "image": "gemRed",
     "value": 20,
     "damage": {
       "impact": 5,
       "heat": 5
+    }
+  },
+  "antidote": {
+    "name": "Antidote",
+    "description": "Prevents poisoning.",
+    "image": "potion",
+    "value": 12,
+    "resistance": {
+      "poison": 100
     }
   }
 }
