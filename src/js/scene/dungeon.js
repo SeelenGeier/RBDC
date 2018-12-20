@@ -29,9 +29,6 @@ class dungeonScene extends Phaser.Scene {
         // add button to exit the shop
         this.addNavigationNextRoom(this.sys.game.config.width * 0.9, this.sys.game.config.height * 0.5);
 
-        // add button to exit the shop
-        this.addNavigationInventory(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.9);
-
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
 
@@ -40,6 +37,9 @@ class dungeonScene extends Phaser.Scene {
 
         // add counter in top right corner for current room number
         this.addRoomCounter(this.sys.game.config.width * 0.85, this.sys.game.config.height * 0.07);
+
+        // add equipment at the bottom of the screen
+        this.addEquipment(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.8);
 
         if (this.isEnemyAlive()) {
             // add enemy to the right of the room
@@ -256,17 +256,6 @@ class dungeonScene extends Phaser.Scene {
 
         // open next room
         this.parent.scene.scene.start('dungeon');
-    }
-
-    addNavigationInventory(x, y) {
-        // add navigation button to perform action based on room contents
-        new Button('buttonInventory', ['gameicons', 'phone.png'], x, y, this);
-        this.buttonInventory.on('pointerup', this.openInventory, this);
-        this.buttonInventory.setTint(0xeeaa00);
-    }
-
-    openInventory() {
-        // TODO: add inventory sliding up and displaying inventory items to be equippable (add X to close)
     }
 
     addCharacter(x, y) {
@@ -765,5 +754,134 @@ class dungeonScene extends Phaser.Scene {
 
         // exit dungeon after retreat
         this.dialogButtonOK.on('pointerup', this.goTo, [this, 'exit']);
+    }
+
+    addEquipment(x, y) {
+        // add one item and up/down arrow for each equipable category
+        this.addEquipped(x - 90, y, 'weapon');
+        this.addEquipped(x - 30, y, 'armor');
+        this.addEquipped(x + 30, y, 'offhand');
+        this.addEquipped(x + 90, y, 'trinket');
+    }
+
+    addEquipped(x, y, type) {
+        let image = '';
+        let durabilityText = '';
+        if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
+            // get image from item config
+            image = config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).name].image;
+            durabilityText = getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability != null ? getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability + '' : 'X';
+        } else {
+            image = 'X';
+            durabilityText = '-';
+        }
+        // add image for item
+        this['equipped' + type[0].toUpperCase() + type.substring(1)] = this.add.sprite(x, y, image);
+        // add durability info below item
+        this['equipped' + type[0].toUpperCase() + type.substring(1)].durability = this.add.text(x - (durabilityText.length * 4), y + 40, durabilityText, {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 16,
+            color: '#ffffff'
+        });
+        // add up button to equip next item
+        new Button('buttonItemNext' + type[0].toUpperCase() + type.substring(1), ['gameicons', 'up.png'], x, y - 50, this);
+        this['buttonItemNext' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.changeItemNext, [type, this]);
+        this['buttonItemNext' + type[0].toUpperCase() + type.substring(1)].setTint(0xcccccc);
+        // add down button to equip previous item
+        new Button('buttonItemPrev' + type[0].toUpperCase() + type.substring(1), ['gameicons', 'down.png'], x, y + 80, this);
+        this['buttonItemPrev' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.changeItemPrev, [type, this]);
+        this['buttonItemPrev' + type[0].toUpperCase() + type.substring(1)].setTint(0xcccccc);
+    }
+
+    updateEquipped(type) {
+        let durabilityText = '';
+        // check if item slot has an item equipped
+        if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
+            // change image of this item type to current item image
+            this['equipped' + type[0].toUpperCase() + type.substring(1)].setTexture(config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).name].image);
+            durabilityText = getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability != null ? getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability + '' : 'X';
+        } else {
+            // use "nothing" image and no durability if nothing is equipped
+            this['equipped' + type[0].toUpperCase() + type.substring(1)].setTexture('X');
+            durabilityText = '-';
+        }
+        // update durability text and position to be centered with image
+        this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.setText(durabilityText);
+        this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.x = this['equipped' + type[0].toUpperCase() + type.substring(1)].x - (durabilityText.length * 4);
+    }
+
+    changeItemNext() {
+        let type = this[0];
+        let previousItem = null;
+        // get id of current item
+        let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+        // loop through all items of this type in inventory
+        for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
+            if (getItem(itemId).type == type) {
+                // check if the item before the current item is the currently equipped item
+                if (previousItem == equippedItemId) {
+                    // equip current item
+                    equipItem(itemId);
+                    this[1].updateEquipped(type);
+                    return true;
+                }
+                // set previous item to current item and continue loop
+                previousItem = itemId;
+            }
+        }
+        // check if last found item is the current item
+        if (previousItem == equippedItemId) {
+            // unequip current item
+            unequiptype(type);
+            this[1].updateEquipped(type);
+            return true;
+        }
+
+        // save equipment choice
+        saveData();
+    }
+
+    changeItemPrev() {
+        let type = this[0];
+        let firstItem = null;
+        let previousItem = null;
+        // get id of current item
+        let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+        // loop through all items of this type in inventory
+        for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
+            if (getItem(itemId).type == type) {
+                // set first item of array for future checks
+                if (firstItem == null) {
+                    // check if first item is the currently equipped item
+                    if (itemId == equippedItemId) {
+                        // unequip currently equipped item
+                        unequiptype(type);
+                        this[1].updateEquipped(type);
+                        return true;
+                    }
+                    // set first item to skip this step in future loops
+                    firstItem = itemId;
+                }
+                // check if the current item is the currently equipped item
+                if (itemId == equippedItemId) {
+                    // equip the previously found item
+                    equipItem(previousItem);
+                    this[1].updateEquipped(type);
+                    return true;
+                }
+                // set previous item to current item and continue loop
+                previousItem = itemId;
+            }
+        }
+        // check if the last item found is not the equipped item
+        if (previousItem != equippedItemId) {
+            // otherwise equip the last item
+            equipItem(previousItem);
+            this[1].updateEquipped(type);
+            return true;
+        }
+
+        // save equipment choice
+        saveData();
     }
 }
