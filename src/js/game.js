@@ -103,10 +103,6 @@ function create() {
                 frameWidth: 43,
                 frameHeight: 37
             });
-            this.load.spritesheet('skeletonWalk', '../assets/unit/enemy/skeleton/walk.png', {
-                frameWidth: 22,
-                frameHeight: 33
-            });
         }
     }
 

@@ -5,7 +5,6 @@ class dungeonScene extends Phaser.Scene {
     }
 
     preload() {
-        // TODO: replace background
         // load background image for profile overview
         this.load.image('backgroundDungeon', '../assets/background/dungeon_mockup.png');
     }

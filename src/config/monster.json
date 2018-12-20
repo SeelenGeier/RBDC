@@ -35,8 +35,29 @@
       "slash": 12
     },
     "resistance": {
-      "piercing": 10,
+      "puncture": 10,
       "slash": 5,
+      "poison": 30
+    }
+  },
+  "snake": {
+    "type": "snake",
+    "name": "Snake",
+    "image": {
+      "file": "snake.png",
+      "width": 32,
+      "height": 32,
+      "scale": 4,
+      "direction": 1
+    },
+    "health": 14,
+    "damage": {
+      "slash": 2,
+      "puncture": 8,
+      "poison": 4
+    },
+    "resistance": {
+      "puncture": 4,
       "poison": 30
     }
   }

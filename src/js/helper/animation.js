@@ -18,6 +18,9 @@ function addCharacterAnimations(unit) {
         case 'skeleton':
             loadAnimationSkeleton();
             break;
+        case 'snake':
+            loadAnimationSnake();
+            break;
         default:
             break;
     }
@@ -86,12 +89,6 @@ function loadAnimationSlime() {
         repeat: -1
     });
     game.anims.create({
-        key: 'slimeRun',
-        frames: game.anims.generateFrameNumbers('slime', { start: 4, end: 7 }),
-        frameRate: 6,
-        repeat: -1
-    });
-    game.anims.create({
         key: 'slimeAttack',
         frames: game.anims.generateFrameNumbers('slime', { start: 8, end: 11 }),
         frameRate: 12
@@ -111,12 +108,6 @@ function loadAnimationSkeleton() {
         repeat: -1
     });
     game.anims.create({
-        key: 'skeletonRun',
-        frames: game.anims.generateFrameNumbers('skeletonWalk', { start: 0, end: 12 }),
-        frameRate: 6,
-        repeat: -1
-    });
-    game.anims.create({
         key: 'skeletonAttack',
         frames: game.anims.generateFrameNumbers('skeletonAttack', { start: 0, end: 17 }),
         frameRate: 16
@@ -124,6 +115,25 @@ function loadAnimationSkeleton() {
     game.anims.create({
         key: 'skeletonDie',
         frames: game.anims.generateFrameNumbers('skeletonDie', { start: 0, end: 14 }),
+        frameRate: 16
+    });
+}
+
+function loadAnimationSnake() {
+    game.anims.create({
+        key: 'snakeIdle',
+        frames: game.anims.generateFrameNumbers('snake', { start: 0, end: 9 }),
+        frameRate: 9,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'snakeAttack',
+        frames: game.anims.generateFrameNumbers('snake', { start: 30, end: 39 }),
+        frameRate: 16
+    });
+    game.anims.create({
+        key: 'snakeDie',
+        frames: game.anims.generateFrameNumbers('snake', { start: 40, end: 49 }),
         frameRate: 16
     });
 }
