@@ -6,7 +6,8 @@
       "file": "slime.png",
       "width": 32,
       "height": 25,
-      "scale": 2.5
+      "scale": 2.5,
+      "direction": 1
     },
     "health": 12,
     "damage": {
@@ -16,7 +17,27 @@
     "resistance": {
       "impact": 10,
       "slash": 3,
-      "poison": 20
+      "poison": 10
+    }
+  },
+  "skeleton": {
+    "type": "skeleton",
+    "name": "Skeleton",
+    "image": {
+      "file": "skeleton/idle.png",
+      "width": 24,
+      "height": 32,
+      "scale": 4,
+      "direction": -1
+    },
+    "health": 21,
+    "damage": {
+      "slash": 12
+    },
+    "resistance": {
+      "piercing": 10,
+      "slash": 5,
+      "poison": 30
     }
   }
 }

@@ -297,7 +297,7 @@ class dungeonScene extends Phaser.Scene {
         // add enemy sprite
         this.enemy = this.add.sprite(x, y, saveObject.profiles[saveObject.currentProfile].room.enemy.type);
         this.enemy.setOrigin(0.5, 1);
-        this.enemy.setScale(saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale);
+        this.enemy.setScale(saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale * saveObject.profiles[saveObject.currentProfile].room.enemy.image.direction, saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale);
 
         // load animations if not done already
         addCharacterAnimations(saveObject.profiles[saveObject.currentProfile].room.enemy.type);
@@ -518,7 +518,7 @@ class dungeonScene extends Phaser.Scene {
         this.enemy.off('animationcomplete');
 
         // start idle animation with sword
-        this.enemy.anims.play('slimeAttack');
+        this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Attack');
 
         // deal damage to the player
         this.playerDamaged();

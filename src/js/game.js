@@ -85,7 +85,29 @@ function create() {
 
     // load images for configured enemies
     for(let monster in config.monster) {
-        this.load.spritesheet(config.monster[monster].type, '../assets/unit/enemy/' + config.monster[monster].image.file, {frameWidth: config.monster[monster].image.width, frameHeight: config.monster[monster].image.height});
+        if(monster != 'skeleton'){
+            this.load.spritesheet(config.monster[monster].type, '../assets/unit/enemy/' + config.monster[monster].image.file, {
+                frameWidth: config.monster[monster].image.width,
+                frameHeight: config.monster[monster].image.height
+            });
+        }else {
+            this.load.spritesheet('skeletonIdle', '../assets/unit/enemy/skeleton/idle.png', {
+                frameWidth: 24,
+                frameHeight: 32
+            });
+            this.load.spritesheet('skeletonDie', '../assets/unit/enemy/skeleton/die.png', {
+                frameWidth: 33,
+                frameHeight: 32
+            });
+            this.load.spritesheet('skeletonAttack', '../assets/unit/enemy/skeleton/attack.png', {
+                frameWidth: 43,
+                frameHeight: 37
+            });
+            this.load.spritesheet('skeletonWalk', '../assets/unit/enemy/skeleton/walk.png', {
+                frameWidth: 22,
+                frameHeight: 33
+            });
+        }
     }
 
     // load image for "nothing"

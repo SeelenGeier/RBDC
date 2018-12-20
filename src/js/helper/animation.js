@@ -15,6 +15,9 @@ function addCharacterAnimations(unit) {
         case 'slime':
             loadAnimationSlime();
             break;
+        case 'skeleton':
+            loadAnimationSkeleton();
+            break;
         default:
             break;
     }
@@ -97,5 +100,30 @@ function loadAnimationSlime() {
         key: 'slimeDie',
         frames: game.anims.generateFrameNumbers('slime', { start: 16, end: 20 }),
         frameRate: 12
+    });
+}
+
+function loadAnimationSkeleton() {
+    game.anims.create({
+        key: 'skeletonIdle',
+        frames: game.anims.generateFrameNumbers('skeletonIdle', { start: 0, end: 10 }),
+        frameRate: 9,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'skeletonRun',
+        frames: game.anims.generateFrameNumbers('skeletonWalk', { start: 0, end: 12 }),
+        frameRate: 6,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'skeletonAttack',
+        frames: game.anims.generateFrameNumbers('skeletonAttack', { start: 0, end: 17 }),
+        frameRate: 16
+    });
+    game.anims.create({
+        key: 'skeletonDie',
+        frames: game.anims.generateFrameNumbers('skeletonDie', { start: 0, end: 14 }),
+        frameRate: 16
     });
 }
