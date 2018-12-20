@@ -900,16 +900,15 @@ class dungeonScene extends Phaser.Scene {
     reduceEquipmentDurability() {
         let imageCategories = ['weapon', 'armor', 'offhand', 'trinket'];
         for(let category in imageCategories) {
-            // make item loose durability depending on the configured chance
-            if(Math.random() < config.default.setting.durabilityLossChance) {
-                console.log(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]));
-                console.log(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).name);
-                console.log(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability);
-                getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability--;
-                if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability <= 0) {
-                    removeItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
+            if(typeof saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]] != 'undefined') {
+                // make item loose durability depending on the configured chance
+                if(Math.random() < config.default.setting.durabilityLossChance) {
+                    getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability--;
+                    if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability <= 0) {
+                        removeItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
+                    }
+                    this.updateEquipped(imageCategories[category]);
                 }
-                this.updateEquipped(imageCategories[category]);
             }
         }
 
