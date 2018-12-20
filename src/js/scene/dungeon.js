@@ -780,7 +780,8 @@ class dungeonScene extends Phaser.Scene {
         }
 
         // add image for item
-        this['equipped' + type[0].toUpperCase() + type.substring(1)] = this.add.sprite(x, y, image);
+        new Button('equipped' + type[0].toUpperCase() + type.substring(1), image, x, y, this);
+        this['equipped' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.dropItem, [type, this]);
 
         // add durability info below item
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability = this.add.text(x - (durabilityText.length * 4), y + 40, durabilityText, {
@@ -894,6 +895,35 @@ class dungeonScene extends Phaser.Scene {
         }
 
         // save equipment choice
+        saveData();
+    }
+
+    dropItem() {
+        let type = this[0];
+
+        // get id of current item
+        let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+
+        // show confirmation dialog with warning
+        new Dialog('Drop Item?', 'Drop ' + getItem(equippedItemId).name, this[1].scene, true);
+
+        // only exit dungeon if player is ok with resetting the counter
+        this[1].dialogButtonYES.on('pointerup', this[1].removeDroppedItem, [this[1], equippedItemId]);
+    }
+
+    removeDroppedItem() {
+        let itemId = this[1];
+
+        // get item type for updating later
+        let itemType = getItem(itemId).type;
+
+        // remove item from inventory
+        removeItem(itemId);
+
+        // update item slot
+        this[0].updateEquipped(itemType);
+
+        // save inventory
         saveData();
     }
 
