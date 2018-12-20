@@ -154,6 +154,9 @@ class dungeonScene extends Phaser.Scene {
                 // let player and enemy both attack
                 this.attackPlayer();
                 this.attackEnemy();
+
+                // reduce durability of used weapon
+                this.reduceEquipmentDurability();
             } else if (this.isChestClosed()) {
                 this.openChest();
             } else if (this.isTrapArmed()) {
@@ -775,18 +778,22 @@ class dungeonScene extends Phaser.Scene {
             image = 'X';
             durabilityText = '-';
         }
+
         // add image for item
         this['equipped' + type[0].toUpperCase() + type.substring(1)] = this.add.sprite(x, y, image);
+
         // add durability info below item
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability = this.add.text(x - (durabilityText.length * 4), y + 40, durabilityText, {
             fontFamily: config.default.setting.fontFamily,
             fontSize: 16,
             color: '#ffffff'
         });
+
         // add up button to equip next item
         new Button('buttonItemNext' + type[0].toUpperCase() + type.substring(1), ['gameicons', 'up.png'], x, y - 50, this);
         this['buttonItemNext' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.changeItemNext, [type, this]);
         this['buttonItemNext' + type[0].toUpperCase() + type.substring(1)].setTint(0xcccccc);
+
         // add down button to equip previous item
         new Button('buttonItemPrev' + type[0].toUpperCase() + type.substring(1), ['gameicons', 'down.png'], x, y + 80, this);
         this['buttonItemPrev' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.changeItemPrev, [type, this]);
@@ -795,6 +802,7 @@ class dungeonScene extends Phaser.Scene {
 
     updateEquipped(type) {
         let durabilityText = '';
+
         // check if item slot has an item equipped
         if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
             // change image of this item type to current item image
@@ -813,8 +821,10 @@ class dungeonScene extends Phaser.Scene {
     changeItemNext() {
         let type = this[0];
         let previousItem = null;
+
         // get id of current item
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+
         // loop through all items of this type in inventory
         for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
             if (getItem(itemId).type == type) {
@@ -825,10 +835,12 @@ class dungeonScene extends Phaser.Scene {
                     this[1].updateEquipped(type);
                     return true;
                 }
+
                 // set previous item to current item and continue loop
                 previousItem = itemId;
             }
         }
+
         // check if last found item is the current item
         if (previousItem == equippedItemId) {
             // unequip current item
@@ -879,6 +891,26 @@ class dungeonScene extends Phaser.Scene {
             equipItem(previousItem);
             this[1].updateEquipped(type);
             return true;
+        }
+
+        // save equipment choice
+        saveData();
+    }
+
+    reduceEquipmentDurability() {
+        let imageCategories = ['weapon', 'armor', 'offhand', 'trinket'];
+        for(let category in imageCategories) {
+            // make item loose durability depending on the configured chance
+            if(Math.random() < config.default.setting.durabilityLossChance) {
+                console.log(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]));
+                console.log(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).name);
+                console.log(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability);
+                getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability--;
+                if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability <= 0) {
+                    removeItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
+                }
+                this.updateEquipped(imageCategories[category]);
+            }
         }
 
         // save equipment choice

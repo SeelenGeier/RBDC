@@ -11,6 +11,7 @@
     "enemySpawnChance": 0.7,
     "chestSpawnChance": 0.05,
     "chestSpawnChanceAfterKill": 0.01,
+    "durabilityLossChance": 0.75,
     "chestImageOpen": "chest/chest_open.png",
     "chestImageClosed": "chest/chest_closed.png",
     "coinImage": "item/coin.png"
