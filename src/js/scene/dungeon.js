@@ -339,7 +339,7 @@ class dungeonScene extends Phaser.Scene {
     updateEnemyHealth() {
         // update color of health indicator to correspond with enemy health
         let currentHealth = saveObject.profiles[saveObject.currentProfile].room.enemy.health;
-        let maxHealth = config.monster[saveObject.profiles[saveObject.currentProfile].room.enemy.type].health;
+        let maxHealth = saveObject.profiles[saveObject.currentProfile].room.enemy.maxHealth;
         let red = Math.trunc((1 - (currentHealth / maxHealth)) * 255);
         let green = Math.trunc((currentHealth / maxHealth) * 255);
         let color =Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
@@ -437,8 +437,21 @@ class dungeonScene extends Phaser.Scene {
 
     spawnEnemy() {
         // pick random monster
-        let enemyStats = config.monster[Object.keys(config.monster)[Math.floor(Math.random() * Object.keys(config.monster).length)]];
-        let enemy = JSON.parse(JSON.stringify(enemyStats));
+        let enemy = config.monster[Object.keys(config.monster)[Math.floor(Math.random() * Object.keys(config.monster).length)]];
+
+        // modify health depending on roomcounter
+        enemy.health = Math.round((enemy.health * 0.25) + (enemy.health * 2 * (saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
+        enemy.maxHealth = enemy.health;
+
+        // modify damage depending on roomcounter
+        for(let damage in enemy.damage) {
+            enemy.damage[damage] = Math.round((enemy.damage[damage] * 0.25) + (enemy.damage[damage] * 2 * (saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
+        }
+
+        // modify resistance depending on roomcounter
+        for(let resistance in enemy.resistance) {
+            enemy.resistance[resistance] = Math.round((enemy.resistance[resistance] * 0.25) + (enemy.resistance[resistance] * 2 *(saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
+        }
 
         // save enemy to room
         saveObject.profiles[saveObject.currentProfile].room.enemy = enemy;
@@ -929,12 +942,16 @@ class dungeonScene extends Phaser.Scene {
 
     reduceEquipmentDurability() {
         let imageCategories = ['weapon', 'armor', 'offhand', 'trinket'];
+
+        // go through all equipment slots and remove durability by chance
         for(let category in imageCategories) {
             if(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]] != null) {
                 if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability != null) {
                     // make item loose durability depending on the configured chance
                     if(Math.random() < config.default.setting.durabilityLossChance) {
                         getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability--;
+
+                        // if the item lost all durability, remove it from the inventory
                         if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability <= 0) {
                             removeItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
                         }
