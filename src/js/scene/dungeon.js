@@ -32,11 +32,14 @@ class dungeonScene extends Phaser.Scene {
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
 
+        // add character to the left center of the screen
+        this.addCharacterStats(this.sys.game.config.width * 0.15, this.sys.game.config.height * 0.2);
+
         // add health indicator for player character
         this.addCharacterHealth(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.3);
 
         // add counter in top right corner for current room number
-        this.addRoomCounter(this.sys.game.config.width * 0.85, this.sys.game.config.height * 0.07);
+        this.addRoomCounter(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.05);
 
         // add equipment at the bottom of the screen
         this.addEquipment(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.8);
@@ -44,6 +47,9 @@ class dungeonScene extends Phaser.Scene {
         if (this.isEnemyAlive()) {
             // add enemy to the right of the room
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
+
+            // add enemy to the right of the room
+            this.addEnemyStats(this.sys.game.config.width * 0.70, this.sys.game.config.height * 0.2);
 
             // add health indicator for player character
             this.addEnemyHealth(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.3);
@@ -65,6 +71,7 @@ class dungeonScene extends Phaser.Scene {
             fontSize: 32,
             color: '#FFFFFF'
         });
+        this.roomCounter.setOrigin(0.5, 0.5);
     }
 
     startRoom() {
@@ -284,6 +291,79 @@ class dungeonScene extends Phaser.Scene {
         });
     }
 
+    addCharacterStats(x, y) {
+        // add character damage infos
+        this.characterStatsDamage = this.add.text(x, y, '', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 12,
+            color: '#FF8888'
+        });
+        this.characterStatsDamage.setOrigin(0.5, 0.5);
+
+        // add character resistance infos
+        this.characterStatsResistance = this.add.text(x + (this.sys.game.config.width * 0.2), y, '', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 12,
+            color: '#88FF88'
+        });
+        this.characterStatsResistance.setOrigin(0.5, 0.5);
+
+        // update current character stats
+        this.updateCharacterStats();
+    }
+
+    updateCharacterStats() {
+        // go through all equipment slots and add damage and resistance to overall counters
+        let imageCategories = ['weapon', 'armor', 'offhand', 'trinket'];
+        let damage = {};
+        let resistance = {};
+
+        for(let category in imageCategories) {
+            if(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]] != null) {
+                let item = getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
+                let itemStats = config[item.type][item.name];
+
+                // add all damage numbers to overall damage counter
+                if(typeof itemStats.damage != 'undefined') {
+                    for(let damageType in itemStats.damage) {
+                        // set damage type to new damage type or add it to existing
+                        if(typeof damage[damageType] == 'undefined') {
+                            damage[damageType] = itemStats.damage[damageType];
+                        }else {
+                            damage[damageType] += itemStats.damage[damageType];
+                        }
+                    }
+                }
+
+                // add all resistance numbers to overall resistance counter
+                if(typeof itemStats.resistance != 'undefined') {
+                    for(let resistanceType in itemStats.resistance) {
+                        // set resistance type to new resistance type or add it to existing
+                        if(typeof resistance[resistanceType] == 'undefined') {
+                            resistance[resistanceType] = itemStats.resistance[resistanceType];
+                        }else {
+                            resistance[resistanceType] += itemStats.resistance[resistanceType];
+                        }
+                    }
+                }
+            }
+        }
+
+        // update character resistance on stats
+        this.characterStatsResistance.text = '';
+        for(let resistanceType in resistance) {
+            // set resistance type to resistance text
+            this.characterStatsResistance.text += resistanceType + ': ' + resistance[resistanceType] + '\n';
+        }
+
+        // update character damage on stats
+        this.characterStatsDamage.text = '';
+        for(let damageType in damage) {
+            // set damage type to damage text
+            this.characterStatsDamage.text += damageType + ': ' + damage[damageType] + '\n';
+        }
+    }
+
     addEnemy(x, y) {
         // add enemy sprite
         this.enemy = this.add.sprite(x, y, saveObject.profiles[saveObject.currentProfile].room.enemy.type);
@@ -295,6 +375,77 @@ class dungeonScene extends Phaser.Scene {
 
         // start enemy in idle animation
         this.enemyIdle();
+    }
+
+    addEnemyStats(x, y) {
+        // add character damage infos
+        this.enemyStatsDamage = this.add.text(x, y, '', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 12,
+            color: '#FF8888'
+        });
+        this.enemyStatsDamage.setOrigin(0.5, 0.5);
+
+        // add character resistance infos
+        this.enemyStatsResistance = this.add.text(x + (this.sys.game.config.width * 0.2), y, '', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 12,
+            color: '#88FF88'
+        });
+        this.enemyStatsResistance.setOrigin(0.5, 0.5);
+
+        // add current enemy stats
+        this.updateEnemyStats();
+    }
+
+    updateEnemyStats() {
+        let damage = {};
+        let resistance = {};
+
+        // remove stats if enemy is dead
+        if(!this.isEnemyAlive()) {
+            this.enemyStatsResistance.text = '';
+            this.enemyStatsDamage.text = '';
+            return;
+        }
+
+        // add all damage numbers to overall damage counter
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.damage != 'undefined') {
+            for(let damageType in saveObject.profiles[saveObject.currentProfile].room.enemy.damage) {
+                // set damage type to new damage type or add it to existing
+                if(typeof damage[damageType] == 'undefined') {
+                    damage[damageType] = saveObject.profiles[saveObject.currentProfile].room.enemy.damage[damageType];
+                }else {
+                    damage[damageType] += saveObject.profiles[saveObject.currentProfile].room.enemy.damage[damageType];
+                }
+            }
+        }
+
+        // add all resistance numbers to overall resistance counter
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.resistance != 'undefined') {
+            for(let resistanceType in saveObject.profiles[saveObject.currentProfile].room.enemy.resistance) {
+                // set resistance type to new resistance type or add it to existing
+                if(typeof resistance[resistanceType] == 'undefined') {
+                    resistance[resistanceType] = saveObject.profiles[saveObject.currentProfile].room.enemy.resistance[resistanceType];
+                }else {
+                    resistance[resistanceType] += saveObject.profiles[saveObject.currentProfile].room.enemy.resistance[resistanceType];
+                }
+            }
+        }
+
+        // update enemy resistance on stats
+        this.enemyStatsResistance.text = '';
+        for(let resistanceType in resistance) {
+            // set resistance type to resistance text
+            this.enemyStatsResistance.text += resistanceType + ': ' + resistance[resistanceType] + '\n';
+        }
+
+        // update character damage on stats
+        this.enemyStatsDamage.text = '';
+        for(let damageType in damage) {
+            // set damage type to damage text
+            this.enemyStatsDamage.text += damageType + ': ' + damage[damageType] + '\n';
+        }
     }
 
     addCharacterHealth(x, y) {
@@ -545,6 +696,9 @@ class dungeonScene extends Phaser.Scene {
             // add chest in center of the room
             this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
         }
+
+        // remove enemy stats from screen
+        this.updateEnemyStats();
 
         // update action button
         this.changeActionButton();
@@ -830,6 +984,9 @@ class dungeonScene extends Phaser.Scene {
         // update durability text and position to be centered with image
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.setText(durabilityText);
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.x = this['equipped' + type[0].toUpperCase() + type.substring(1)].x - (durabilityText.length * 4);
+
+        // update current character stats
+        this.updateCharacterStats();
     }
 
     changeItemNext() {
@@ -938,6 +1095,9 @@ class dungeonScene extends Phaser.Scene {
 
         // save inventory
         saveData();
+
+        // update current character stats
+        this[0].updateCharacterStats();
     }
 
     reduceEquipmentDurability() {
@@ -963,5 +1123,8 @@ class dungeonScene extends Phaser.Scene {
 
         // save equipment choice
         saveData();
+
+        // update current character stats
+        this.updateCharacterStats();
     }
 }
