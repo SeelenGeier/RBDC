@@ -122,7 +122,8 @@ class profileManagementScene extends Phaser.Scene {
                         armor: null,
                         offhand: null,
                         trinket: null
-                    }
+                    },
+                    highscoreRoomsCleared: 0
                 };
 
                 // hand out initial equipment to profile

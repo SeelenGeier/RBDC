@@ -40,6 +40,9 @@ class profileOverviewScene extends Phaser.Scene {
         // add character to the center of the screen
         this.addCurrency(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.66);
 
+        // add character to the center of the screen
+        this.addHighscore(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.3);
+
         this.resetCharacter();
     }
 
@@ -428,5 +431,14 @@ class profileOverviewScene extends Phaser.Scene {
         // add icon next to currency
         this.imageBuySellSelected = this.add.sprite(x - 20, y + 15, 'currency');
         this.imageBuySellSelected.setScale(0.75);
+    }
+
+    addHighscore(x, y) {
+        this.roomCounter = this.add.text(x, y, 'deepest dungeon: ' + saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared, {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 20,
+            color: '#FFFFFF'
+        });
+        this.roomCounter.setOrigin(0.5, 0.5);
     }
 }

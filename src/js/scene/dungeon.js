@@ -119,6 +119,13 @@ class dungeonScene extends Phaser.Scene {
     loadProfileOverviewScene() {
         // unset current room
         saveObject.profiles[saveObject.currentProfile].room = undefined;
+
+        // save new highscore
+        if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].roomsCleared) {
+            saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared = saveObject.profiles[saveObject.currentProfile].roomsCleared;
+        }
+
+        // save reset and highscore
         saveData();
 
         // hide current scene and start config scene
@@ -890,7 +897,7 @@ class dungeonScene extends Phaser.Scene {
         }
         type = keys[keys.length * Math.random() << 0];
 
-        durability = 10 + Math.trunc(Math.random() * 10 * saveObject.profiles[saveObject.currentProfile].roomsCleared);
+        durability = 10 + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared);
 
         let item = {
             category: category,
@@ -1075,7 +1082,7 @@ class dungeonScene extends Phaser.Scene {
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
 
         // show confirmation dialog with warning
-        new Dialog('Drop Item?', 'Drop ' + getItem(equippedItemId).name, this[1].scene, true);
+        new Dialog('Drop \' + getItem(equippedItemId).name + \'?', 'Dropping ' + getItem(equippedItemId).name + ' will permanently\nremove it from your inventory', this[1].scene, true);
 
         // only exit dungeon if player is ok with resetting the counter
         this[1].dialogButtonYES.on('pointerup', this[1].removeDroppedItem, [this[1], equippedItemId]);
