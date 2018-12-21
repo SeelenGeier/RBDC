@@ -80,6 +80,7 @@ class dungeonScene extends Phaser.Scene {
 
         // add random encounter to room
         let chance = Math.random();
+        console.log(chance);
         if (chance < config.default.setting.enemySpawnChance) {
             this.spawnEnemy();
         } else if (chance < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
@@ -595,7 +596,11 @@ class dungeonScene extends Phaser.Scene {
 
     spawnEnemy() {
         // pick random monster
-        let enemy = config.monster[Object.keys(config.monster)[Math.floor(Math.random() * Object.keys(config.monster).length)]];
+        let monsterId = Math.floor(Math.random() * Object.keys(config.monster).length);
+        let enemy = config.monster[Object.keys(config.monster)[monsterId]];
+
+        // instanciate enemy to not overwrite the config version of the monster
+        enemy = JSON.parse(JSON.stringify(enemy));
 
         // modify health depending on roomcounter
         enemy.health = Math.round((enemy.health * 0.25) + (enemy.health * 2 * (saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
