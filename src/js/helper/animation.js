@@ -8,22 +8,7 @@ function addCharacterAnimations(unit) {
     }
 
     // load animations depending on selected unit
-    switch (unit){
-        case 'character':
-            loadAnimationCharacter();
-            break;
-        case 'slime':
-            loadAnimationSlime();
-            break;
-        case 'skeleton':
-            loadAnimationSkeleton();
-            break;
-        case 'snake':
-            loadAnimationSnake();
-            break;
-        default:
-            break;
-    }
+    window['loadAnimation' + (unit.charAt(0).toUpperCase() + unit.slice(1))]();
 
     // add unit to loaded animations to prevent loading them a second time
     loadedAnimations.push(unit);
@@ -135,5 +120,24 @@ function loadAnimationSnake() {
         key: 'snakeDie',
         frames: game.anims.generateFrameNumbers('snake', { start: 40, end: 49 }),
         frameRate: 16
+    });
+}
+
+function loadAnimationMinotaur() {
+    game.anims.create({
+        key: 'minotaurIdle',
+        frames: game.anims.generateFrameNumbers('minotaur', { start: 100, end: 104 }),
+        frameRate: 6,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'minotaurAttack',
+        frames: game.anims.generateFrameNumbers('minotaur', { start: 130, end: 137 }),
+        frameRate: 9
+    });
+    game.anims.create({
+        key: 'minotaurDie',
+        frames: game.anims.generateFrameNumbers('minotaur', { start: 190, end: 195 }),
+        frameRate: 6
     });
 }

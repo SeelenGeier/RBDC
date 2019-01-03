@@ -122,7 +122,7 @@ class dungeonScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].room = undefined;
 
         // save new highscore
-        if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].roomsCleared) {
+        if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared) {
             saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared = saveObject.profiles[saveObject.currentProfile].roomsCleared;
         }
 
@@ -374,6 +374,12 @@ class dungeonScene extends Phaser.Scene {
 
     addEnemy(x, y) {
         // add enemy sprite
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetX != 'undefined') {
+            x += saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetX;
+        }
+        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetY != 'undefined') {
+            y += saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetY;
+        }
         this.enemy = this.add.sprite(x, y, saveObject.profiles[saveObject.currentProfile].room.enemy.type);
         this.enemy.setOrigin(0.5, 1);
         this.enemy.setScale(saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale * saveObject.profiles[saveObject.currentProfile].room.enemy.image.direction, saveObject.profiles[saveObject.currentProfile].room.enemy.image.scale);

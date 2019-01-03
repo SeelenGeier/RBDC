@@ -60,5 +60,29 @@
       "puncture": 4,
       "poison": 30
     }
+  },
+  "minotaur": {
+    "type": "minotaur",
+    "name": "Minotaur",
+    "image": {
+      "file": "minotaur.png",
+      "width": 96,
+      "height": 96,
+      "scale": 3,
+      "offsetX": -8,
+      "offsetY": 96,
+      "direction": 1
+    },
+    "health": 42,
+    "damage": {
+      "slash": 13,
+      "puncture": 4,
+      "impact": 6
+    },
+    "resistance": {
+      "slash": 12,
+      "impact": 6,
+      "puncture": 4
+    }
   }
 }
