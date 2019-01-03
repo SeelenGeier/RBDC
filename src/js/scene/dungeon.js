@@ -173,10 +173,8 @@ class dungeonScene extends Phaser.Scene {
                 this.reduceEquipmentDurability();
             } else if (this.isChestClosed()) {
                 this.openChest();
-            } else if (this.isTrapArmed()) {
-                console.log('trap disarmed!')
-            }else {
-                console.log('trap triggered!')
+            } else {
+                this.disarmTrap();
             }
         }
     }
@@ -258,7 +256,7 @@ class dungeonScene extends Phaser.Scene {
             this.parent.scene.attackEnemy();
         }
         if (this.parent.scene.isTrapArmed()) {
-            console.log('trap triggered!')
+            this.parent.scene.triggerTrap();
         }
         this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
     }
@@ -627,10 +625,17 @@ class dungeonScene extends Phaser.Scene {
     }
 
     spawnTrap() {
-        // TODO: generate actual trap
-        let trap = {
-            armed: true
-        };
+        // pick random trap
+        let trapType = Object.keys(config.trap)[Math.floor(Math.random() * Object.keys(config.trap).length)];
+        let trap = config.trap[trapType];
+
+        // instanciate trap to not overwrite the config version of the trap
+        trap = JSON.parse(JSON.stringify(trap));
+
+        // arm trap initially
+        trap.armed = true;
+
+        // save trap to room
         saveObject.profiles[saveObject.currentProfile].room.trap = trap;
         saveData();
     }
@@ -754,9 +759,15 @@ class dungeonScene extends Phaser.Scene {
         }
     }
 
-    playerDamaged() {
-        // calculate damage based on weapon and defense
-        let damage = this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character);
+    playerDamaged(fixDamage = 0) {
+        // use fix damage or calculate
+        let damage;
+        if(fixDamage != 0) {
+            damage = fixDamage;
+        }else {
+            // calculate damage based on weapon and defense
+            damage = this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character);
+        }
 
         // subtract damage from enemy health
         saveObject.profiles[saveObject.currentProfile].character.health -= damage;
@@ -1143,5 +1154,35 @@ class dungeonScene extends Phaser.Scene {
 
         // update current character stats
         this.updateCharacterStats();
+    }
+
+    disarmTrap() {
+        // spawn and trigger trap if no armed trap in room
+        if(!this.isTrapArmed()) {
+            this.spawnTrap();
+            this.triggerTrap();
+        }else {
+            // show trap message
+            new Dialog('Trap disarmed!', 'You managed to disarm a trap:\n' + saveObject.profiles[saveObject.currentProfile].room.trap.name + '', this.scene);
+        }
+
+        // disarm trap
+        saveObject.profiles[saveObject.currentProfile].room.trap.armed = false;
+
+        // save new trap status
+        saveData();
+    }
+
+    triggerTrap() {
+        // do nothing if no armed trap in room
+        if(!this.isTrapArmed()) {
+            return;
+        }
+
+        // show trap message
+        new Dialog(saveObject.profiles[saveObject.currentProfile].room.trap.name + '!', saveObject.profiles[saveObject.currentProfile].room.trap.message, this.scene);
+
+        // damage player according to trap value
+        this.playerDamaged(saveObject.profiles[saveObject.currentProfile].room.trap.value);
     }
 }
