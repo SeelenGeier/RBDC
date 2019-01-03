@@ -80,7 +80,6 @@ class dungeonScene extends Phaser.Scene {
 
         // add random encounter to room
         let chance = Math.random();
-        console.log(chance);
         if (chance < config.default.setting.enemySpawnChance) {
             this.spawnEnemy();
         } else if (chance < config.default.setting.enemySpawnChance + config.default.setting.chestSpawnChance) {
