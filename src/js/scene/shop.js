@@ -341,25 +341,20 @@ class shopScene extends Phaser.Scene {
 
     addCommonShopItems(items) {
         // TODO: use config to get common items
-        items[0] = {name: 'sword', type: 'weapon', durability: 100};
+        items[0] = {name: 'sword', type: 'weapon', durability: 40};
         items[1] = {name: 'axe', type: 'weapon', durability: 70};
-        items[2] = {name: 'leather', type: 'armor', durability: 150};
-        items[3] = {name: 'sword', type: 'weapon', durability: 234};
-        items[4] = {name: 'iron', type: 'armor', durability: 400};
-        items[5] = {name: 'axe', type: 'weapon', durability: 352};
-        items[6] = {name: 'sword', type: 'weapon', durability: 2};
-        items[7] = {name: 'axe', type: 'weapon', durability: 5};
-        items[8] = {name: 'helmet', type: 'armor', durability: 300};
-        items[9] = {name: 'leather', type: 'armor', durability: 160};
+        items[2] = {name: 'leather', type: 'armor', durability: 70};
+        items[3] = {name: 'iron', type: 'armor', durability: 30};
+        items[4] = {name: 'helmet', type: 'armor', durability: 50};
 
         return items;
     }
 
     addRareShopItems(items) {
         // TODO: use saved rare items that have been generated after a run
-        items[10] = {name: 'lamp', type: 'trinket', durability: 1};
-        items[11] = {name: 'torch', type: 'offhand', durability: 2};
-        items[12] = {name: 'antidote', type: 'trinket', durability: 1};
+        items[5] = {name: 'lamp', type: 'trinket', durability: 10};
+        items[6] = {name: 'torch', type: 'offhand', durability: 5};
+        items[7] = {name: 'antidote', type: 'trinket', durability: 1};
 
         return items;
     }

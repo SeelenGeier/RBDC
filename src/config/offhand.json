@@ -3,10 +3,10 @@
     "name": "Shield",
     "description": "A shield used for protection.",
     "image": "shield_semi",
-    "value": 1,
+    "value": 5,
     "resistance": {
-      "impact": 1,
-      "puncture": 1,
+      "impact": 2,
+      "puncture": 3,
       "slash": 1
     }
   },
@@ -14,9 +14,9 @@
     "name": "Torch",
     "description": "A flaming wooden stick.",
     "image": "wand",
-    "value": 1,
+    "value": 5,
     "damage": {
-      "heat": 1
+      "heat": 3
     }
   }
 }

@@ -6,28 +6,27 @@
     "value": 1,
     "damage": {
       "impact": 1,
-      "puncture": 1,
-      "slash": 1
+      "puncture": 3,
+      "slash": 2
     }
   },
   "sword": {
     "name": "Sword",
     "description": "A sharp sword usually wielded by royalty or knights.",
     "image": "sword",
-    "value": 10,
+    "value": 30,
     "damage": {
-      "impact": 1,
-      "puncture": 2,
-      "slash": 7
+      "puncture": 4,
+      "slash": 8
     }
   },
   "axe": {
     "name": "Axe",
     "description": "A sturdy axe to cut down trees or foes alike.",
     "image": "axe",
-    "value": 5,
+    "value": 15,
     "damage": {
-      "impact": 3,
+      "impact": 5,
       "slash": 5
     }
   }

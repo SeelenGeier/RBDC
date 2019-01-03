@@ -904,11 +904,13 @@ class dungeonScene extends Phaser.Scene {
         if (chance < 0.25) {
             category = 'weapon';
         } else if (chance < 0.50) {
-            category = 'offhand';
-        } else if (chance < 0.75) {
             category = 'armor';
-        } else {
+        } else if (chance < 0.75) {
+            category = 'offhand';
+        } else if (chance < 0.95) {
             category = 'trinket';
+        } else {
+            category = 'valuable';
         }
 
         for (let prop in config[category]) {

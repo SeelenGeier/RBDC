@@ -3,19 +3,19 @@
     "name": "Lamp",
     "description": "A simple lamp used for lighting the area.",
     "image": "wand2",
-    "value": 1,
+    "value": 5,
     "damage": {
-      "heat": 1
+      "heat": 3
     }
   },
   "bomb": {
     "name": "Firebombs",
     "description": "Bombs that explode in a big fire.",
     "image": "gemRed",
-    "value": 20,
+    "value": 50,
     "damage": {
-      "impact": 5,
-      "heat": 5
+      "impact": 7,
+      "heat": 7
     }
   },
   "antidote": {

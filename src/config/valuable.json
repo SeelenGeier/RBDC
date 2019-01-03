@@ -1,8 +1,26 @@
 {
-  "emblem": {
-    "name": "Emblem",
-    "description": "An emblem used to identify noble households.",
+  "necklace": {
+    "name": "Necklace",
+    "description": "A beautiful necklace.",
     "image": "necklace",
     "value": 10
+  },
+  "diamond": {
+    "name": "Diamond",
+    "description": "A valuable diamond.",
+    "image": "gem",
+    "value": 100
+  },
+  "emerald": {
+    "name": "Emerald",
+    "description": "A bright green gem.",
+    "image": "gemGreen",
+    "value": 50
+  },
+  "tome": {
+    "name": "Tome",
+    "description": "An old tome.",
+    "image": "tome",
+    "value": 20
   }
 }
