@@ -141,3 +141,11 @@ function loadAnimationMinotaur() {
         frameRate: 6
     });
 }
+
+function loadAnimationTrap() {
+    game.anims.create({
+        key: 'trapTrigger',
+        frames: game.anims.generateFrameNumbers('trap', { start: 0, end: 4 }),
+        frameRate: 24
+    });
+}

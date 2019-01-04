@@ -44,6 +44,11 @@ class dungeonScene extends Phaser.Scene {
         // add equipment at the bottom of the screen
         this.addEquipment(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.8);
 
+        if (this.isChestClosed()) {
+            // add chest in center of the room
+            this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+        }
+
         if (this.isEnemyAlive()) {
             // add enemy to the right of the room
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
@@ -53,11 +58,10 @@ class dungeonScene extends Phaser.Scene {
 
             // add health indicator for player character
             this.addEnemyHealth(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.3);
-        }
-
-        if (this.isChestClosed()) {
-            // add chest in center of the room
-            this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+        }else {
+            if(this.isTrapArmed()) {
+                this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+            }
         }
 
         // set enemy to idle per default
@@ -395,6 +399,15 @@ class dungeonScene extends Phaser.Scene {
         this.enemyIdle();
     }
 
+    addTrap(x, y) {
+        // add trap sprite
+        this.trapImage = this.add.sprite(x, y, 'trap');
+        this.trapImage.setOrigin(0.5, 1);
+
+        // load animations if not done already
+        addCharacterAnimations('trap');
+    }
+
     addEnemyStats(x, y) {
         // add character damage infos
         this.enemyStatsDamage = this.add.text(x, y, '', {
@@ -724,6 +737,11 @@ class dungeonScene extends Phaser.Scene {
 
             // add chest in center of the room
             this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+        }
+
+        // spawn trap image if armed trap is present
+        if(this.isTrapArmed()) {
+            this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
         }
 
         // remove enemy stats from screen
@@ -1173,6 +1191,9 @@ class dungeonScene extends Phaser.Scene {
         }else {
             // show trap message
             new Dialog('Trap disarmed!', 'You managed to disarm a trap:\n' + saveObject.profiles[saveObject.currentProfile].room.trap.name + '', this.scene);
+
+            // start idle animation with sword
+            this.trapImage.anims.play('trapTrigger');
         }
 
         // disarm trap
@@ -1208,5 +1229,8 @@ class dungeonScene extends Phaser.Scene {
 
     resumeTweens() {
         this.tweens.resumeAll();
+
+        // start idle animation with sword
+        this.trapImage.anims.play('trapTrigger');
     }
 }

@@ -57,6 +57,7 @@ function preload() {
 
     // load character spritesheet
     this.load.spritesheet('character', '../assets/unit/character.png', {frameWidth: 200, frameHeight: 148});
+    this.load.spritesheet('trap', '../assets/trap.png', {frameWidth: 22, frameHeight: 21});
 }
 
 function create() {
