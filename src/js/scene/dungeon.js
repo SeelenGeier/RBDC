@@ -60,7 +60,7 @@ class dungeonScene extends Phaser.Scene {
             this.addEnemyHealth(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.3);
         }else {
             if(this.isTrapArmed()) {
-                this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+                this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
             }
         }
 
@@ -268,6 +268,7 @@ class dungeonScene extends Phaser.Scene {
 
         // trigger trap when reaching the center of the room and armed trap is present
         if (this.parent.scene.isTrapArmed()) {
+            this.parent.scene.addTrap(this.parent.scene.sys.game.config.width * 0.5, this.parent.scene.sys.game.config.height * 0.65);
             this.parent.scene.triggerTrap();
         }
     }
@@ -403,6 +404,7 @@ class dungeonScene extends Phaser.Scene {
         // add trap sprite
         this.trapImage = this.add.sprite(x, y, 'trap');
         this.trapImage.setOrigin(0.5, 1);
+        this.trapImage.setScale(3);
 
         // load animations if not done already
         addCharacterAnimations('trap');
@@ -741,7 +743,7 @@ class dungeonScene extends Phaser.Scene {
 
         // spawn trap image if armed trap is present
         if(this.isTrapArmed()) {
-            this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
+            this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
         }
 
         // remove enemy stats from screen
@@ -1187,6 +1189,7 @@ class dungeonScene extends Phaser.Scene {
         // spawn and trigger trap if no armed trap in room
         if(!this.isTrapArmed()) {
             this.spawnTrap();
+            this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
             this.triggerTrap();
         }else {
             // show trap message
