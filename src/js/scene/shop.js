@@ -541,7 +541,7 @@ class shopScene extends Phaser.Scene {
         // get total value of all selected items
         let totalValue = 0;
         for (let selectedItem in this.selectedItems) {
-            totalValue += config[allItems[selectedItem].type][allItems[selectedItem].name].value;
+            totalValue += getItemValue(allItems[selectedItem]);
         }
 
         // check if player has enough currency to buy all selected items
@@ -559,7 +559,7 @@ class shopScene extends Phaser.Scene {
             giveItem(allItems[selectedItem].type, allItems[selectedItem].name, allItems[selectedItem].durability);
 
             // remove value from currency
-            saveObject.profiles[saveObject.currentProfile].inventory.currency -= config[allItems[selectedItem].type][allItems[selectedItem].name].value;
+            saveObject.profiles[saveObject.currentProfile].inventory.currency -= getItemValue(allItems[selectedItem]);
         }
 
         // save changes to profile
