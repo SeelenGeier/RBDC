@@ -1190,7 +1190,7 @@ class dungeonScene extends Phaser.Scene {
             this.triggerTrap();
         }else {
             // show trap message
-            new Dialog('Trap disarmed!', 'You managed to disarm a trap:\n' + saveObject.profiles[saveObject.currentProfile].room.trap.name + '', this.scene);
+            new Dialog('Trap disarmed!', 'You managed to disarm a trap:\n' + saveObject.profiles[saveObject.currentProfile].room.trap.name, this.scene);
 
             // start idle animation with sword
             this.trapImage.anims.play('trapTrigger');
