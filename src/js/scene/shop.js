@@ -390,7 +390,7 @@ class shopScene extends Phaser.Scene {
             this.itemsOffset = Object.keys(this.getBuyableItems()).length - this.maxItemsDisplayed;
 
             // color button slightly red to indicate no further scrolling possible
-            this.buttonDown.setTint(0xff4444);
+            this.buttonDown.setTint(0xff9999);
         }
 
         // reset up button to show that scrolling up could be possible again
