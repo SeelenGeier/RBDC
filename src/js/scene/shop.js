@@ -190,7 +190,7 @@ class shopScene extends Phaser.Scene {
 
         // display value
         this.itemsDisplayed[itemId].valueText = this.add.text(this.itemsDisplayed[itemId].image.x + this.itemsDisplayed[itemId].image.width * 0.5,
-            this.itemsDisplayed[itemId].image.y - this.itemsDisplayed[itemId].image.height * 0.5 + 41, 'Value: ' + config[item.type][item.name].value, {
+            this.itemsDisplayed[itemId].image.y - this.itemsDisplayed[itemId].image.height * 0.5 + 41, 'Value: ' + getItemValue(item), {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 16,
                 color: '#ffffff'
@@ -264,7 +264,7 @@ class shopScene extends Phaser.Scene {
         // get total value of all selected items
         let totalValue = 0;
         for (let selectedItem in this.selectedItems) {
-            totalValue += config[allItems[selectedItem].type][allItems[selectedItem].name].value;
+            totalValue += getItemValue(allItems[selectedItem]);
         }
 
         // update text under buy/sell button to display current currency and value of selected items
@@ -474,10 +474,10 @@ class shopScene extends Phaser.Scene {
             let currentItem = selectedItem - soldItems;
 
             // get infos on current item including the value
-            let currentItemInfo = config[saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem].type][saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem].name];
+            let currentItemValue = getItemValue(saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem]);
 
             // add value to currency
-            saveObject.profiles[saveObject.currentProfile].inventory.currency += currentItemInfo.value;
+            saveObject.profiles[saveObject.currentProfile].inventory.currency += currentItemValue;
 
             // remove item from inventory
             removeItem(currentItem);

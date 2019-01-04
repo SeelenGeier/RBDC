@@ -92,3 +92,11 @@ function getItem(id, profile = saveObject.currentProfile) {
     // get the item for the given ID (saves typing the entire saveObject... line)
     return saveObject.profiles[profile].inventory.items[id];
 }
+
+function getItemValue(item) {
+    let currentValue;
+
+    itemInfo = config[item.type][item.name];
+    currentValue = Math.trunc(itemInfo.value * item.durability / saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared);
+    return currentValue;
+}
