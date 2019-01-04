@@ -26,7 +26,7 @@ function giveItem(type, name, durability, profile = saveObject.currentProfile) {
     }
 
     // generate new item ID for item to use
-    let newId = this.generateItemId(profile);
+    let newId = generateItemId(profile);
 
     // add item to profile inventory
     saveObject.profiles[profile].inventory.items[newId] = {

@@ -251,14 +251,18 @@ class dungeonScene extends Phaser.Scene {
     }
 
     goToNextRoom() {
-        // go to the center of the room
+        // make character move towards the next room
+        this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
+
+        // trigger enemy attack when reaching the center of the room and enemy is alive
         if (this.parent.scene.isEnemyAlive()) {
             this.parent.scene.attackEnemy();
         }
+
+        // trigger trap when reaching the center of the room and armed trap is present
         if (this.parent.scene.isTrapArmed()) {
             this.parent.scene.triggerTrap();
         }
-        this.parent.scene.goTo.call([this.parent.scene, 'nextRoom']);
     }
 
     leaveRoom() {
@@ -1181,10 +1185,25 @@ class dungeonScene extends Phaser.Scene {
             return;
         }
 
+        // pause character movement until trap message has been confirmed
+        this.pauseTweens();
+
         // show trap message
         new Dialog(saveObject.profiles[saveObject.currentProfile].room.trap.name + '!', saveObject.profiles[saveObject.currentProfile].room.trap.message, this.scene);
 
+        // unpause character movement after pressing OK
+        this.dialogButtonOK.on('pointerup', this.resumeTweens, this);
+
         // damage player according to trap value
         this.playerDamaged(saveObject.profiles[saveObject.currentProfile].room.trap.value);
+    }
+
+    pauseTweens() {
+        // pause all tweens of dungeon scene in 100ms because otherwise it would not stop (bug?)
+        setTimeout(function(){ game.scene.getScene('dungeon').tweens.pauseAll(); }, 100);
+    }
+
+    resumeTweens() {
+        this.tweens.resumeAll();
     }
 }
