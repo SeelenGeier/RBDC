@@ -109,11 +109,14 @@ class dungeonScene extends Phaser.Scene {
     }
 
     exitWarning() {
-        // show confirmation dialog with warning
-        new Dialog('End Run?', '- keep items found\n- the room counter will be reset!', this.scene, true);
+        // do nothing if character is currently dying
+        if (saveObject.profiles[saveObject.currentProfile].character.health > 0) {
+            // show confirmation dialog with warning
+            new Dialog('End Run?', '- keep items found\n- the room counter will be reset!', this.scene, true);
 
-        // only exit dungeon if player is ok with resetting the counter
-        this.dialogButtonYES.on('pointerup', this.goTo, [this, 'exit']);
+            // only exit dungeon if player is ok with resetting the counter
+            this.dialogButtonYES.on('pointerup', this.goTo, [this, 'exit']);
+        }
     }
 
     loadProfileOverviewScene() {
