@@ -462,6 +462,10 @@ class shopScene extends Phaser.Scene {
             // only delete profile if the YES button has been pressed
             this.dialogButtonYES.on('pointerup', this.sellSelected, this);
         }
+
+        // reset color of up and down buttons
+        this.buttonUp.setTint(0xffffff);
+        this.buttonDown.setTint(0xffffff);
     }
 
     sellSelected() {
