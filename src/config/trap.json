@@ -1,20 +1,20 @@
 {
-  "spike": {
-    "trapType": "damage",
-    "name": "Pit Of Spikes",
-    "message": "You fall into a pit of spikes unable\nto prevent damage.",
-    "value": 5
-  },
   "pit": {
     "trapType": "damage",
     "name": "Pitfall",
     "message": "You fall into a deep hole hurting yourself.",
-    "value": 1
+    "value": 8
+  },
+  "spike": {
+    "trapType": "damage",
+    "name": "Pit Of Spikes",
+    "message": "You fall into a pit of spikes unable\nto prevent damage.",
+    "value": 12
   },
   "arrow": {
     "trapType": "damage",
     "name": "Arrow trigger",
     "message": "You trigger a pressure plate and arrows\nshoot at you causing severe damage.",
-    "value": 8
+    "value": 23
   }
 }
