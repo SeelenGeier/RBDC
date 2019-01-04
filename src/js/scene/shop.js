@@ -134,10 +134,18 @@ class shopScene extends Phaser.Scene {
             // color tab background slightly red to indicate sell mode
             that.backgroundTabImage.setTint(0xff6666);
             that.currentMode = 'sell';
+            that.buttonBuyTab.setVisible(true);
+            that.textBuyTab.setVisible(true);
+            that.buttonSellTab.setVisible(false);
+            that.textSellTab.setVisible(false);
         } else if (mode == 'buy') {
             // color tab background slightly green to indicate buy mode
             that.backgroundTabImage.setTint(0x99ff99);
             that.currentMode = 'buy';
+            that.buttonBuyTab.setVisible(false);
+            that.textBuyTab.setVisible(false);
+            that.buttonSellTab.setVisible(true);
+            that.textSellTab.setVisible(true);
         }
 
         // clear all items that are currently displayed on the tab
