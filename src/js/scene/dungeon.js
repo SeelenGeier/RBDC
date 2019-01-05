@@ -257,6 +257,9 @@ class dungeonScene extends Phaser.Scene {
         // trigger enemy attack when reaching the center of the room and enemy is alive
         if (this.parent.scene.isEnemyAlive()) {
             this.parent.scene.attackEnemy();
+
+            // reduce durability of used equipment
+            this.reduceEquipmentDurability();
         }
 
         // trigger trap when reaching the center of the room and armed trap is present
@@ -519,7 +522,7 @@ class dungeonScene extends Phaser.Scene {
         let maxHealth = saveObject.profiles[saveObject.currentProfile].room.enemy.maxHealth;
         let red = Math.trunc((1 - (currentHealth / maxHealth)) * 255);
         let green = Math.trunc((currentHealth / maxHealth) * 255);
-        let color =Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
+        let color = Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
         this.enemyHealth.setTint(color.color);
         if(currentHealth > 0) {
             this.enemyHealth.setScale(((currentHealth / maxHealth) * 0.8) + 0.2);
