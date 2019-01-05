@@ -19,7 +19,7 @@
   "equipment": {
     "weapon": "knife",
     "armor": null,
-    "offhand": null,
+    "offhand": "shield",
     "trinket": null
   },
   "status": {

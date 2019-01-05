@@ -68,9 +68,16 @@ class profileOverviewScene extends Phaser.Scene {
         // if the default equipment has not been found, add it to the inventory
         for(let type in config.default.equipment) {
             if(!defaultEquipment[type] && config.default.equipment[type] != null) {
-                giveItem(type, config.default.equipment[type], null);
+                let newItem = giveItem(type, config.default.equipment[type], null);
+                if(saveObject.profiles[saveObject.currentProfile].character[type] == null) {
+                    equipItem(newItem);
+                    this.updateEquipped(type);
+                }
             }
         }
+
+        // save default equipment
+        saveData();
     }
 
     goToConfig() {
