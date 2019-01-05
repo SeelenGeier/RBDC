@@ -80,7 +80,7 @@ class resultScene extends Phaser.Scene {
             this.highscoreBlinkingTween = this.tweens.add({
                 targets: this.newHighscoreText,
                 alpha: 1,
-                ease: 'Power1',
+                ease: 'Power2',
                 duration: 500,
                 yoyo: 1,
                 repeat: -1
