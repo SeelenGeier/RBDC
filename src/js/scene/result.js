@@ -13,7 +13,7 @@ class resultScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].scene = 'result';
         saveData();
 
-        // set counter for showing text
+        // set counter and timer for showing text
         this.nextText = 0;
         this.waitForInput = 500;
 
@@ -66,6 +66,9 @@ class resultScene extends Phaser.Scene {
         // save new highscore
         if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared) {
             saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared = saveObject.profiles[saveObject.currentProfile].roomsCleared;
+            saveData();
+
+            // enable highscore text to show up
             newHighscore = true;
         }
 
