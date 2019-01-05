@@ -28,6 +28,7 @@ class resultScene extends Phaser.Scene {
         // show more and more text the more the player clicks
         switch (this.nextText) {
             case 0:
+                // display rooms cleared and highscore notification
                 this.showRoomsClearedAndHighscore();
                 break;
             /*case 1:
@@ -45,6 +46,8 @@ class resultScene extends Phaser.Scene {
 
                 // activate the next click to lead to the next scene
                 this.input.on('pointerdown', this.loadNextScene, this);
+
+                this.showClickToContinue();
         }
         this.nextText++;
     }
@@ -107,5 +110,25 @@ class resultScene extends Phaser.Scene {
 
         // add timer to show new text
         setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput * 2);
+    }
+
+    showClickToContinue() {
+        // add amount of rooms cleared text
+        this.clickToContinueText = this.add.text(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.9, 'Click to Continue', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 24,
+            color: '#ffffff'
+        });
+        this.clickToContinueText.setOrigin(0.5,0.5);
+        this.clickToContinueText.alpha = 0.2;
+
+        this.continueBlinkingTween = this.tweens.add({
+            targets: this.clickToContinueText,
+            alpha: 0.7,
+            ease: 'Power1',
+            duration: 1000,
+            yoyo: 1,
+            repeat: -1
+        });
     }
 }
