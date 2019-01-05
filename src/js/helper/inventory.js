@@ -100,3 +100,64 @@ function getItemValue(item) {
     currentValue = Math.trunc(itemInfo.value * item.durability / saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared);
     return currentValue;
 }
+
+function getRandomItem(category = null) {
+    let type;
+    let durability;
+    let keys = [];
+
+    if(category == null) {
+        let chance = Math.random();
+        if (chance < 0.25) {
+            category = 'weapon';
+        } else if (chance < 0.50) {
+            category = 'armor';
+        } else if (chance < 0.75) {
+            category = 'offhand';
+        } else if (chance < 0.95) {
+            category = 'trinket';
+        } else {
+            category = 'valuable';
+        }
+    }
+
+    for (let prop in config[category]) {
+        if (config[category].hasOwnProperty(prop)) {
+            keys.push(prop);
+        }
+    }
+    type = keys[keys.length * Math.random() << 0];
+
+    durability = 10 + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared);
+
+    let item = {
+        type: category,
+        name: type,
+        durability: durability
+    };
+    return item;
+}
+
+function generateRareShopItems() {
+    // get next numerical ID for shop items depending on configuration
+    let nextItemId = Object.keys(config.default.commonShopItems).length;
+
+    // empty current rare items list
+    saveObject.profiles[saveObject.currentProfile].rareShopItems = {};
+
+    // TODO: generate rare items
+    let equipmentTypes = {'weapon': null, 'offhand': null, 'armor': null, 'trinket': null};
+    for (let equipmentType in equipmentTypes) {
+        // generate 0-2 items for each category
+        let i;
+        for(i = 1; i < (Math.random()*3);i++) {
+            let randomItem = getRandomItem(equipmentType);
+            saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = randomItem;
+            nextItemId++;
+        }
+    }
+    console.log(saveObject.profiles[saveObject.currentProfile].rareShopItems);
+
+    // save rare items
+    saveData();
+}

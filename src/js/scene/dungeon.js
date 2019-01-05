@@ -610,8 +610,9 @@ class dungeonScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].room.chest = chest;
 
         // add item to chest
-        saveObject.profiles[saveObject.currentProfile].room.chest.item = this.getRandomItem();
+        saveObject.profiles[saveObject.currentProfile].room.chest.item = getRandomItem();
 
+        // save content of chest
         saveData();
     }
 
@@ -915,42 +916,6 @@ class dungeonScene extends Phaser.Scene {
         }
 
         return damageTotal;
-    }
-
-    getRandomItem() {
-        let category;
-        let type;
-        let durability;
-        let keys = [];
-
-        let chance = Math.random();
-        if (chance < 0.25) {
-            category = 'weapon';
-        } else if (chance < 0.50) {
-            category = 'armor';
-        } else if (chance < 0.75) {
-            category = 'offhand';
-        } else if (chance < 0.95) {
-            category = 'trinket';
-        } else {
-            category = 'valuable';
-        }
-
-        for (let prop in config[category]) {
-            if (config[category].hasOwnProperty(prop)) {
-                keys.push(prop);
-            }
-        }
-        type = keys[keys.length * Math.random() << 0];
-
-        durability = 10 + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared);
-
-        let item = {
-            category: category,
-            type: type,
-            durability: durability
-        };
-        return item;
     }
 
     characterDie() {
