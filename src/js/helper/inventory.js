@@ -148,9 +148,9 @@ function generateRareShopItems() {
     // TODO: generate rare items
     let equipmentTypes = {'weapon': null, 'offhand': null, 'armor': null, 'trinket': null};
     for (let equipmentType in equipmentTypes) {
-        // generate 0-2 items for each category
+        // generate 0-3 items for each category
         let i;
-        for(i = 1; i < (Math.random()*3);i++) {
+        for(i = 1; i < (Math.random()*4);i++) {
             let randomItem = getRandomItem(equipmentType);
             saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = randomItem;
             nextItemId++;

@@ -46,7 +46,7 @@
     "antidote": {
       "type": "trinket",
       "name": "antidote",
-      "durability": 1
+      "durability": 5
     }
   }
 }
