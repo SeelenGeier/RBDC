@@ -118,8 +118,8 @@ class shopScene extends Phaser.Scene {
             that.selectedItems = {};
 
             // hide buy/sell and unselect button since no items are selected
-            that.buttonUnselectAll.alpha = 0;
-            that.buttonBuySellSelected.alpha = 0;
+            that.buttonUnselectAll.setVisible(false);
+            that.buttonBuySellSelected.setVisible(false);
 
             // reset button tint on up and down buttons
             that.buttonUp.setTint(0xffffff);
@@ -247,12 +247,12 @@ class shopScene extends Phaser.Scene {
 
         if (Object.keys(that.selectedItems).length > 0) {
             // hide buy/sell and unselect button since no items are selected
-            that.buttonUnselectAll.alpha = 1;
-            that.buttonBuySellSelected.alpha = 1;
+            that.buttonUnselectAll.setVisible(true);
+            that.buttonBuySellSelected.setVisible(true);
         } else {
             // hide buy/sell and unselect button since no items are selected
-            that.buttonUnselectAll.alpha = 0;
-            that.buttonBuySellSelected.alpha = 0;
+            that.buttonUnselectAll.setVisible(false);
+            that.buttonBuySellSelected.setVisible(false);
         }
     }
 
@@ -348,22 +348,26 @@ class shopScene extends Phaser.Scene {
     }
 
     addCommonShopItems(items) {
-        // TODO: use config to get common items
-        items[0] = {name: 'sword', type: 'weapon', durability: 40};
-        items[1] = {name: 'axe', type: 'weapon', durability: 70};
-        items[2] = {name: 'leather', type: 'armor', durability: 70};
-        items[3] = {name: 'iron', type: 'armor', durability: 30};
-        items[4] = {name: 'helmet', type: 'armor', durability: 50};
+        // get common shop items from configuration
+        let loopCounter = 0;
+        for(let item in config.default.commonShopItems) {
+            items[loopCounter] = {name: config.default.commonShopItems[item].name, type: config.default.commonShopItems[item].type, durability: config.default.commonShopItems[item].durability};
+            loopCounter++;
+        }
 
         return items;
     }
 
     addRareShopItems(items) {
-        // TODO: use saved rare items that have been generated after a run
-        items[5] = {name: 'lamp', type: 'trinket', durability: 10};
-        items[6] = {name: 'torch', type: 'offhand', durability: 5};
-        items[7] = {name: 'antidote', type: 'trinket', durability: 1};
+        // start keys for items depending on the amount of items already present
+        let loopCounter = Object.keys(items).length;
 
+        // TODO: use saved rare items that have been generated after a run
+        items[loopCounter] = {name: 'lamp', type: 'trinket', durability: 10};
+        items[loopCounter + 1] = {name: 'torch', type: 'offhand', durability: 5};
+        items[loopCounter + 2] = {name: 'antidote', type: 'trinket', durability: 1};
+
+        console.log(items);
         return items;
     }
 
@@ -441,7 +445,7 @@ class shopScene extends Phaser.Scene {
         this.buttonBuySellSelected.on('pointerup', this.confirmBuySell, this);
 
         // hide buy/sell and unselect button since no items are selected
-        this.buttonBuySellSelected.alpha = 0;
+        this.buttonBuySellSelected.setVisible(false);
 
         // display current amount of currency
         this.textBuySellSelected = this.add.text(x, y + 50, saveObject.profiles[saveObject.currentProfile].inventory.currency, {
@@ -521,8 +525,8 @@ class shopScene extends Phaser.Scene {
         this.selectedItems = {};
 
         // hide buy/sell and unselect button since no items are selected
-        this.buttonUnselectAll.alpha = 0;
-        this.buttonBuySellSelected.alpha = 0;
+        this.buttonUnselectAll.setVisible(false);
+        this.buttonBuySellSelected.setVisible(false);
 
         // reset item offset
         this.itemsOffset = 0;
@@ -569,8 +573,8 @@ class shopScene extends Phaser.Scene {
         this.selectedItems = {};
 
         // hide buy/sell and unselect button since no items are selected
-        this.buttonUnselectAll.alpha = 0;
-        this.buttonBuySellSelected.alpha = 0;
+        this.buttonUnselectAll.setVisible(false);
+        this.buttonBuySellSelected.setVisible(false);
 
         // reset item offset
         this.itemsOffset = 0;
@@ -595,7 +599,7 @@ class shopScene extends Phaser.Scene {
         this.buttonUnselectAll.on('pointerup', this.unselectAll, this);
 
         // hide unselect button at first when no item is selected
-        this.buttonUnselectAll.alpha = 0;
+        this.buttonUnselectAll.setVisible(false);
     }
 
     unselectAll() {
@@ -606,8 +610,8 @@ class shopScene extends Phaser.Scene {
         this.itemsOffset = 0;
 
         // hide buy/sell and unselect button since no items are selected
-        this.buttonUnselectAll.alpha = 0;
-        this.buttonBuySellSelected.alpha = 0;
+        this.buttonUnselectAll.setVisible(false);
+        this.buttonBuySellSelected.setVisible(false);
 
         // redraw tab items with items
         this.displayTab();

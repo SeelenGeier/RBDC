@@ -26,5 +26,32 @@
     "inventorySize": 30,
     "currency": 100,
     "health": 100
+  },
+  "commonShopItems": {
+    "sword": {
+      "type": "weapon",
+      "name": "sword",
+      "durability": 40
+    },
+    "axe": {
+      "type": "weapon",
+      "name": "axe",
+      "durability": 70
+    },
+    "leatherArmor": {
+      "type": "armor",
+      "name": "leather",
+      "durability": 70
+    },
+    "ironArmor": {
+      "type": "armor",
+      "name": "iron",
+      "durability": 30
+    },
+    "helmet": {
+      "type": "armor",
+      "name": "helmet",
+      "durability": 50
+    }
   }
 }
