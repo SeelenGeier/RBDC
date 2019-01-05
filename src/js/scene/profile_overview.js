@@ -43,6 +43,7 @@ class profileOverviewScene extends Phaser.Scene {
         // add character to the center of the screen
         this.addHighscore(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.3);
 
+        // reset character stats when entering the overview
         this.resetCharacter();
     }
 
@@ -50,24 +51,25 @@ class profileOverviewScene extends Phaser.Scene {
         // heal character to full health
         saveObject.profiles[saveObject.currentProfile].character.health = config.default.status.health;
 
-        // check if default weapon and armor are in inventory
-        let defaultWeapon = false;
-        let defaultArmor = false;
+        // check if default equipment is in inventory
+        let defaultEquipment = {};
         for(let item in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].type == 'weapon' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
-                defaultWeapon = true;
-            }
-            if(saveObject.profiles[saveObject.currentProfile].inventory.items[item].type == 'armor' && saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
-                defaultArmor = true;
+            for(let type in config.default.equipment) {
+                if (saveObject.profiles[saveObject.currentProfile].inventory.items[item].type == type &&
+                        saveObject.profiles[saveObject.currentProfile].inventory.items[item].name == config.default.equipment[type] &&
+                        saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
+
+                    // set equipment to have been found in inventory
+                    defaultEquipment[type] = true;
+                }
             }
         }
 
-        // if the default weapon or armor have not been found, add them to the inventory
-        if(!defaultWeapon) {
-            giveItem('weapon', 'knife', null);
-        }
-        if(!defaultArmor) {
-            giveItem('armor', 'leather', null);
+        // if the default equipment has not been found, add it to the inventory
+        for(let type in config.default.equipment) {
+            if(!defaultEquipment[type] && config.default.equipment[type] != null) {
+                giveItem(type, config.default.equipment[type], null);
+            }
         }
     }
 

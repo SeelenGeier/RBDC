@@ -22,6 +22,9 @@ class resultScene extends Phaser.Scene {
 
         // add timer to show new text
         setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+
+        // generate rare items for shop
+        this.generateRareShopItems();
     }
 
     showNext() {
@@ -133,5 +136,19 @@ class resultScene extends Phaser.Scene {
             yoyo: 1,
             repeat: -1
         });
+    }
+
+    generateRareShopItems() {
+        // get next numerical ID for shop items depending on configuration
+        let nextItemId = Object.keys(config.default.commonShopItems).length;
+
+        // empty current rare items list
+        saveObject.profiles[saveObject.currentProfile].rareShopItems = {};
+
+        // TODO: generate rare items
+        saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = {name: 'lamp', type: 'trinket', durability: 10};
+
+        // save rare items
+        saveData();
     }
 }

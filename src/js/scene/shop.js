@@ -362,11 +362,13 @@ class shopScene extends Phaser.Scene {
         // start keys for items depending on the amount of items already present
         let loopCounter = Object.keys(items).length;
 
-        // TODO: use saved rare items that have been generated after a run
-        items[loopCounter] = {name: 'lamp', type: 'trinket', durability: 10};
-        items[loopCounter + 1] = {name: 'torch', type: 'offhand', durability: 5};
-        items[loopCounter + 2] = {name: 'antidote', type: 'trinket', durability: 1};
+        // get rare items generated after last dungeon run
+        for(let item in saveObject.profiles[saveObject.currentProfile].rareShopItems) {
+            items[loopCounter] = {name: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].name, type: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].type, durability: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].durability};
+            loopCounter++;
+        }
 
+        // return combined list of common and rare items
         return items;
     }
 

@@ -18,7 +18,7 @@
   },
   "equipment": {
     "weapon": "knife",
-    "armor": "leather",
+    "armor": null,
     "offhand": null,
     "trinket": null
   },
@@ -28,11 +28,6 @@
     "health": 100
   },
   "commonShopItems": {
-    "sword": {
-      "type": "weapon",
-      "name": "sword",
-      "durability": 40
-    },
     "axe": {
       "type": "weapon",
       "name": "axe",
@@ -43,15 +38,15 @@
       "name": "leather",
       "durability": 70
     },
-    "ironArmor": {
-      "type": "armor",
-      "name": "iron",
-      "durability": 30
+    "torch": {
+      "type": "offhand",
+      "name": "torch",
+      "durability": 10
     },
-    "helmet": {
-      "type": "armor",
-      "name": "helmet",
-      "durability": 50
+    "antidote": {
+      "type": "trinket",
+      "name": "antidote",
+      "durability": 1
     }
   }
 }

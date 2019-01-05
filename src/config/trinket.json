@@ -22,7 +22,7 @@
     "name": "Antidote",
     "description": "Prevents poisoning.",
     "image": "potion",
-    "value": 12,
+    "value": 20,
     "resistance": {
       "poison": 100
     }
