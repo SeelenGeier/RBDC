@@ -10,7 +10,6 @@ class splashScene extends Phaser.Scene {
     }
 
     create() {
-
         // add title of the game
         this.addTextTitle(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.25);
 

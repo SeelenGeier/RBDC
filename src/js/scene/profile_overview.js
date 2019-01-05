@@ -313,8 +313,8 @@ class profileOverviewScene extends Phaser.Scene {
         // leave sword sheathed initially
         this.character.swordDrawn = false;
 
-        // check if character is coming back from the dungeon
-        if (this.lastScene == 'dungeon') {
+        // check if character is coming back from the dungeon (result screen)
+        if (this.lastScene == 'result') {
             // turn character around to move from the right to the left
             this.character.setScale(-1, 1);
 
@@ -341,8 +341,8 @@ class profileOverviewScene extends Phaser.Scene {
         // set delay for idle switching
         let delay = 5000 + (5000 * Math.random());
 
-        // check if character is coming from the dungeon
-        if (this.parent.scene.lastScene == 'dungeon' && this.parent.scene.character.scaleX == -1) {
+        // check if character is coming from the dungeon (result screen)
+        if (this.parent.scene.lastScene == 'result' && this.parent.scene.character.scaleX == -1) {
             // remove first delay to immediately sheathe sword
             delay = 0;
         }else {

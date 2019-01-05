@@ -123,21 +123,14 @@ class dungeonScene extends Phaser.Scene {
         }
     }
 
-    loadProfileOverviewScene() {
-        // unset current room
+    loadResultScene() {
+        // unset and save current room
         saveObject.profiles[saveObject.currentProfile].room = undefined;
-
-        // save new highscore
-        if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared) {
-            saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared = saveObject.profiles[saveObject.currentProfile].roomsCleared;
-        }
-
-        // save reset and highscore
         saveData();
 
-        // hide current scene and start config scene
+        // hide current scene and start result scene
         this.parent.scene.scene.sleep();
-        this.parent.scene.scene.start('profileOverview');
+        this.parent.scene.scene.start('result');
     }
 
     addNavigationAction(x, y) {
@@ -245,7 +238,7 @@ class dungeonScene extends Phaser.Scene {
             targets: [this[0].character],
             x: destinationX,
             duration: (destinationX - this[0].character.x) * 5 * this[0].character.scaleX,
-            onComplete: destination === 'exit' ? this[0].loadProfileOverviewScene : destination === 'center' ? this[0].goToNextRoom : this[0].leaveRoom
+            onComplete: destination === 'exit' ? this[0].loadResultScene : destination === 'center' ? this[0].goToNextRoom : this[0].leaveRoom
         });
     }
 
