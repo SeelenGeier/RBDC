@@ -367,7 +367,6 @@ class shopScene extends Phaser.Scene {
         items[loopCounter + 1] = {name: 'torch', type: 'offhand', durability: 5};
         items[loopCounter + 2] = {name: 'antidote', type: 'trinket', durability: 1};
 
-        console.log(items);
         return items;
     }
 
