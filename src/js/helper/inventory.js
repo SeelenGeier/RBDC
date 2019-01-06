@@ -52,8 +52,28 @@ function removeItem(id, profile = saveObject.currentProfile) {
         unequiptype(getItem(id, profile).type);
     }
 
+    // add item to acquired items list
+    saveObject.profiles[saveObject.currentProfile].itemsLost[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsAcquired).length] = getItem(id, profile);
+
     // remove item from inventory
     delete saveObject.profiles[profile].inventory.items[id];
+
+    // fix keys for all items after the sold item
+    for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
+        if (itemId > id) {
+            // move item id one up
+            saveObject.profiles[saveObject.currentProfile].inventory.items[itemId - 1] = saveObject.profiles[saveObject.currentProfile].inventory.items[itemId];
+
+            // check if moved item is currently equipped
+            if (saveObject.profiles[saveObject.currentProfile].character[getItem(itemId).type] == itemId) {
+                // equip same item with new id
+                equipItem(itemId - 1);
+            }
+
+            // remove item with old id
+            removeItem(itemId);
+        }
+    }
 
     // return true if removal was successful
     return saveObject.profiles[profile].inventory.items.hasOwnProperty(id);
@@ -101,7 +121,7 @@ function getItemValue(item) {
     return currentValue;
 }
 
-function getRandomItem(category = null) {
+function getRandomItem(category = null, logItem = true) {
     let type;
     let durability;
     let keys = [];
@@ -135,6 +155,12 @@ function getRandomItem(category = null) {
         name: type,
         durability: durability
     };
+
+    if(logItem == true) {
+        // add item to acquired items list
+        saveObject.profiles[saveObject.currentProfile].itemsAcquired[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsAcquired).length] = item;
+    }
+
     return item;
 }
 
@@ -151,12 +177,11 @@ function generateRareShopItems() {
         // generate 0-3 items for each category
         let i;
         for(i = 1; i < (Math.random()*4);i++) {
-            let randomItem = getRandomItem(equipmentType);
+            let randomItem = getRandomItem(equipmentType, false);
             saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = randomItem;
             nextItemId++;
         }
     }
-    console.log(saveObject.profiles[saveObject.currentProfile].rareShopItems);
 
     // save rare items
     saveData();

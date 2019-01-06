@@ -499,22 +499,6 @@ class shopScene extends Phaser.Scene {
 
             // increment the amount of sold items to compensate for key offset later
             soldItems++;
-
-            for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-                if (itemId > currentItem) {
-                    // move item id one up
-                    saveObject.profiles[saveObject.currentProfile].inventory.items[itemId - 1] = saveObject.profiles[saveObject.currentProfile].inventory.items[itemId];
-
-                    // check if moved item is currently equipped
-                    if (saveObject.profiles[saveObject.currentProfile].character[getItem(itemId).type] == itemId) {
-                        // equip same item with new id
-                        equipItem(itemId - 1);
-                    }
-
-                    // remove item with old id
-                    removeItem(itemId);
-                }
-            }
         }
 
         // save changes to profile

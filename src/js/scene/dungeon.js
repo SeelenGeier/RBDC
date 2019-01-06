@@ -259,7 +259,7 @@ class dungeonScene extends Phaser.Scene {
             this.parent.scene.attackEnemy();
 
             // reduce durability of used equipment
-            this.reduceEquipmentDurability();
+            this.parent.scene.reduceEquipmentDurability();
         }
 
         // trigger trap when reaching the center of the room and armed trap is present
@@ -327,13 +327,13 @@ class dungeonScene extends Phaser.Scene {
 
     updateCharacterStats() {
         // go through all equipment slots and add damage and resistance to overall counters
-        let imageCategories = ['weapon', 'armor', 'offhand', 'trinket'];
+        let itemCategories = ['weapon', 'armor', 'offhand', 'trinket'];
         let damage = {};
         let resistance = {};
 
-        for(let category in imageCategories) {
-            if(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]] != null) {
-                let item = getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
+        for(let category in itemCategories) {
+            if(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
+                let item = getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]);
                 let itemStats = config[item.type][item.name];
 
                 // add all damage numbers to overall damage counter
@@ -548,7 +548,7 @@ class dungeonScene extends Phaser.Scene {
             saveObject.profiles[saveObject.currentProfile].room.chest.closed = false;
             saveData();
 
-            let newItemId = giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.category, saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
+            let newItemId = giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.name, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
 
             let newItem = getItem(newItemId);
             new Dialog('Item found!', 'You found a ' + config[newItem.type][newItem.name].name + ' with ' + newItem.durability + ' durability.', this.scene);
@@ -1119,21 +1119,21 @@ class dungeonScene extends Phaser.Scene {
     }
 
     reduceEquipmentDurability() {
-        let imageCategories = ['weapon', 'armor', 'offhand', 'trinket'];
+        let itemCategories = ['weapon', 'armor', 'offhand', 'trinket'];
 
         // go through all equipment slots and remove durability by chance
-        for(let category in imageCategories) {
-            if(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]] != null) {
-                if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability != null) {
+        for(let category in itemCategories) {
+            if(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
+                if(getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability != null) {
                     // make item loose durability depending on the configured chance
                     if(Math.random() < config.default.setting.durabilityLossChance) {
-                        getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability--;
+                        getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability--;
 
                         // if the item lost all durability, remove it from the inventory
-                        if(getItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]).durability <= 0) {
-                            removeItem(saveObject.profiles[saveObject.currentProfile].character[imageCategories[category]]);
+                        if(getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability <= 0) {
+                            removeItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]);
                         }
-                        this.updateEquipped(imageCategories[category]);
+                        this.updateEquipped(itemCategories[category]);
                     }
                 }
             }

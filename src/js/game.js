@@ -75,11 +75,11 @@ function create() {
     };
 
     // load images for configured items
-    let imageCategories = ['weapon', 'armor', 'offhand', 'trinket', 'valuable'];
-    for(let category in imageCategories) {
-        for(let item in config[imageCategories[category]]) {
-            if(config[imageCategories[category]][item].image != null) {
-                this.load.image(config[imageCategories[category]][item].image, '../assets/item/' + config[imageCategories[category]][item].image + '.png');
+    let itemCategories = ['weapon', 'armor', 'offhand', 'trinket', 'valuable'];
+    for(let category in itemCategories) {
+        for(let item in config[itemCategories[category]]) {
+            if(config[itemCategories[category]][item].image != null) {
+                this.load.image(config[itemCategories[category]][item].image, '../assets/item/' + config[itemCategories[category]][item].image + '.png');
             }
         }
     }

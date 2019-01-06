@@ -135,6 +135,12 @@ class profileOverviewScene extends Phaser.Scene {
     loadDungeonScene() {
         // start dungeon room counter at half of current highscore
         saveObject.profiles[saveObject.currentProfile].roomsCleared = Math.trunc(saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared / 2);
+
+        // reset item lists
+        saveObject.profiles[saveObject.currentProfile].itemsAcquired = {};
+        saveObject.profiles[saveObject.currentProfile].itemsLost = {};
+
+        // save reset
         saveData();
 
         // hide current scene and start config scene

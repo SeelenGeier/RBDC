@@ -31,18 +31,21 @@ class resultScene extends Phaser.Scene {
         // show more and more text the more the player clicks
         switch (this.nextText) {
             case 0:
-                // display rooms cleared and highscore notification
-                this.showRoomsClearedAndHighscore();
+                // display rooms cleared
+                this.addRoomsCleared(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.15);
                 break;
-            /*case 1:
-                // TODO: show items acquired
+            case 1:
+                // display highscore notification
+                this.showHighscore(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.2);
                 break;
             case 2:
-                // TODO: show items lost
+                // display newly acquired items
+                this.showItemsAcquired(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.3);
                 break;
             case 3:
-                // TODO: show new items in shop
-                break;*/
+                // display lost items
+                this.showItemsLost(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.3);
+                break;
             default:
                 // deactivate the function to show new text via click
                 this.input.off('pointerdown');
@@ -64,7 +67,7 @@ class resultScene extends Phaser.Scene {
     }
 
     addHighscore(x, y) {
-        let newHighscore = false;
+        this.newHighscore = false;
 
         // save new highscore
         if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared) {
@@ -72,11 +75,11 @@ class resultScene extends Phaser.Scene {
             saveData();
 
             // enable highscore text to show up
-            newHighscore = true;
+            this.newHighscore = true;
         }
 
         // check if a new highscore was made
-        if(newHighscore) {
+        if(this.newHighscore) {
             // add highscore text
             this.newHighscoreText = this.add.text(x, y, 'NEW HIGHSCORE!', {
                 fontFamily: config.default.setting.fontFamily,
@@ -105,17 +108,17 @@ class resultScene extends Phaser.Scene {
             color: '#ffffff'
         });
         this.roomsClearedText.setOrigin(0.5,0.5);
-    }
-
-    showRoomsClearedAndHighscore() {
-        // show how deep the player got
-        this.addRoomsCleared(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.2);
-
-        // add highscore if a new highscore has been made
-        setTimeout(function(){ game.scene.getScene('result').addHighscore(game.config.width * 0.5, game.config.height * 0.25); }, this.waitForInput);
 
         // add timer to show new text
-        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput * 2);
+        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+    }
+
+    showHighscore(x, y) {
+        // add highscore if a new highscore has been made
+        setTimeout(function(){ game.scene.getScene('result').addHighscore(x, y); }, this.waitForInput);
+
+        // add timer to show new text
+        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
     }
 
     showClickToContinue() {
@@ -136,5 +139,60 @@ class resultScene extends Phaser.Scene {
             yoyo: 1,
             repeat: -1
         });
+    }
+
+    showItemsAcquired(x, y) {
+        let loopCounter = 1;
+        this.itemsAcquiredText = {};
+
+        // add headline for newly acquired items
+        this.itemsAcquiredHeadline = this.add.text(x, y, 'Acquired Items:', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 24,
+            color: '#ffffff'
+        });
+        this.itemsAcquiredHeadline.setOrigin(0.5,0.5);
+
+        // list all items acquired during the last run
+        for(let item in saveObject.profiles[saveObject.currentProfile].itemsAcquired) {
+            this.itemsAcquiredText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].type + '/' + saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].name, {
+                fontFamily: config.default.setting.fontFamily,
+                fontSize: 24,
+                color: '#ffffff'
+            });
+            this.itemsAcquiredText[loopCounter].setOrigin(0.5,0.5);
+            loopCounter++;
+        }
+
+        // add timer to show new text
+        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+    }
+
+    showItemsLost(x, y) {
+        // list all items lost during the last run
+        let loopCounter = 1;
+        this.itemsLostText = {};
+
+        // add headline for newly acquired items
+        this.itemsLostHeadline = this.add.text(x, y, 'Lost Items:', {
+            fontFamily: config.default.setting.fontFamily,
+            fontSize: 24,
+            color: '#ffffff'
+        });
+        this.itemsLostHeadline.setOrigin(0.5,0.5);
+
+        // list all items lost during the last run
+        for(let item in saveObject.profiles[saveObject.currentProfile].itemsLost) {
+            this.itemsLostText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsLost[item].type + '/' + saveObject.profiles[saveObject.currentProfile].itemsLost[item].name, {
+                fontFamily: config.default.setting.fontFamily,
+                fontSize: 24,
+                color: '#ffffff'
+            });
+            this.itemsLostText[loopCounter].setOrigin(0.5,0.5);
+            loopCounter++;
+        }
+
+        // add timer to show new text
+        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
     }
 }
