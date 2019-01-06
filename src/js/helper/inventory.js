@@ -48,6 +48,7 @@ function removeItem(id, profile = saveObject.currentProfile) {
     }
 
     if(saveObject.profiles[profile].character[getItem(id, profile).type] == id) {
+        // TODO: swap to default if one exists
         // unequip item if equipped
         unequiptype(getItem(id, profile).type);
     }
@@ -171,7 +172,7 @@ function generateRareShopItems() {
     // empty current rare items list
     saveObject.profiles[saveObject.currentProfile].rareShopItems = {};
 
-    // TODO: generate rare items
+    // generate some items for each equipment type
     let equipmentTypes = {'weapon': null, 'offhand': null, 'armor': null, 'trinket': null};
     for (let equipmentType in equipmentTypes) {
         // generate 0-3 items for each category
