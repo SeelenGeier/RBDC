@@ -1187,7 +1187,7 @@ class dungeonScene extends Phaser.Scene {
             this.trapImage.anims.play('trapTrigger');
 
             // play sound for triggering trap
-            playSound('trap');
+            playSound('disarm');
         }
 
         // disarm trap

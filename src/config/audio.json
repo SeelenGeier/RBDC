@@ -34,10 +34,14 @@
   },
   "monsterDeath": {
     "filename": "monsterdeath.wav",
-    "volume": 0.5
+    "volume": 0.4
   },
   "trap": {
     "filename": "trap.wav",
     "volume": 0.15
+  },
+  "disarm": {
+    "filename": "disarm.wav",
+    "volume": 0.5
   }
 }
