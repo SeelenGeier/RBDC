@@ -98,6 +98,7 @@ class profileOverviewScene extends Phaser.Scene {
 
         // stop character from moving when entering the scene
         this[1].characterEnterTween.stop();
+        playSound('running');
 
         // stop character from moving when already moving to a side
         if (this[1].characterMovingTween != undefined) {
@@ -124,6 +125,7 @@ class profileOverviewScene extends Phaser.Scene {
             duration: (destinationX - this[1].character.x) * 5 * this[1].character.scaleX,
             onComplete: destination == 'shop' ? this[1].loadShopScene : this[1].loadDungeonScene
         });
+        playSound('running');
     }
 
     loadShopScene() {
@@ -347,11 +349,15 @@ class profileOverviewScene extends Phaser.Scene {
             duration: (x - this.character.x) * 5 * this.character.scaleX,
             onComplete: this.characterIdle
         });
+        playSound('running');
     }
 
     characterIdle() {
         // deactivate any event trigger when completing an animation as precaution
         this.parent.scene.character.off('animationcomplete');
+
+        // stop running audio
+        stopSound();
 
         // set delay for idle switching
         let delay = 5000 + (5000 * Math.random());

@@ -30,7 +30,7 @@ function preload() {
 
     // load configuration files
     this.load.json('default', 'config/default.json');
-    this.load.json('trap_type', 'config/trap_type.json');
+    this.load.json('audio', 'config/audio.json');
     this.load.json('monster', 'config/monster.json');
     this.load.json('trap', 'config/trap.json');
     this.load.json('weapon', 'config/weapon.json');
@@ -64,7 +64,7 @@ function create() {
     // register configuration for easier access
     config = {
         default: this.cache.json.get('default'),
-        trap_type: this.cache.json.get('trap_type'),
+        audio: this.cache.json.get('audio'),
         monster: this.cache.json.get('monster'),
         trap: this.cache.json.get('trap'),
         weapon: this.cache.json.get('weapon'),
@@ -82,6 +82,11 @@ function create() {
                 this.load.image(config[itemCategories[category]][item].image, '../assets/item/' + config[itemCategories[category]][item].image + '.png');
             }
         }
+    }
+
+    // load all configured audio files
+    for(let audioFile in config.audio) {
+        this.load.audio(audioFile, '../assets/audio/' + config.audio[audioFile].filename);
     }
 
     // load images for configured enemies

@@ -11,6 +11,9 @@ class profileManagementScene extends Phaser.Scene {
         // add background image
         this.addBackground();
 
+        // stop running audio
+        stopSound();
+
         // add headline for profile management
         this.addProfileHeadline(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.05);
 

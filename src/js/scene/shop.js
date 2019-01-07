@@ -17,6 +17,9 @@ class shopScene extends Phaser.Scene {
         // always start in buy mode
         this.currentMode = 'buy';
 
+        // stop running audio
+        stopSound();
+
         // add background image
         this.addBackground();
 

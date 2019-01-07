@@ -48,7 +48,6 @@ function removeItem(id, profile = saveObject.currentProfile) {
     }
 
     if(saveObject.profiles[profile].character[getItem(id, profile).type] == id) {
-        // TODO: swap to default if one exists
         // unequip item if equipped
         unequiptype(getItem(id, profile).type);
     }

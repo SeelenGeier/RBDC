@@ -17,6 +17,9 @@ class dungeonScene extends Phaser.Scene {
         }
         saveData();
 
+        // stop running audio
+        stopSound();
+
         // add button to navigate to config
         this.addBackground();
 
@@ -220,6 +223,9 @@ class dungeonScene extends Phaser.Scene {
             this[0].characterMovingTween.stop();
         }
 
+        // stop running audio
+        stopSound();
+
         // flip character to face the correct direction
         if (destination === 'exit') {
             this[0].character.setScale(-1, 1);
@@ -240,6 +246,9 @@ class dungeonScene extends Phaser.Scene {
             duration: (destinationX - this[0].character.x) * 5 * this[0].character.scaleX,
             onComplete: destination === 'exit' ? this[0].loadResultScene : destination === 'center' ? this[0].goToNextRoom : this[0].leaveRoom
         });
+
+        // stop running audio
+        playSound('running');
     }
 
     goToCenter() {
@@ -302,6 +311,9 @@ class dungeonScene extends Phaser.Scene {
             duration: (x - this.character.x) * 5,
             onComplete: this.characterIdle,
         });
+
+        // stop running audio
+        playSound('running');
     }
 
     addCharacterStats(x, y) {
@@ -567,6 +579,9 @@ class dungeonScene extends Phaser.Scene {
         } else {
             that = this;
         }
+
+        // stop running audio
+        stopSound();
 
         // process death if character lost all his health
         if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
@@ -1189,6 +1204,9 @@ class dungeonScene extends Phaser.Scene {
     pauseTweens() {
         // pause all tweens of dungeon scene in 100ms because otherwise it would not stop (bug?)
         setTimeout(function(){ game.scene.getScene('dungeon').tweens.pauseAll(); }, 100);
+
+        // stop running audio
+        pauseSound();
     }
 
     resumeTweens() {
@@ -1196,5 +1214,8 @@ class dungeonScene extends Phaser.Scene {
 
         // start idle animation with sword
         this.trapImage.anims.play('trapTrigger');
+
+        // stop running audio
+        resumeSound();
     }
 }

@@ -13,6 +13,9 @@ class resultScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].scene = 'result';
         saveData();
 
+        // stop running audio
+        stopSound();
+
         // set counter and timer for showing text
         this.nextText = 0;
         this.waitForInput = 500;
