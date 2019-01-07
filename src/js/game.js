@@ -128,6 +128,16 @@ function create() {
     // load possible save data
     loadData();
 
-    // always start splash screen first
-    this.scene.start('splash');
+    // start game if finished loading
+    startGame();
+}
+
+function startGame() {
+    // check if everything has loaded
+    if(game.scene.getScene('default').load.progress == 1) {
+        // always start splash screen first
+        game.scene.start('splash');
+    }else {
+        setTimeout(function(){ startGame() }, 10);
+    }
 }
