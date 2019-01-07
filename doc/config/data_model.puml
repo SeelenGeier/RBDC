@@ -102,7 +102,6 @@ package Configurations{
         }
 
         object trap {
-            attribute(trapType) -> type(string)
             attribute(name) -> type(string)
             attribute(message) -> type(string)
             attribute(value) -> type(int)
