@@ -43,5 +43,10 @@
   "disarm": {
     "filename": "disarm.wav",
     "volume": 0.5
+  },
+  "cave": {
+    "filename": "caveambience.wav",
+    "volume": 0.05,
+    "loop": true
   }
 }
