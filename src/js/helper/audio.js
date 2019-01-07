@@ -22,15 +22,17 @@ function pauseSound() {
         }
     }
 
-    // make sure ambience sounds are still playing
-    if(saveObject.profiles[saveObject.currentProfile].scene == 'dungeon') {
-        playSound('cave');
-    }
-    if(saveObject.profiles[saveObject.currentProfile].scene == 'profileOverview') {
-        playSound('forest');
-    }
-    if(saveObject.profiles[saveObject.currentProfile].scene == 'shop') {
-        playSound('forge');
+    if(typeof saveObject.currentProfile != 'undefined') {
+        // make sure ambience sounds are still playing
+        if(saveObject.profiles[saveObject.currentProfile].scene == 'dungeon') {
+            playSound('cave');
+        }
+        if(saveObject.profiles[saveObject.currentProfile].scene == 'profileOverview') {
+            playSound('forest');
+        }
+        if(saveObject.profiles[saveObject.currentProfile].scene == 'shop') {
+            playSound('forge');
+        }
     }
 }
 
