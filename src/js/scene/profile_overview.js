@@ -147,6 +147,9 @@ class profileOverviewScene extends Phaser.Scene {
         // save reset
         saveData();
 
+        // play sound when entering dungeon
+        playSound('dungeon');
+
         // hide current scene and start config scene
         this.parent.scene.scene.sleep();
         this.parent.scene.scene.start('dungeon');
