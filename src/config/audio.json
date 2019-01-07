@@ -47,7 +47,8 @@
   "cave": {
     "filename": "caveambience.wav",
     "volume": 0.05,
-    "loop": true
+    "loop": true,
+    "isBackground": true
   },
   "dungeon": {
     "filename": "dungeon.wav",
