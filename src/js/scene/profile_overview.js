@@ -387,6 +387,9 @@ class profileOverviewScene extends Phaser.Scene {
             // play sword sheathing animation
             this.parent.scene.character.anims.play('characterSheatheSword');
 
+            // add sound for sword swinging
+            playSound('sheathing');
+
             // set sword drawn status to false
             this.parent.scene.character.swordDrawn = false;
 
@@ -398,6 +401,9 @@ class profileOverviewScene extends Phaser.Scene {
         } else {
             // play sword drawing animation
             this.parent.scene.character.anims.play('characterDrawSword');
+
+            // add sound for sword swinging
+            playSound('drawing');
 
             // set sword drawn status to true
             this.parent.scene.character.swordDrawn = true;
@@ -414,6 +420,9 @@ class profileOverviewScene extends Phaser.Scene {
         // play first attack animation
         this.parent.scene.character.anims.play('characterAttack1');
 
+        // add sound for sword swinging
+        playSound('swing');
+
         // add event trigger when attack animation is complete to switch to second attack animation
         this.parent.scene.character.on('animationcomplete', this.parent.scene.idleAttack2, this);
     }
@@ -425,6 +434,9 @@ class profileOverviewScene extends Phaser.Scene {
         // play second attack animation
         this.parent.scene.character.anims.play('characterAttack2');
 
+        // add sound for sword swinging
+        playSound('swing');
+
         // add event trigger when attack animation is complete to switch to third attack animation
         this.parent.scene.character.on('animationcomplete', this.parent.scene.idleAttack3, this);
     }
@@ -435,6 +447,9 @@ class profileOverviewScene extends Phaser.Scene {
 
         // play third attack animation
         this.parent.scene.character.anims.play('characterAttack3');
+
+        // add sound for sword swinging
+        playSound('swing');
 
         // add event trigger when attack animation is complete to switch to idle animation
         this.parent.scene.character.on('animationcomplete', this.parent.scene.characterIdle, this);
