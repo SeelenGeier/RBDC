@@ -12,7 +12,7 @@ class configScene extends Phaser.Scene {
         this.addBackground();
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // add option to return to profile overview in top right corner
         this.addReturnButton(this.sys.game.config.width * 0.90, this.sys.game.config.height * 0.05);

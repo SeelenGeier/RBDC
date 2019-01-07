@@ -10,15 +10,12 @@ function playSound(id) {
     }
 }
 
-function stopSound() {
-    for(let id in sounds) {
-        sounds[id].stop();
-    }
-}
-
 function pauseSound() {
     for(let id in sounds) {
-        sounds[id].pause();
+        // pause only looped sounds
+        if(sounds[id].loop) {
+            sounds[id].pause();
+        }
     }
 }
 

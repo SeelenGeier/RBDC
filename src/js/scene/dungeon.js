@@ -18,7 +18,7 @@ class dungeonScene extends Phaser.Scene {
         saveData();
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // add button to navigate to config
         this.addBackground();
@@ -224,7 +224,7 @@ class dungeonScene extends Phaser.Scene {
         }
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // flip character to face the correct direction
         if (destination === 'exit') {
@@ -581,7 +581,7 @@ class dungeonScene extends Phaser.Scene {
         }
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // process death if character lost all his health
         if (saveObject.profiles[saveObject.currentProfile].character.health <= 0) {
@@ -734,6 +734,9 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Attack');
 
+        // play sound for combat
+        playSound('swordSlash');
+
         // deal damage to the player
         this.playerDamaged();
 
@@ -747,6 +750,9 @@ class dungeonScene extends Phaser.Scene {
 
         // start death animation
         this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
+
+        // add sound for monster dying (a bit later due to animation and sound sync)
+        setTimeout(function(){ playSound('monsterDeath'); }, 400);
 
         // spawn chest with fixed chance
         if (Math.random() < config.default.setting.chestSpawnChanceAfterKill * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
@@ -942,6 +948,9 @@ class dungeonScene extends Phaser.Scene {
 
         // start idle animation with sword
         this.character.anims.play('characterDie');
+
+        // add sound for character dying
+        playSound('characterDeath');
 
         // play idle animation after attack
         this.character.on('animationcomplete', this.showDeadDialog, this);

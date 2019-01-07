@@ -14,7 +14,7 @@ class resultScene extends Phaser.Scene {
         saveData();
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // set counter and timer for showing text
         this.nextText = 0;

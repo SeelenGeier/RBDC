@@ -357,7 +357,7 @@ class profileOverviewScene extends Phaser.Scene {
         this.parent.scene.character.off('animationcomplete');
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // set delay for idle switching
         let delay = 5000 + (5000 * Math.random());

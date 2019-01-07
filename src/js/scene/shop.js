@@ -18,7 +18,7 @@ class shopScene extends Phaser.Scene {
         this.currentMode = 'buy';
 
         // stop running audio
-        stopSound();
+        pauseSound();
 
         // play sound for entering the shop
         playSound('door');

@@ -6,7 +6,7 @@
   },
   "swordSlash": {
     "filename": "swordslash.wav",
-    "volume": 0.3
+    "volume": 0.2
   },
   "door": {
     "filename": "door.wav",
@@ -14,7 +14,7 @@
   },
   "checkout": {
     "filename": "checkout.wav",
-    "volume": 0.3
+    "volume": 0.2
   },
   "swing": {
     "filename": "swing.wav",
@@ -22,10 +22,18 @@
   },
   "sheathing": {
     "filename": "sheathing.wav",
-    "volume": 0.8
+    "volume": 0.4
   },
   "drawing": {
     "filename": "drawing.mp3",
+    "volume": 0.4
+  },
+  "characterDeath": {
+    "filename": "characterdeath.wav",
+    "volume": 0.5
+  },
+  "monsterDeath": {
+    "filename": "monsterdeath.wav",
     "volume": 0.5
   }
 }
