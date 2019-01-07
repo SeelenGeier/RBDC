@@ -16,6 +16,12 @@ class profileOverviewScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].scene = 'profileOverview';
         saveData();
 
+        // stop running audio
+        pauseSound();
+
+        // play sound when entering dungeon
+        playSound('forest');
+
         // add button to navigate to config
         this.addBackground();
 

@@ -23,6 +23,9 @@ class shopScene extends Phaser.Scene {
         // play sound for entering the shop
         playSound('door');
 
+        // play ambience sound for the shop
+        playSound('forge');
+
         // add background image
         this.addBackground();
 

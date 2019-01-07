@@ -53,5 +53,17 @@
   "dungeon": {
     "filename": "dungeon.wav",
     "volume": 0.5
+  },
+  "forest": {
+    "filename": "forest.wav",
+    "volume": 0.3,
+    "loop": true,
+    "isBackground": true
+  },
+  "forge": {
+    "filename": "forge.wav",
+    "volume": 0.1,
+    "loop": true,
+    "isBackground": true
   }
 }

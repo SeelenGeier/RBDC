@@ -26,6 +26,12 @@ function pauseSound() {
     if(saveObject.profiles[saveObject.currentProfile].scene == 'dungeon') {
         playSound('cave');
     }
+    if(saveObject.profiles[saveObject.currentProfile].scene == 'profileOverview') {
+        playSound('forest');
+    }
+    if(saveObject.profiles[saveObject.currentProfile].scene == 'shop') {
+        playSound('forge');
+    }
 }
 
 function resumeSound() {
