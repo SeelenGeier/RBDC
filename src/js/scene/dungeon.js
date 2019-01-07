@@ -247,7 +247,7 @@ class dungeonScene extends Phaser.Scene {
             onComplete: destination === 'exit' ? this[0].loadResultScene : destination === 'center' ? this[0].goToNextRoom : this[0].leaveRoom
         });
 
-        // stop running audio
+        // play running sound
         playSound('running');
     }
 
@@ -312,7 +312,7 @@ class dungeonScene extends Phaser.Scene {
             onComplete: this.characterIdle,
         });
 
-        // stop running audio
+        // play running sound
         playSound('running');
     }
 
@@ -1183,8 +1183,11 @@ class dungeonScene extends Phaser.Scene {
             // show trap message
             new Dialog('Trap disarmed!', 'You managed to disarm a trap:\n' + saveObject.profiles[saveObject.currentProfile].room.trap.name, this.scene);
 
-            // start idle animation with sword
+            // play animation of trap
             this.trapImage.anims.play('trapTrigger');
+
+            // play sound for triggering trap
+            playSound('trap');
         }
 
         // disarm trap
@@ -1226,6 +1229,9 @@ class dungeonScene extends Phaser.Scene {
 
         // start idle animation with sword
         this.trapImage.anims.play('trapTrigger');
+
+        // play sound for triggering trap
+        playSound('trap');
 
         // stop running audio
         resumeSound();

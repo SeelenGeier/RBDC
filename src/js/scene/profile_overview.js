@@ -98,7 +98,7 @@ class profileOverviewScene extends Phaser.Scene {
 
         // stop character from moving when entering the scene
         this[1].characterEnterTween.stop();
-        playSound('running');
+        pauseSound();
 
         // stop character from moving when already moving to a side
         if (this[1].characterMovingTween != undefined) {
@@ -125,6 +125,8 @@ class profileOverviewScene extends Phaser.Scene {
             duration: (destinationX - this[1].character.x) * 5 * this[1].character.scaleX,
             onComplete: destination == 'shop' ? this[1].loadShopScene : this[1].loadDungeonScene
         });
+
+        // add sound for running
         playSound('running');
     }
 
@@ -349,6 +351,8 @@ class profileOverviewScene extends Phaser.Scene {
             duration: (x - this.character.x) * 5 * this.character.scaleX,
             onComplete: this.characterIdle
         });
+
+        // add sound for running
         playSound('running');
     }
 
@@ -387,7 +391,7 @@ class profileOverviewScene extends Phaser.Scene {
             // play sword sheathing animation
             this.parent.scene.character.anims.play('characterSheatheSword');
 
-            // add sound for sword swinging
+            // add sound for sword sheathing
             playSound('sheathing');
 
             // set sword drawn status to false
@@ -402,7 +406,7 @@ class profileOverviewScene extends Phaser.Scene {
             // play sword drawing animation
             this.parent.scene.character.anims.play('characterDrawSword');
 
-            // add sound for sword swinging
+            // add sound for sword drawing
             playSound('drawing');
 
             // set sword drawn status to true

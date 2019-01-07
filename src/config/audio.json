@@ -30,10 +30,14 @@
   },
   "characterDeath": {
     "filename": "characterdeath.wav",
-    "volume": 0.5
+    "volume": 0.3
   },
   "monsterDeath": {
     "filename": "monsterdeath.wav",
     "volume": 0.5
+  },
+  "trap": {
+    "filename": "trap.wav",
+    "volume": 0.15
   }
 }
