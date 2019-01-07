@@ -714,6 +714,9 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.character.anims.play('characterAttack' + Math.trunc(Math.random() * 3 + 1));
 
+        // play sound for combat
+        playSound('swordSlash');
+
         // deal damage to the enemy
         this.enemyDamaged();
 

@@ -1,7 +1,19 @@
 {
   "running": {
     "filename": "running.wav",
-    "volume": 0.5,
+    "volume": 0.7,
     "loop": true
+  },
+  "swordSlash": {
+    "filename": "swordslash.wav",
+    "volume": 0.3
+  },
+  "door": {
+    "filename": "door.wav",
+    "volume": 0.5
+  },
+  "checkout": {
+    "filename": "checkout.wav",
+    "volume": 0.3
   }
 }

@@ -20,6 +20,9 @@ class shopScene extends Phaser.Scene {
         // stop running audio
         stopSound();
 
+        // play sound for entering the shop
+        playSound('door');
+
         // add background image
         this.addBackground();
 
@@ -504,6 +507,9 @@ class shopScene extends Phaser.Scene {
             soldItems++;
         }
 
+        // play sound for checkout
+        playSound('checkout');
+
         // save changes to profile
         saveData();
 
@@ -551,6 +557,9 @@ class shopScene extends Phaser.Scene {
             // remove value from currency
             saveObject.profiles[saveObject.currentProfile].inventory.currency -= getItemValue(allItems[selectedItem]);
         }
+
+        // play sound for checkout
+        playSound('checkout');
 
         // save changes to profile
         saveData();

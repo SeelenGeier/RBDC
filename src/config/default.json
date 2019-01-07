@@ -6,7 +6,7 @@
     "title": "Room Based Dungeon Crawler",
     "author": "SeelenGeier",
     "fontFamily": "MedievalSharp",
-    "credits": "Code\nSeelenGeier\n\nAssets\nButtons: Kenney (www.kenney.nl)\nParchment: Ansimuz (ansimuz.itch.io)\nItems: Ravenmore (ravenmore.itch.io)\nCharacter: Kenney (www.kenney.nl)\nChest: DontMind8.blogspot.com\nSlime: Kenney (www.kenney.nl)\nSkeleton: Jesse M\nSnake: Calciumtrice\nMinotaur: Elthen (elthen.itch.io)\nTrap: k-skills\nRunning-audio: ayubwaguma",
+    "credits": "Code\nSeelenGeier\n\nAssets\nButtons: Kenney (www.kenney.nl)\nParchment: Ansimuz (ansimuz.itch.io)\nItems: Ravenmore (ravenmore.itch.io)\nCharacter: Kenney (www.kenney.nl)\nChest: DontMind8.blogspot.com\nSlime: Kenney (www.kenney.nl)\nSkeleton: Jesse M\nSnake: Calciumtrice\nMinotaur: Elthen (elthen.itch.io)\nTrap: k-skills\nRunning-audio: ayubwaguma\nSword-audio: SypherZent\nCheckout-audio: CapsLok\nDoor-audio: InspectorJ",
     "trapSpawnChance": 0.2,
     "enemySpawnChance": 0.85,
     "chestSpawnChance": 0.05,
