@@ -121,7 +121,7 @@ function getItemValue(item) {
     return currentValue;
 }
 
-function getRandomItem(category = null, logItem = true) {
+function getRandomItem(quality = null, category = null, logItem = true) {
     let type;
     let durability;
     let keys = [];
@@ -177,7 +177,7 @@ function generateRareShopItems() {
         // generate 0-3 items for each category
         let i;
         for(i = 1; i < (Math.random()*4);i++) {
-            let randomItem = getRandomItem(equipmentType, false);
+            let randomItem = getRandomItem(null, equipmentType, false);
             saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = randomItem;
             nextItemId++;
         }
