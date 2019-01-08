@@ -121,7 +121,7 @@ function getItemValue(item) {
     return currentValue;
 }
 
-function getRandomItem(quality = null, category = null, logItem = true) {
+function getRandomItem(quality = 1, category = null, logItem = true) {
     let type;
     let durability;
     let keys = [];
@@ -148,7 +148,8 @@ function getRandomItem(quality = null, category = null, logItem = true) {
     }
     type = keys[keys.length * Math.random() << 0];
 
-    durability = 10 + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared);
+    // calculate durability based on quality and current rooms cleared
+    durability = 1 + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared) * quality;
 
     let item = {
         type: category,

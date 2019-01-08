@@ -614,7 +614,7 @@ class dungeonScene extends Phaser.Scene {
         this.enemyIsIdle = true;
     }
 
-    spawnChest() {
+    spawnChest(quality = 1) {
         // generate empty chest.
         let chest = {
             closed: true,
@@ -625,7 +625,7 @@ class dungeonScene extends Phaser.Scene {
         saveObject.profiles[saveObject.currentProfile].room.chest = chest;
 
         // add item to chest
-        saveObject.profiles[saveObject.currentProfile].room.chest.item = getRandomItem();
+        saveObject.profiles[saveObject.currentProfile].room.chest.item = getRandomItem(quality);
 
         // save content of chest
         saveData();
@@ -756,7 +756,8 @@ class dungeonScene extends Phaser.Scene {
 
         // spawn chest with fixed chance
         if (Math.random() < config.default.setting.chestSpawnChanceAfterKill * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
-            this.spawnChest();
+            let itemQuality = saveObject.profiles[saveObject.currentProfile].room.enemy.maxHealth / config.monster[saveObject.profiles[saveObject.currentProfile].room.enemy.type].health;
+            this.spawnChest(itemQuality);
 
             // add chest in center of the room
             this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
