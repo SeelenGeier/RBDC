@@ -128,6 +128,12 @@ function create() {
     // load possible save data
     loadData();
 
+    this.loadingText = this.add.text(this.sys.game.config.width * 0.3, this.sys.game.config.height * 0.5, 'LOADING ' + (game.scene.getScene('default').load.progress * 100) + '%', {
+        fontFamily: config.default.setting.fontFamily,
+        fontSize: 24,
+        color: '#ffffff'
+    });
+
     // start game if finished loading
     startGame();
 }
@@ -135,9 +141,12 @@ function create() {
 function startGame() {
     // check if everything has loaded
     if(game.scene.getScene('default').load.progress == 1) {
+        game.scene.getScene('default').loadingText.destroy();
         // always start splash screen first
         game.scene.start('splash');
     }else {
+        let progressPercent = Math.round(game.scene.getScene('default').load.progress * 10000) / 100;
+        game.scene.getScene('default').loadingText.setText('LOADING ' + progressPercent + '%');
         setTimeout(function(){ startGame() }, 10);
     }
 }
