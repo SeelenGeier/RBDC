@@ -53,7 +53,7 @@ function removeItem(id, profile = saveObject.currentProfile) {
     }
 
     // add item to acquired items list
-    saveObject.profiles[saveObject.currentProfile].itemsLost[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsAcquired).length] = getItem(id, profile);
+    saveObject.profiles[saveObject.currentProfile].itemsLost[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsLost).length] = getItem(id, profile);
 
     // remove item from inventory
     delete saveObject.profiles[profile].inventory.items[id];
