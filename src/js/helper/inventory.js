@@ -151,7 +151,7 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
     type = keys[keys.length * Math.random() << 0];
 
     // calculate durability based on quality and current rooms cleared
-    durability = config.default.defaultItemDurability + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared * quality);
+    durability = config.default.setting.defaultItemDurability + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared * quality);
 
     let item = {
         type: category,
