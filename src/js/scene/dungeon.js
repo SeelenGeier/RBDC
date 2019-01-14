@@ -763,7 +763,7 @@ class dungeonScene extends Phaser.Scene {
         setTimeout(function(){ playSound('monsterDeath'); }, 400);
 
         // spawn chest with fixed chance
-        if (Math.random() < config.default.setting.chestSpawnChanceAfterKill * saveObject.profiles[saveObject.currentProfile].roomsCleared) {
+        if (Math.random() < chestSpawnChanceAfterKillDefault + (config.default.setting.chestSpawnChanceAfterKillModifier * saveObject.profiles[saveObject.currentProfile].roomsCleared)) {
             let itemQuality = saveObject.profiles[saveObject.currentProfile].room.enemy.maxHealth / config.monster[saveObject.profiles[saveObject.currentProfile].room.enemy.type].health;
             this.spawnChest(itemQuality);
 
