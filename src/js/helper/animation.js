@@ -85,21 +85,40 @@ function loadAnimationSlime() {
     });
 }
 
-function loadAnimationSkeleton() {
+function loadAnimationSkeleton_1() {
     game.anims.create({
-        key: 'skeletonIdle',
-        frames: game.anims.generateFrameNumbers('skeletonIdle', { start: 0, end: 10 }),
+        key: 'skeleton_1Idle',
+        frames: game.anims.generateFrameNumbers('skeleton_1Idle', { start: 0, end: 10 }),
         frameRate: 9,
         repeat: -1
     });
     game.anims.create({
-        key: 'skeletonAttack',
-        frames: game.anims.generateFrameNumbers('skeletonAttack', { start: 0, end: 17 }),
+        key: 'skeleton_1Attack',
+        frames: game.anims.generateFrameNumbers('skeleton_1Attack', { start: 0, end: 17 }),
         frameRate: 16
     });
     game.anims.create({
-        key: 'skeletonDie',
-        frames: game.anims.generateFrameNumbers('skeletonDie', { start: 0, end: 14 }),
+        key: 'skeleton_1Die',
+        frames: game.anims.generateFrameNumbers('skeleton_1Die', { start: 0, end: 14 }),
+        frameRate: 16
+    });
+}
+
+function loadAnimationSkeleton_2() {
+    game.anims.create({
+        key: 'skeleton_2Idle',
+        frames: game.anims.generateFrameNumbers('skeleton_2Idle', { start: 0, end: 17 }),
+        frameRate: 16,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'skeleton_2Attack',
+        frames: game.anims.generateFrameNumbers('skeleton_2Attack', { start: 0, end: 19 }),
+        frameRate: 16
+    });
+    game.anims.create({
+        key: 'skeleton_2Die',
+        frames: game.anims.generateFrameNumbers('skeleton_2Die', { start: 0, end: 12 }),
         frameRate: 16
     });
 }

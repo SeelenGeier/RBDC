@@ -20,19 +20,41 @@
       "poison": 10
     }
   },
-  "skeleton": {
-    "type": "skeleton",
-    "name": "Skeleton",
+  "skeleton_1": {
+    "type": "skeleton_1",
+    "name": "Skeleton Halberd",
     "image": {
-      "file": "skeleton/idle.png",
+      "file": "skeleton_1/idle.png",
       "width": 24,
+      "height": 32,
+      "scale": 4,
+      "direction": -1
+    },
+    "health": 28,
+    "damage": {
+      "slash": 14,
+      "puncture": 6
+    },
+    "resistance": {
+      "puncture": 10,
+      "slash": 5,
+      "poison": 30
+    }
+  },
+  "skeleton_2": {
+    "type": "skeleton_2",
+    "name": "Skeleton Sword",
+    "image": {
+      "file": "skeleton_2/idle.png",
+      "width": 48,
       "height": 32,
       "scale": 4,
       "direction": -1
     },
     "health": 21,
     "damage": {
-      "slash": 12
+      "slash": 12,
+      "impact": 4
     },
     "resistance": {
       "puncture": 10,

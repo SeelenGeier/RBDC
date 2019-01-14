@@ -91,23 +91,36 @@ function create() {
 
     // load images for configured enemies
     for(let monster in config.monster) {
-        if(monster != 'skeleton'){
-            this.load.spritesheet(config.monster[monster].type, '../assets/unit/enemy/' + config.monster[monster].image.file, {
-                frameWidth: config.monster[monster].image.width,
-                frameHeight: config.monster[monster].image.height
-            });
-        }else {
-            this.load.spritesheet('skeletonIdle', '../assets/unit/enemy/skeleton/idle.png', {
+        if(monster == 'skeleton_1'){
+            this.load.spritesheet('skeleton_1Idle', '../assets/unit/enemy/skeleton_1/idle.png', {
                 frameWidth: 24,
                 frameHeight: 32
             });
-            this.load.spritesheet('skeletonDie', '../assets/unit/enemy/skeleton/die.png', {
+            this.load.spritesheet('skeleton_1Die', '../assets/unit/enemy/skeleton_1/die.png', {
                 frameWidth: 33,
                 frameHeight: 32
             });
-            this.load.spritesheet('skeletonAttack', '../assets/unit/enemy/skeleton/attack.png', {
+            this.load.spritesheet('skeleton_1Attack', '../assets/unit/enemy/skeleton_1/attack.png', {
                 frameWidth: 43,
                 frameHeight: 37
+            });
+        }else if(monster == 'skeleton_2'){
+            this.load.spritesheet('skeleton_2Idle', '../assets/unit/enemy/skeleton_2/idle.png', {
+                frameWidth: 48,
+                frameHeight: 32
+            });
+            this.load.spritesheet('skeleton_2Die', '../assets/unit/enemy/skeleton_2/die.png', {
+                frameWidth: 72,
+                frameHeight: 32
+            });
+            this.load.spritesheet('skeleton_2Attack', '../assets/unit/enemy/skeleton_2/attack.png', {
+                frameWidth: 56,
+                frameHeight: 40
+            });
+        }else {
+            this.load.spritesheet(config.monster[monster].type, '../assets/unit/enemy/' + config.monster[monster].image.file, {
+                frameWidth: config.monster[monster].image.width,
+                frameHeight: config.monster[monster].image.height
             });
         }
     }
