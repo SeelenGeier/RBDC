@@ -114,7 +114,7 @@ function loadAnimationSkeleton_2() {
     game.anims.create({
         key: 'skeleton_2Attack',
         frames: game.anims.generateFrameNumbers('skeleton_2Attack', { start: 0, end: 19 }),
-        frameRate: 16
+        frameRate: 24
     });
     game.anims.create({
         key: 'skeleton_2Die',

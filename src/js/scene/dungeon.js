@@ -345,8 +345,7 @@ class dungeonScene extends Phaser.Scene {
 
         for(let category in itemCategories) {
             if(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
-                let item = getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]);
-                let itemStats = config[item.type][item.name];
+                let itemStats = this.adjustValuesByQuality(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]);
 
                 // add all damage numbers to overall damage counter
                 if(typeof itemStats.damage != 'undefined') {
@@ -786,7 +785,7 @@ class dungeonScene extends Phaser.Scene {
 
     enemyDamaged() {
         // calculate damage based on weapon and defense
-        let damage = this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, this.enemy);
+        let damage = this.calculateDamage(saveObject.profiles[saveObject.currentProfile].character, saveObject.profiles[saveObject.currentProfile].room.enemy);
 
         // subtract damage from enemy health
         saveObject.profiles[saveObject.currentProfile].room.enemy.health -= damage;
@@ -824,7 +823,7 @@ class dungeonScene extends Phaser.Scene {
             damage = fixDamage;
         }else {
             // calculate damage based on weapon and defense
-            damage = this.calculateDamage(this.enemy, saveObject.profiles[saveObject.currentProfile].character);
+            damage = this.calculateDamage(saveObject.profiles[saveObject.currentProfile].room.enemy, saveObject.profiles[saveObject.currentProfile].character);
         }
 
         // subtract damage from enemy health
@@ -868,20 +867,17 @@ class dungeonScene extends Phaser.Scene {
 
             let attackerItem = {};
             let defenderItem = {};
-            let attackername = '';
-            let defendername = '';
 
             // get equipment item for attacker
             if (attacker == saveObject.profiles[saveObject.currentProfile].character) {
                 // set attacker item to item in current character equipment
                 if (attacker[equipmentType] != null) {
-                    attackername = getItem(attacker[equipmentType]).name;
-                    attackerItem = config[equipmentType][attackername];
+                    attackerItem = this.adjustValuesByQuality(attacker[equipmentType]);
                 }
             } else {
                 // set attacker item to use monster configuration
                 if(equipmentType == 'weapon') {
-                    attackerItem = config.monster[this.enemy.texture.key];
+                    attackerItem = attacker;
                 }else {
                     attackerItem = undefined;
                 }
@@ -891,13 +887,12 @@ class dungeonScene extends Phaser.Scene {
             if (defender == saveObject.profiles[saveObject.currentProfile].character) {
                 // set defender item to item in current character equipment
                 if (defender[equipmentType] != null) {
-                    defendername = getItem(defender[equipmentType]).name;
-                    defenderItem = config[equipmentType][defendername];
+                    defenderItem = this.adjustValuesByQuality(defender[equipmentType]);
                 }
             } else {
                 // set defender item to use monster configuration
                 if(equipmentType == 'armor') {
-                    defenderItem = config.monster[this.enemy.texture.key];
+                    defenderItem = defender;
                 }else {
                     defenderItem = undefined;
                 }
@@ -907,7 +902,6 @@ class dungeonScene extends Phaser.Scene {
             if (typeof attackerItem != 'undefined') {
                 // collect all damage from current equipment type for attacker
                 for (let damage in attackerItem.damage) {
-
                     // set damage type to 0 if not set already
                     if (typeof attackerDamage[damage] == 'undefined') {
                         attackerDamage[damage] = 0;
@@ -1263,5 +1257,31 @@ class dungeonScene extends Phaser.Scene {
             this.enemy.y -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
             this.enemy.attackOffset = false;
         }
+    }
+
+    adjustValuesByQuality(itemId) {
+        // get item values from inventory
+        let item = getItem(itemId);
+        let itemValues = config[item.type][item.name];
+
+        // only modify non-standard items
+        if(item.durability != null) {
+            // modify item damage based on current durability
+            item.damage = {};
+            for(let damage in itemValues.damage) {
+                item.damage[damage] = Math.trunc((itemValues.damage[damage] * 0.5) + itemValues.damage[damage] * (item.durability / 100));
+            }
+
+            // modify item resistance based on current durability
+            item.resistance = {};
+            for(let resistance in itemValues.resistance) {
+                item.resistance[resistance] = Math.trunc((itemValues.resistance[resistance] * 0.5) + itemValues.resistance[resistance] * (item.durability / 100));
+            }
+        }else {
+            item.damage = itemValues.damage;
+            item.resistance = itemValues.resistance;
+        }
+
+        return item;
     }
 }

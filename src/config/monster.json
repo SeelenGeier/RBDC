@@ -26,7 +26,7 @@
     "image": {
       "scale": 4,
       "direction": -1,
-      "attackOffset": {"x": -32, "y": 0}
+      "attackOffset": {"x": -28, "y": 0}
     },
     "health": 28,
     "damage": {
