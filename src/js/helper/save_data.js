@@ -14,8 +14,7 @@ function loadData() {
     }
     // if validation fails build new saveObject and save it in local storage
     if (saveObject == undefined) {
-        initializeSaveObject();
-        saveData();
+        resetSave();
     }
 }
 
@@ -34,4 +33,11 @@ function initializeSaveObject() {
     }
 
     saveData();
+}
+
+function resetSave() {
+    initializeSaveObject();
+    saveData();
+
+    location.reload();
 }
