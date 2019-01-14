@@ -24,11 +24,9 @@
     "type": "skeleton_1",
     "name": "Skeleton Halberd",
     "image": {
-      "file": "skeleton_1/idle.png",
-      "width": 24,
-      "height": 32,
       "scale": 4,
-      "direction": -1
+      "direction": -1,
+      "attackOffset": {"x": -32, "y": 0}
     },
     "health": 28,
     "damage": {
@@ -45,11 +43,9 @@
     "type": "skeleton_2",
     "name": "Skeleton Sword",
     "image": {
-      "file": "skeleton_2/idle.png",
-      "width": 48,
-      "height": 32,
       "scale": 4,
-      "direction": -1
+      "direction": -1,
+      "attackOffset": {"x": -16, "y": 0}
     },
     "health": 21,
     "damage": {

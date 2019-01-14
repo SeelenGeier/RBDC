@@ -610,6 +610,9 @@ class dungeonScene extends Phaser.Scene {
             this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
         }
 
+        // reset enemy attack offset
+        this.removeEnemyAttackOffset();
+
         // set enemy to being idle
         this.enemyIsIdle = true;
     }
@@ -734,6 +737,9 @@ class dungeonScene extends Phaser.Scene {
         // start idle animation with sword
         this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Attack');
 
+        // offset enemy position during attack animation
+        this.addEnemyAttackOffset();
+
         // play sound for combat
         playSound('swordSlash');
 
@@ -750,6 +756,9 @@ class dungeonScene extends Phaser.Scene {
 
         // start death animation
         this.enemy.anims.play(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
+
+        // reset enemy attack offset
+        this.removeEnemyAttackOffset();
 
         // add sound for monster dying (a bit later due to animation and sound sync)
         setTimeout(function(){ playSound('monsterDeath'); }, 400);
@@ -1236,5 +1245,23 @@ class dungeonScene extends Phaser.Scene {
 
         // stop running audio
         resumeSound();
+    }
+
+    addEnemyAttackOffset() {
+        // set offset of enemy sprite during attack animation
+        if((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && !this.enemy.attackOffset) {
+            this.enemy.x += saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.x;
+            this.enemy.y += saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
+            this.enemy.attackOffset = true;
+        }
+    }
+
+    removeEnemyAttackOffset() {
+        // reset offset of enemy sprite
+        if((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && this.enemy.attackOffset) {
+            this.enemy.x -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.x;
+            this.enemy.y -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
+            this.enemy.attackOffset = false;
+        }
     }
 }
