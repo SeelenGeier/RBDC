@@ -160,6 +160,6 @@ function startGame() {
     }else {
         let progressPercent = Math.round(game.scene.getScene('default').load.progress * 10000) / 100;
         game.scene.getScene('default').loadingText.setText('LOADING ' + progressPercent + '%');
-        setTimeout(function(){ startGame() }, 100);
+        setTimeout(function(){ startGame() }, 30);
     }
 }
