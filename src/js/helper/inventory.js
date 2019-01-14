@@ -41,7 +41,7 @@ function giveItem(type, name, durability, profile = saveObject.currentProfile) {
     return newId;
 }
 
-function removeItem(id, profile = saveObject.currentProfile) {
+function removeItem(id, profile = saveObject.currentProfile, trackItemLoss = true) {
     // check if the given item ID is even present in profile inventory
     if (!saveObject.profiles[profile].inventory.items.hasOwnProperty(id)) {
         return false;
@@ -53,7 +53,9 @@ function removeItem(id, profile = saveObject.currentProfile) {
     }
 
     // add item to acquired items list
-    saveObject.profiles[saveObject.currentProfile].itemsLost[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsLost).length] = getItem(id, profile);
+    if(trackItemLoss) {
+        saveObject.profiles[saveObject.currentProfile].itemsLost[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsLost).length] = getItem(id, profile);
+    }
 
     // remove item from inventory
     delete saveObject.profiles[profile].inventory.items[id];
@@ -71,7 +73,7 @@ function removeItem(id, profile = saveObject.currentProfile) {
             }
 
             // remove item with old id
-            removeItem(itemId);
+            removeItem(itemId, profile, false);
         }
     }
 
@@ -149,7 +151,7 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
     type = keys[keys.length * Math.random() << 0];
 
     // calculate durability based on quality and current rooms cleared
-    durability = 1 + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared * quality);
+    durability = config.default.defaultItemDurability + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared * quality);
 
     let item = {
         type: category,

@@ -14,7 +14,8 @@
     "durabilityLossChance": 0.75,
     "chestImageOpen": "chest/chest_open.png",
     "chestImageClosed": "chest/chest_closed.png",
-    "coinImage": "item/coin.png"
+    "coinImage": "item/coin.png",
+    "defaultItemDurability": 20
   },
   "equipment": {
     "weapon": "knife",
