@@ -65,5 +65,9 @@
     "volume": 0.1,
     "loop": true,
     "isBackground": true
+  },
+  "chest": {
+    "filename": "chest.wav",
+    "volume": 0.5
   }
 }

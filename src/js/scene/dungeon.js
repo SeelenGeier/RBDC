@@ -559,6 +559,9 @@ class dungeonScene extends Phaser.Scene {
             saveObject.profiles[saveObject.currentProfile].room.chest.closed = false;
             saveData();
 
+            // play sound for triggering trap
+            playSound('chest');
+
             let newItemId = giveItem(saveObject.profiles[saveObject.currentProfile].room.chest.item.type, saveObject.profiles[saveObject.currentProfile].room.chest.item.name, saveObject.profiles[saveObject.currentProfile].room.chest.item.durability);
 
             let newItem = getItem(newItemId);
