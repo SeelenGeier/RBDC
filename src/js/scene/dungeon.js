@@ -770,7 +770,7 @@ class dungeonScene extends Phaser.Scene {
                 // play sound for combat
                 playSound(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
             }
-        }, 500);
+        }, 700);
 
         // spawn trap image if armed trap is present
         if (this.isTrapArmed()) {
