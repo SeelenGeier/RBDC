@@ -20,6 +20,14 @@ class profileOverviewScene extends Phaser.Scene {
         // stop running audio
         pauseSound();
 
+        // disable navigation buttons when starting the scene
+        this.navigationDisabled = true;
+
+        // add timer until navigation is enabled
+        setTimeout(function () {
+            game.scene.getScene('profileOverview').navigationDisabled = false;
+        }, 500);
+
         // play sound when entering dungeon
         playSound('forest');
 
@@ -88,12 +96,22 @@ class profileOverviewScene extends Phaser.Scene {
     }
 
     goToConfig() {
+        // do nothing while navigation is still disabled
+        if(this.navigationDisabled) {
+            return false;
+        }
+
         // hide current scene and start config scene
         this.scene.sleep();
         this.scene.start('config');
     }
 
     goTo() {
+        // do nothing while navigation is still disabled
+        if(this[1].navigationDisabled) {
+            return false;
+        }
+
         let destination = this[0];
 
         // stop timer for drawing/sheathing sword if character stopped once

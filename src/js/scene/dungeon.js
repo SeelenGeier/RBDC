@@ -720,7 +720,7 @@ class dungeonScene extends Phaser.Scene {
         this.character.anims.play('characterAttack' + Math.trunc(Math.random() * 3 + 1));
 
         // play sound for combat
-        playSound('swordSlash');
+        playSound('swordAttack' + Math.trunc((Math.random() * 3) + 1));
 
         // deal damage to the enemy
         this.enemyDamaged();
@@ -742,8 +742,10 @@ class dungeonScene extends Phaser.Scene {
         // offset enemy position during attack animation
         this.addEnemyAttackOffset();
 
-        // play sound for combat
-        playSound('swordSlash');
+        if(config.audio.hasOwnProperty(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Attack')) {
+            // play sound for combat
+            playSound(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Attack');
+        }
 
         // deal damage to the player
         this.playerDamaged();
@@ -764,8 +766,11 @@ class dungeonScene extends Phaser.Scene {
 
         // add sound for monster dying (a bit later due to animation and sound sync)
         setTimeout(function () {
-            playSound('monsterDeath');
-        }, 400);
+            if(config.audio.hasOwnProperty(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die')) {
+                // play sound for combat
+                playSound(saveObject.profiles[saveObject.currentProfile].room.enemy.type + 'Die');
+            }
+        }, 800);
 
         // spawn trap image if armed trap is present
         if (this.isTrapArmed()) {
