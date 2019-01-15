@@ -60,26 +60,18 @@ function removeItem(id, profile = saveObject.currentProfile, trackItemLoss = tru
     // remove item from inventory
     delete saveObject.profiles[profile].inventory.items[id];
 
-    // add check to limit removal of items to only the next in line
-    let nextItemRemoved = false;
+    // if there are any items after this item in the inventory, correct their ids by moving them one id down
+    if (saveObject.profiles[profile].inventory.items.hasOwnProperty(id + 1)) {
+        // move item id of next item to current item
+        saveObject.profiles[saveObject.currentProfile].inventory.items[id] = saveObject.profiles[saveObject.currentProfile].inventory.items[id + 1];
 
-    // fix keys for all items after the sold item
-    for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-        if (itemId > id) {
-            // move item id one up
-            saveObject.profiles[saveObject.currentProfile].inventory.items[itemId - 1] = saveObject.profiles[saveObject.currentProfile].inventory.items[itemId];
-
-            // check if moved item is currently equipped
-            if (saveObject.profiles[saveObject.currentProfile].character[getItem(itemId).type] == itemId) {
-                // equip same item with new id
-                equipItem(itemId - 1);
-            }
-
-            // remove item with old id (only if it is the next in line, otherwise skip)
-            if(!nextItemRemoved && removeItem(itemId, profile, false)) {
-                nextItemRemoved = true;
-            }
+        // check if next item is equipped and swap equipped id with new id
+        if (saveObject.profiles[profile].character[getItem(id, profile).type] == id + 1) {
+            saveObject.profiles[profile].character[getItem(id, profile).type] = id;
         }
+
+        // and remove item id from next item
+        removeItem(id + 1, profile, false)
     }
 
     // return true if item was successfully removed

@@ -502,10 +502,6 @@ class shopScene extends Phaser.Scene {
 
         // loop through all selected items
         for (let selectedItem in this.selectedItems) {
-            if(window.done){
-                window.done = true;
-                continue;
-            }
 
             // subtract amount of sold items to compensate for key offset after selling an item
             let currentItem = selectedItem - soldItems;

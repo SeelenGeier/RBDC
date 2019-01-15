@@ -47,11 +47,6 @@ class dungeonScene extends Phaser.Scene {
         // add equipment at the bottom of the screen
         this.addEquipment(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.8);
 
-        if (this.isChestClosed()) {
-            // add chest in center of the room
-            this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
-        }
-
         if (this.isEnemyAlive()) {
             // add enemy to the right of the room
             this.addEnemy(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.62);
@@ -65,6 +60,11 @@ class dungeonScene extends Phaser.Scene {
             if (this.isTrapArmed()) {
                 this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
             }
+        }
+
+        if (this.isChestClosed()) {
+            // add chest in center of the room
+            this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
         }
 
         // set enemy to idle per default
@@ -767,6 +767,11 @@ class dungeonScene extends Phaser.Scene {
             playSound('monsterDeath');
         }, 400);
 
+        // spawn trap image if armed trap is present
+        if (this.isTrapArmed()) {
+            this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
+        }
+
         // spawn chest with fixed chance
         if (Math.random() < config.default.setting.chestSpawnChanceAfterKillDefault + (config.default.setting.chestSpawnChanceAfterKillModifier * saveObject.profiles[saveObject.currentProfile].roomsCleared)) {
             let itemQuality = saveObject.profiles[saveObject.currentProfile].room.enemy.maxHealth / config.monster[saveObject.profiles[saveObject.currentProfile].room.enemy.type].health;
@@ -774,11 +779,6 @@ class dungeonScene extends Phaser.Scene {
 
             // add chest in center of the room
             this.addChest(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.62);
-        }
-
-        // spawn trap image if armed trap is present
-        if (this.isTrapArmed()) {
-            this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
         }
 
         // remove enemy stats from screen
