@@ -40,10 +40,6 @@
     "filename": "characterdeath.wav",
     "volume": 0.3
   },
-  "minotaurDie": {
-    "filename": "minotaur_die.wav",
-    "volume": 0.4
-  },
   "trap": {
     "filename": "trap.wav",
     "volume": 0.15
@@ -113,5 +109,9 @@
   "minotaurAttack": {
     "filename": "minotaur_attack.wav",
     "volume": 0.2
+  },
+  "minotaurDie": {
+    "filename": "minotaur_die.wav",
+    "volume": 0.4
   }
 }
