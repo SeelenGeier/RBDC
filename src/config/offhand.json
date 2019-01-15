@@ -1,13 +1,24 @@
 {
+  "wood_shield": {
+    "name": "Wooden Shield",
+    "description": "Some planks nailed together.",
+    "image": "shield_wood",
+    "value": 0,
+    "resistance": {
+      "impact": 2,
+      "puncture": 2,
+      "slash": 2
+    }
+  },
   "shield": {
     "name": "Shield",
     "description": "A shield used for protection.",
-    "image": "shield_semi",
+    "image": "shield",
     "value": 25,
     "resistance": {
-      "impact": 2,
-      "puncture": 3,
-      "slash": 1
+      "impact": 4,
+      "puncture": 6,
+      "slash": 4
     }
   },
   "torch": {
@@ -16,7 +27,7 @@
     "image": "wand",
     "value": 10,
     "damage": {
-      "heat": 3
+      "heat": 5
     }
   }
 }

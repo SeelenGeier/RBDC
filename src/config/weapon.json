@@ -1,12 +1,22 @@
 {
+  "wood_sword": {
+    "name": "Wooden Sword",
+    "description": "A plaything for children and hardly a weapon.",
+    "image": "woodSword",
+    "value": 0,
+    "damage": {
+      "puncture": 2,
+      "impact": 2,
+      "slash": 2
+    }
+  },
   "knife": {
     "name": "Knife",
     "description": "A simple knife used for carving wood or meat.",
     "image": "dagger",
-    "value": 1,
+    "value": 10,
     "damage": {
-      "impact": 1,
-      "puncture": 3,
+      "puncture": 8,
       "slash": 2
     }
   },
@@ -16,8 +26,8 @@
     "image": "sword",
     "value": 30,
     "damage": {
-      "puncture": 4,
-      "slash": 8
+      "puncture": 5,
+      "slash": 10
     }
   },
   "axe": {
@@ -26,8 +36,8 @@
     "image": "axe",
     "value": 15,
     "damage": {
-      "impact": 5,
-      "slash": 5
+      "impact": 4,
+      "slash": 7
     }
   }
 }

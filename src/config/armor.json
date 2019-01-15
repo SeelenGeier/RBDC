@@ -3,11 +3,11 @@
     "name": "Leather Armor",
     "description": "A simple armor made of leather covering vital parts of the body.",
     "image": "leather",
-    "value": 3,
+    "value": 15,
     "resistance": {
-      "impact": 1,
-      "puncture": 3,
-      "slash": 5
+      "impact": 2,
+      "puncture": 4,
+      "slash": 8
     }
   },
   "iron": {
@@ -16,7 +16,7 @@
     "image": "armor",
     "value": 50,
     "resistance": {
-      "impact": 5,
+      "impact": 8,
       "puncture": 15,
       "slash": 30
     }
@@ -28,7 +28,7 @@
     "value": 30,
     "resistance": {
       "puncture": 20,
-      "slash": 5
+      "slash": 8
     }
   }
 }

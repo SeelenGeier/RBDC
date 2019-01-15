@@ -19,9 +19,9 @@
     "defaultItemDurability": 20
   },
   "equipment": {
-    "weapon": "knife",
+    "weapon": "wood_sword",
     "armor": null,
-    "offhand": "shield",
+    "offhand": "wood_shield",
     "trinket": null
   },
   "status": {
