@@ -82,12 +82,20 @@
     "filename": "slime_attack.wav",
     "volume": 0.2
   },
+  "snakeAttack": {
+    "filename": "snake_attack.wav",
+    "volume": 0.2
+  },
   "skeleton_1Die": {
     "filename": "skeleton_die.wav",
     "volume": 0.4
   },
   "skeleton_2Die": {
     "filename": "skeleton_die.wav",
+    "volume": 0.4
+  },
+  "snakeDie": {
+    "filename": "snake_die.wav",
     "volume": 0.4
   }
 }
