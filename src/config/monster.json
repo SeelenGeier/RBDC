@@ -70,9 +70,10 @@
     },
     "health": 14,
     "damage": {
-      "slash": 2,
-      "puncture": 8,
-      "poison": 4
+      "slash": 3,
+      "puncture": 6,
+      "impact": 1,
+      "poison": 10
     },
     "resistance": {
       "puncture": 4,
@@ -93,8 +94,8 @@
     },
     "health": 42,
     "damage": {
-      "slash": 13,
-      "puncture": 4,
+      "slash": 4,
+      "puncture": 2,
       "impact": 6
     },
     "resistance": {
