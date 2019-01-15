@@ -197,3 +197,25 @@ function generateRareShopItems() {
     // save rare items
     saveData();
 }
+
+function correctInventoryIds() {
+    let newInventory = {};
+    let newItemId = 0;
+    let profile = saveObject.currentProfile;
+
+    // add all items in current inventory to placeholder inventory
+    for (let itemId in saveObject.profiles[profile].inventory.items) {
+        // assign item to new id in new inventory
+        newInventory[newItemId] = saveObject.profiles[profile].inventory.items[itemId];
+
+        // check if item is currently equipped
+        if(saveObject.profiles[profile].character.weapon == itemId) {
+            saveObject.profiles[profile].character.weapon = newItemId;
+        }
+
+        newItemId++;
+    }
+
+    // swap current inventory with placeholder inventory
+    saveObject.profiles[profile].inventory.items = newInventory;
+}

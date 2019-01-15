@@ -17,6 +17,9 @@ class shopScene extends Phaser.Scene {
         // always start in buy mode
         this.currentMode = 'buy';
 
+        // make sure inventory ids are correct
+        correctInventoryIds();
+
         // stop running audio
         pauseSound();
 
