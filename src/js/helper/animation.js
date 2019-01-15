@@ -156,7 +156,7 @@ function loadAnimationMinotaur() {
     game.anims.create({
         key: 'minotaurDie',
         frames: game.anims.generateFrameNumbers('minotaur', {start: 190, end: 195}),
-        frameRate: 6
+        frameRate: 9
     });
 }
 
