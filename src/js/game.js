@@ -155,9 +155,11 @@ function startGame() {
     // check if everything has loaded
     if(game.scene.getScene('default').load.progress == 1) {
         game.scene.getScene('default').loadingText.destroy();
+
         // always start splash screen first
         game.scene.start('splash');
     }else {
+        // update loading counter
         let progressPercent = Math.round(game.scene.getScene('default').load.progress * 10000) / 100;
         game.scene.getScene('default').loadingText.setText('LOADING ' + progressPercent + '%');
         setTimeout(function(){ startGame() }, 30);

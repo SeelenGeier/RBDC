@@ -192,7 +192,6 @@ class configScene extends Phaser.Scene {
     }
 
     showCredits() {
-        // TODO: add necessary credits in config json
         // show credits in dialog box
         this.credits = new Dialog('Credits', config.default.setting.credits, this.scene);
     }

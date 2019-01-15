@@ -36,8 +36,10 @@ function initializeSaveObject() {
 }
 
 function resetSave() {
+    // reset savegame in local storage
     initializeSaveObject();
     saveData();
 
+    // reload page to prevent errors and bring up profile management
     location.reload();
 }

@@ -6,6 +6,8 @@ function playSound(id) {
         if(!sounds.hasOwnProperty(id)) {
             sounds[id] = game.sound.add(id);
         }
+
+        // resume audio that loops instead of play to prevent restarting
         if(sounds[id].loop) {
             sounds[id].resume(config.audio[id]);
         }else {
@@ -37,6 +39,7 @@ function pauseSound() {
 }
 
 function resumeSound() {
+    // resume all sounds that have been paused
     for(let id in sounds) {
         sounds[id].resume();
     }

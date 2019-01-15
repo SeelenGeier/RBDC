@@ -868,6 +868,7 @@ class dungeonScene extends Phaser.Scene {
 
         for (let equipmentType in equipmentTypes) {
 
+            // reset item for every type of equipment
             let attackerItem = {};
             let defenderItem = {};
 
@@ -878,10 +879,11 @@ class dungeonScene extends Phaser.Scene {
                     attackerItem = this.adjustValuesByQuality(attacker[equipmentType]);
                 }
             } else {
-                // set attacker item to use monster configuration
+                // set attacker item to use monster configuration as weapon
                 if(equipmentType == 'weapon') {
                     attackerItem = attacker;
                 }else {
+                    // skip all other items for monsters since they only have one weapon
                     attackerItem = undefined;
                 }
             }
@@ -893,10 +895,11 @@ class dungeonScene extends Phaser.Scene {
                     defenderItem = this.adjustValuesByQuality(defender[equipmentType]);
                 }
             } else {
-                // set defender item to use monster configuration
+                // set defender item to use monster configuration as armor
                 if(equipmentType == 'armor') {
                     defenderItem = defender;
                 }else {
+                    // skip all other items for monsters since they only have one armor
                     defenderItem = undefined;
                 }
             }
@@ -909,6 +912,8 @@ class dungeonScene extends Phaser.Scene {
                     if (typeof attackerDamage[damage] == 'undefined') {
                         attackerDamage[damage] = 0;
                     }
+
+                    // add new damage amount to existing damage of the same type
                     attackerDamage[damage] += attackerItem.damage[damage];
                 }
             }
@@ -922,6 +927,8 @@ class dungeonScene extends Phaser.Scene {
                     if (typeof defenderResistance[resistance] == 'undefined') {
                         defenderResistance[resistance] = 0;
                     }
+
+                    // add new resistance amount to existing resistance of the same type
                     defenderResistance[resistance] += defenderItem.resistance[resistance];
                 }
             }
@@ -941,9 +948,9 @@ class dungeonScene extends Phaser.Scene {
             }
         }
 
-        // make at least 1 damage per attack
-        if (damageTotal < 1) {
-            damageTotal = 1;
+        // do not use negative damage, set to 0 instead
+        if (damageTotal < 0) {
+            damageTotal = 0;
         }
 
         return damageTotal;
@@ -1033,6 +1040,7 @@ class dungeonScene extends Phaser.Scene {
             this['equipped' + type[0].toUpperCase() + type.substring(1)].setTexture('X');
             durabilityText = '-';
         }
+
         // update durability text and position to be centered with image
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.setText(durabilityText);
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.x = this['equipped' + type[0].toUpperCase() + type.substring(1)].x - (durabilityText.length * 4);
@@ -1080,8 +1088,10 @@ class dungeonScene extends Phaser.Scene {
         let type = this[0];
         let firstItem = null;
         let previousItem = null;
+
         // get id of current item
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+
         // loop through all items of this type in inventory
         for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
             if (getItem(itemId).type == type) {
@@ -1094,9 +1104,11 @@ class dungeonScene extends Phaser.Scene {
                         this[1].updateEquipped(type);
                         return true;
                     }
+
                     // set first item to skip this step in future loops
                     firstItem = itemId;
                 }
+
                 // check if the current item is the currently equipped item
                 if (itemId == equippedItemId) {
                     // equip the previously found item
@@ -1104,10 +1116,12 @@ class dungeonScene extends Phaser.Scene {
                     this[1].updateEquipped(type);
                     return true;
                 }
+
                 // set previous item to current item and continue loop
                 previousItem = itemId;
             }
         }
+
         // check if the last item found is not the equipped item
         if (previousItem != equippedItemId) {
             // otherwise equip the last item
@@ -1232,6 +1246,7 @@ class dungeonScene extends Phaser.Scene {
     }
 
     resumeTweens() {
+        // resume all tween movement
         this.tweens.resumeAll();
 
         // start idle animation with sword
@@ -1245,19 +1260,23 @@ class dungeonScene extends Phaser.Scene {
     }
 
     addEnemyAttackOffset() {
-        // set offset of enemy sprite during attack animation
+        // move enemy sprite during attack animation if not yet offset
         if((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && !this.enemy.attackOffset) {
             this.enemy.x += saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.x;
             this.enemy.y += saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
+
+            // mark enemy to be already offset
             this.enemy.attackOffset = true;
         }
     }
 
     removeEnemyAttackOffset() {
-        // reset offset of enemy sprite
+        // reset enemy sprite during attack animation if enemy is offset right now
         if((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && this.enemy.attackOffset) {
             this.enemy.x -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.x;
             this.enemy.y -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
+
+            // mark enemy to be no longer offset
             this.enemy.attackOffset = false;
         }
     }
@@ -1281,6 +1300,7 @@ class dungeonScene extends Phaser.Scene {
                 item.resistance[resistance] = Math.trunc((itemValues.resistance[resistance] * 0.5) + itemValues.resistance[resistance] * (item.durability / 100));
             }
         }else {
+            // use unmodified default values for default equipment
             item.damage = itemValues.damage;
             item.resistance = itemValues.resistance;
         }

@@ -75,6 +75,7 @@ class profileManagementScene extends Phaser.Scene {
             this.profileListPosition.x = x;
             this.profileListPosition.y = y;
         }
+
         // remove all profiles currently present
         this.clearProfileList();
 

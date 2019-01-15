@@ -10,6 +10,7 @@ class profileOverviewScene extends Phaser.Scene {
     }
 
     create() {
+        // save last scene for later
         this.lastScene = saveObject.profiles[saveObject.currentProfile].scene;
 
         // save new current scene in saveObject
@@ -209,26 +210,33 @@ class profileOverviewScene extends Phaser.Scene {
     addEquipped(x, y, type) {
         let image = '';
         let durabilityText = '';
+
+        // check if character has any item equipped in this slot
         if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
             // get image from item config
             image = config[type][getItem(saveObject.profiles[saveObject.currentProfile].character[type]).name].image;
             durabilityText = getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability != null ? getItem(saveObject.profiles[saveObject.currentProfile].character[type]).durability + '' : 'X';
         } else {
+            // show X and no durability text if no item is equipped
             image = 'X';
             durabilityText = '-';
         }
+
         // add image for item
         this['equipped' + type[0].toUpperCase() + type.substring(1)] = this.add.sprite(x, y, image);
+
         // add durability info below item
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability = this.add.text(x - (durabilityText.length * 4), y + 40, durabilityText, {
             fontFamily: config.default.setting.fontFamily,
             fontSize: 16,
             color: '#ffffff'
         });
+
         // add up button to equip next item
         new Button('buttonItemNext' + type[0].toUpperCase() + type.substring(1), ['gameicons', 'up.png'], x, y - 50, this);
         this['buttonItemNext' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.changeItemNext, [type, this]);
         this['buttonItemNext' + type[0].toUpperCase() + type.substring(1)].setTint(0xcccccc);
+
         // add down button to equip previous item
         new Button('buttonItemPrev' + type[0].toUpperCase() + type.substring(1), ['gameicons', 'down.png'], x, y + 80, this);
         this['buttonItemPrev' + type[0].toUpperCase() + type.substring(1)].on('pointerup', this.changeItemPrev, [type, this]);
@@ -237,6 +245,7 @@ class profileOverviewScene extends Phaser.Scene {
 
     updateEquipped(type) {
         let durabilityText = '';
+
         // check if item slot has an item equipped
         if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
             // change image of this item type to current item image
@@ -247,6 +256,7 @@ class profileOverviewScene extends Phaser.Scene {
             this['equipped' + type[0].toUpperCase() + type.substring(1)].setTexture('X');
             durabilityText = '-';
         }
+
         // update durability text and position to be centered with image
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.setText(durabilityText);
         this['equipped' + type[0].toUpperCase() + type.substring(1)].durability.x = this['equipped' + type[0].toUpperCase() + type.substring(1)].x - (durabilityText.length * 4);
@@ -255,8 +265,10 @@ class profileOverviewScene extends Phaser.Scene {
     changeItemNext() {
         let type = this[0];
         let previousItem = null;
+
         // get id of current item
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+
         // loop through all items of this type in inventory
         for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
             if (getItem(itemId).type == type) {
@@ -267,10 +279,12 @@ class profileOverviewScene extends Phaser.Scene {
                     this[1].updateEquipped(type);
                     return true;
                 }
+
                 // set previous item to current item and continue loop
                 previousItem = itemId;
             }
         }
+
         // check if last found item is the current item
         if (previousItem == equippedItemId) {
             // unequip current item
@@ -287,8 +301,10 @@ class profileOverviewScene extends Phaser.Scene {
         let type = this[0];
         let firstItem = null;
         let previousItem = null;
+
         // get id of current item
         let equippedItemId = saveObject.profiles[saveObject.currentProfile].character[type];
+
         // loop through all items of this type in inventory
         for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
             if (getItem(itemId).type == type) {
@@ -301,9 +317,11 @@ class profileOverviewScene extends Phaser.Scene {
                         this[1].updateEquipped(type);
                         return true;
                     }
+
                     // set first item to skip this step in future loops
                     firstItem = itemId;
                 }
+
                 // check if the current item is the currently equipped item
                 if (itemId == equippedItemId) {
                     // equip the previously found item
@@ -311,10 +329,12 @@ class profileOverviewScene extends Phaser.Scene {
                     this[1].updateEquipped(type);
                     return true;
                 }
+
                 // set previous item to current item and continue loop
                 previousItem = itemId;
             }
         }
+
         // check if the last item found is not the equipped item
         if (previousItem != equippedItemId) {
             // otherwise equip the last item
@@ -483,6 +503,7 @@ class profileOverviewScene extends Phaser.Scene {
     }
 
     addHighscore(x, y) {
+        // add counter for highest room cleared to show current highscore
         this.roomCounter = this.add.text(x, y, 'deepest dungeon: ' + saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared, {
             fontFamily: config.default.setting.fontFamily,
             fontSize: 20,

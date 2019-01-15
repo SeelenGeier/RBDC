@@ -118,7 +118,10 @@ function getItem(id, profile = saveObject.currentProfile) {
 function getItemValue(item) {
     let currentValue;
 
+    // get item data for calculations
     itemInfo = config[item.type][item.name];
+
+    // calculate current value based on default item value modified by room highscore and current item durability.
     currentValue = Math.trunc(itemInfo.value * item.durability / saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared);
     return currentValue;
 }
@@ -128,6 +131,7 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
     let durability;
     let keys = [];
 
+    // select random category for new item
     if(category == null) {
         let chance = Math.random();
         if (chance < 0.25) {
@@ -143,22 +147,27 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
         }
     }
 
+    // get a list of all items in selected category
     for (let prop in config[category]) {
         if (config[category].hasOwnProperty(prop)) {
             keys.push(prop);
         }
     }
+
+    // select random item from list of items in selected category
     type = keys[keys.length * Math.random() << 0];
 
     // calculate durability based on quality and current rooms cleared
     durability = config.default.setting.defaultItemDurability + Math.trunc(Math.random() * saveObject.profiles[saveObject.currentProfile].roomsCleared * quality);
 
+    // generate item
     let item = {
         type: category,
         name: type,
         durability: durability
     };
 
+    // check if item creation should be logged for result purposes
     if(logItem == true) {
         // add item to acquired items list
         saveObject.profiles[saveObject.currentProfile].itemsAcquired[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsAcquired).length] = item;
@@ -181,6 +190,8 @@ function generateRareShopItems() {
         let i;
         for(i = 1; i < (Math.random()*4);i++) {
             let randomItem = getRandomItem(null, equipmentType, false);
+
+            // add new item to rare shop items list
             saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = randomItem;
             nextItemId++;
         }

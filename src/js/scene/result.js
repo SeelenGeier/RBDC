@@ -58,6 +58,8 @@ class resultScene extends Phaser.Scene {
 
                 this.showClickToContinue();
         }
+
+        // increment counter to process next step on next function call
         this.nextText++;
     }
 

@@ -15,7 +15,6 @@ function addCharacterAnimations(unit) {
 }
 
 function loadAnimationCharacter() {
-    // register all animations used for the character
     game.anims.create({
         key: 'characterRun',
         frames: game.anims.generateFrameNumbers('character', { start: 8, end: 13 }),
