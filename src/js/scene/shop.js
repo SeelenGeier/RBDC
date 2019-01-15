@@ -357,8 +357,12 @@ class shopScene extends Phaser.Scene {
     addCommonShopItems(items) {
         // get common shop items from configuration
         let loopCounter = 0;
-        for(let item in config.default.commonShopItems) {
-            items[loopCounter] = {name: config.default.commonShopItems[item].name, type: config.default.commonShopItems[item].type, durability: config.default.commonShopItems[item].durability};
+        for (let item in config.default.commonShopItems) {
+            items[loopCounter] = {
+                name: config.default.commonShopItems[item].name,
+                type: config.default.commonShopItems[item].type,
+                durability: config.default.commonShopItems[item].durability
+            };
             loopCounter++;
         }
 
@@ -370,8 +374,12 @@ class shopScene extends Phaser.Scene {
         let loopCounter = Object.keys(items).length;
 
         // get rare items generated after last dungeon run
-        for(let item in saveObject.profiles[saveObject.currentProfile].rareShopItems) {
-            items[loopCounter] = {name: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].name, type: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].type, durability: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].durability};
+        for (let item in saveObject.profiles[saveObject.currentProfile].rareShopItems) {
+            items[loopCounter] = {
+                name: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].name,
+                type: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].type,
+                durability: saveObject.profiles[saveObject.currentProfile].rareShopItems[item].durability
+            };
             loopCounter++;
         }
 

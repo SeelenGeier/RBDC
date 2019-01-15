@@ -24,7 +24,9 @@ class resultScene extends Phaser.Scene {
         this.input.on('pointerdown', this.showNext, this);
 
         // add timer to show new text
-        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+        setTimeout(function () {
+            game.scene.getScene('result').showNext();
+        }, this.waitForInput);
 
         // generate rare items for shop
         generateRareShopItems();
@@ -75,7 +77,7 @@ class resultScene extends Phaser.Scene {
         this.newHighscore = false;
 
         // save new highscore
-        if(saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared) {
+        if (saveObject.profiles[saveObject.currentProfile].roomsCleared > saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared) {
             saveObject.profiles[saveObject.currentProfile].highscoreRoomsCleared = saveObject.profiles[saveObject.currentProfile].roomsCleared;
             saveData();
 
@@ -84,14 +86,14 @@ class resultScene extends Phaser.Scene {
         }
 
         // check if a new highscore was made
-        if(this.newHighscore) {
+        if (this.newHighscore) {
             // add highscore text
             this.newHighscoreText = this.add.text(x, y, 'NEW HIGHSCORE!', {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 24,
                 color: '#ffffff'
             });
-            this.newHighscoreText.setOrigin(0.5,0.5);
+            this.newHighscoreText.setOrigin(0.5, 0.5);
             this.newHighscoreText.alpha = 0.5;
 
             this.highscoreBlinkingTween = this.tweens.add({
@@ -112,18 +114,24 @@ class resultScene extends Phaser.Scene {
             fontSize: 24,
             color: '#ffffff'
         });
-        this.roomsClearedText.setOrigin(0.5,0.5);
+        this.roomsClearedText.setOrigin(0.5, 0.5);
 
         // add timer to show new text
-        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+        setTimeout(function () {
+            game.scene.getScene('result').showNext();
+        }, this.waitForInput);
     }
 
     showHighscore(x, y) {
         // add highscore if a new highscore has been made
-        setTimeout(function(){ game.scene.getScene('result').addHighscore(x, y); }, this.waitForInput);
+        setTimeout(function () {
+            game.scene.getScene('result').addHighscore(x, y);
+        }, this.waitForInput);
 
         // add timer to show new text
-        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+        setTimeout(function () {
+            game.scene.getScene('result').showNext();
+        }, this.waitForInput);
     }
 
     showClickToContinue() {
@@ -133,7 +141,7 @@ class resultScene extends Phaser.Scene {
             fontSize: 24,
             color: '#ffffff'
         });
-        this.clickToContinueText.setOrigin(0.5,0.5);
+        this.clickToContinueText.setOrigin(0.5, 0.5);
         this.clickToContinueText.alpha = 0.2;
 
         this.continueBlinkingTween = this.tweens.add({
@@ -156,21 +164,23 @@ class resultScene extends Phaser.Scene {
             fontSize: 24,
             color: '#ffffff'
         });
-        this.itemsAcquiredHeadline.setOrigin(0.5,0.5);
+        this.itemsAcquiredHeadline.setOrigin(0.5, 0.5);
 
         // list all items acquired during the last run
-        for(let item in saveObject.profiles[saveObject.currentProfile].itemsAcquired) {
+        for (let item in saveObject.profiles[saveObject.currentProfile].itemsAcquired) {
             this.itemsAcquiredText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].type + '/' + saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].name, {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 24,
                 color: '#ffffff'
             });
-            this.itemsAcquiredText[loopCounter].setOrigin(0.5,0.5);
+            this.itemsAcquiredText[loopCounter].setOrigin(0.5, 0.5);
             loopCounter++;
         }
 
         // add timer to show new text
-        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+        setTimeout(function () {
+            game.scene.getScene('result').showNext();
+        }, this.waitForInput);
     }
 
     showItemsLost(x, y) {
@@ -184,20 +194,22 @@ class resultScene extends Phaser.Scene {
             fontSize: 24,
             color: '#ffffff'
         });
-        this.itemsLostHeadline.setOrigin(0.5,0.5);
+        this.itemsLostHeadline.setOrigin(0.5, 0.5);
 
         // list all items lost during the last run
-        for(let item in saveObject.profiles[saveObject.currentProfile].itemsLost) {
+        for (let item in saveObject.profiles[saveObject.currentProfile].itemsLost) {
             this.itemsLostText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsLost[item].type + '/' + saveObject.profiles[saveObject.currentProfile].itemsLost[item].name, {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 24,
                 color: '#ffffff'
             });
-            this.itemsLostText[loopCounter].setOrigin(0.5,0.5);
+            this.itemsLostText[loopCounter].setOrigin(0.5, 0.5);
             loopCounter++;
         }
 
         // add timer to show new text
-        setTimeout(function(){ game.scene.getScene('result').showNext(); }, this.waitForInput);
+        setTimeout(function () {
+            game.scene.getScene('result').showNext();
+        }, this.waitForInput);
     }
 }

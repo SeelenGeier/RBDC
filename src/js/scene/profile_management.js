@@ -70,7 +70,7 @@ class profileManagementScene extends Phaser.Scene {
     }
 
     showAllProfiles(x = 0, y = 0) {
-        if(this.profileListPosition == undefined) {
+        if (this.profileListPosition == undefined) {
             this.profileListPosition = {};
             this.profileListPosition.x = x;
             this.profileListPosition.y = y;
@@ -157,7 +157,7 @@ class profileManagementScene extends Phaser.Scene {
         delete saveObject.profiles[this.profile];
 
         // unset the current profile if it got deleted
-        if(saveObject.currentProfile == this.profile) {
+        if (saveObject.currentProfile == this.profile) {
             saveObject.currentProfile = null;
         }
 
@@ -181,7 +181,7 @@ class profileManagementScene extends Phaser.Scene {
     addProfileNameList(x, y, counter, profile) {
         // add background for profile to given position based on counter
         this.profileNameBackground[counter] = this.add.sprite(x, y, 'uipack_rpg', 'buttonLong_grey_pressed.png');
-        this.profileNameBackground[counter].setOrigin(0,0);
+        this.profileNameBackground[counter].setOrigin(0, 0);
 
         // make profile background also clickable
         this.profileNameBackground[counter].setInteractive();
@@ -201,9 +201,9 @@ class profileManagementScene extends Phaser.Scene {
         this.profileText[counter].on('pointerup', this.selectProfile, this.profileText[counter]);
 
         // adjust position and scale of profile background depending on profile name
-        this.profileNameBackground[counter].setX(this.profileText[counter].x-10);
-        this.profileNameBackground[counter].setY(this.profileText[counter].y-10);
-        this.profileNameBackground[counter].setScale((this.profileText[counter].width+20)/this.profileNameBackground[counter].width, (this.profileText[counter].height+20)/this.profileNameBackground[counter].height);
+        this.profileNameBackground[counter].setX(this.profileText[counter].x - 10);
+        this.profileNameBackground[counter].setY(this.profileText[counter].y - 10);
+        this.profileNameBackground[counter].setScale((this.profileText[counter].width + 20) / this.profileNameBackground[counter].width, (this.profileText[counter].height + 20) / this.profileNameBackground[counter].height);
     }
 
     addProfileDeleteButtonList(x, y, counter, profile) {
@@ -245,7 +245,7 @@ class profileManagementScene extends Phaser.Scene {
         // go through default equipment in configuration
         for (let type in config.default.equipment) {
             // check if any equipment is set
-            if(config.default.equipment[type] != null) {
+            if (config.default.equipment[type] != null) {
                 // give item to profile
                 let id = giveItem(type, config.default.equipment[type], null, profile);
 

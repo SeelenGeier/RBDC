@@ -47,13 +47,13 @@ function removeItem(id, profile = saveObject.currentProfile, trackItemLoss = tru
         return false;
     }
 
-    if(saveObject.profiles[profile].character[getItem(id, profile).type] == id) {
+    if (saveObject.profiles[profile].character[getItem(id, profile).type] == id) {
         // unequip item if equipped
         unequiptype(getItem(id, profile).type);
     }
 
     // add item to acquired items list
-    if(trackItemLoss) {
+    if (trackItemLoss) {
         saveObject.profiles[saveObject.currentProfile].itemsLost[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsLost).length] = getItem(id, profile);
     }
 
@@ -132,7 +132,7 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
     let keys = [];
 
     // select random category for new item
-    if(category == null) {
+    if (category == null) {
         let chance = Math.random();
         if (chance < 0.25) {
             category = 'weapon';
@@ -168,7 +168,7 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
     };
 
     // check if item creation should be logged for result purposes
-    if(logItem == true) {
+    if (logItem == true) {
         // add item to acquired items list
         saveObject.profiles[saveObject.currentProfile].itemsAcquired[Object.keys(saveObject.profiles[saveObject.currentProfile].itemsAcquired).length] = item;
     }
@@ -188,7 +188,7 @@ function generateRareShopItems() {
     for (let equipmentType in equipmentTypes) {
         // generate 0-3 items for each category
         let i;
-        for(i = 1; i < (Math.random()*4);i++) {
+        for (i = 1; i < (Math.random() * 4); i++) {
             let randomItem = getRandomItem(null, equipmentType, false);
 
             // add new item to rare shop items list

@@ -76,22 +76,22 @@ function create() {
 
     // load images for configured items
     let itemCategories = ['weapon', 'armor', 'offhand', 'trinket', 'valuable'];
-    for(let category in itemCategories) {
-        for(let item in config[itemCategories[category]]) {
-            if(config[itemCategories[category]][item].image != null) {
+    for (let category in itemCategories) {
+        for (let item in config[itemCategories[category]]) {
+            if (config[itemCategories[category]][item].image != null) {
                 this.load.image(config[itemCategories[category]][item].image, '../assets/item/' + config[itemCategories[category]][item].image + '.png');
             }
         }
     }
 
     // load all configured audio files
-    for(let audioFile in config.audio) {
+    for (let audioFile in config.audio) {
         this.load.audio(audioFile, '../assets/audio/' + config.audio[audioFile].filename);
     }
 
     // load images for configured enemies
-    for(let monster in config.monster) {
-        if(monster == 'skeleton_1'){
+    for (let monster in config.monster) {
+        if (monster == 'skeleton_1') {
             this.load.spritesheet('skeleton_1Idle', '../assets/unit/enemy/skeleton_1/idle.png', {
                 frameWidth: 24,
                 frameHeight: 32
@@ -104,7 +104,7 @@ function create() {
                 frameWidth: 43,
                 frameHeight: 37
             });
-        }else if(monster == 'skeleton_2'){
+        } else if (monster == 'skeleton_2') {
             this.load.spritesheet('skeleton_2Idle', '../assets/unit/enemy/skeleton_2/idle.png', {
                 frameWidth: 48,
                 frameHeight: 32
@@ -117,7 +117,7 @@ function create() {
                 frameWidth: 56,
                 frameHeight: 40
             });
-        }else {
+        } else {
             this.load.spritesheet(config.monster[monster].type, '../assets/unit/enemy/' + config.monster[monster].image.file, {
                 frameWidth: config.monster[monster].image.width,
                 frameHeight: config.monster[monster].image.height
@@ -153,15 +153,17 @@ function create() {
 
 function startGame() {
     // check if everything has loaded
-    if(game.scene.getScene('default').load.progress == 1) {
+    if (game.scene.getScene('default').load.progress == 1) {
         game.scene.getScene('default').loadingText.destroy();
 
         // always start splash screen first
         game.scene.start('splash');
-    }else {
+    } else {
         // update loading counter
         let progressPercent = Math.round(game.scene.getScene('default').load.progress * 10000) / 100;
         game.scene.getScene('default').loadingText.setText('LOADING ' + progressPercent + '%');
-        setTimeout(function(){ startGame() }, 30);
+        setTimeout(function () {
+            startGame()
+        }, 30);
     }
 }

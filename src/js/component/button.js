@@ -4,10 +4,10 @@ class Button {
         this.name = name;
 
         // check if button image is an array (used for spritesheets
-        if(Array.isArray(buttonImage)) {
+        if (Array.isArray(buttonImage)) {
             // add sprite provided by spritesheet
             parent[name] = parent.add.sprite(x, y, buttonImage[0], buttonImage[1]);
-        }else {
+        } else {
             // add provided image
             parent[name] = parent.add.image(x, y, buttonImage);
         }

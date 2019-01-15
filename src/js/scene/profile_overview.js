@@ -60,11 +60,11 @@ class profileOverviewScene extends Phaser.Scene {
 
         // check if default equipment is in inventory
         let defaultEquipment = {};
-        for(let item in saveObject.profiles[saveObject.currentProfile].inventory.items) {
-            for(let type in config.default.equipment) {
+        for (let item in saveObject.profiles[saveObject.currentProfile].inventory.items) {
+            for (let type in config.default.equipment) {
                 if (saveObject.profiles[saveObject.currentProfile].inventory.items[item].type == type &&
-                        saveObject.profiles[saveObject.currentProfile].inventory.items[item].name == config.default.equipment[type] &&
-                        saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
+                    saveObject.profiles[saveObject.currentProfile].inventory.items[item].name == config.default.equipment[type] &&
+                    saveObject.profiles[saveObject.currentProfile].inventory.items[item].durability == null) {
 
                     // set equipment to have been found in inventory
                     defaultEquipment[type] = true;
@@ -73,10 +73,10 @@ class profileOverviewScene extends Phaser.Scene {
         }
 
         // if the default equipment has not been found, add it to the inventory
-        for(let type in config.default.equipment) {
-            if(!defaultEquipment[type] && config.default.equipment[type] != null) {
+        for (let type in config.default.equipment) {
+            if (!defaultEquipment[type] && config.default.equipment[type] != null) {
                 let newItem = giveItem(type, config.default.equipment[type], null);
-                if(saveObject.profiles[saveObject.currentProfile].character[type] == null) {
+                if (saveObject.profiles[saveObject.currentProfile].character[type] == null) {
                     equipItem(newItem);
                     this.updateEquipped(type);
                 }
@@ -399,7 +399,7 @@ class profileOverviewScene extends Phaser.Scene {
         if (this.parent.scene.lastScene == 'result' && this.parent.scene.character.scaleX == -1) {
             // remove first delay to immediately sheathe sword
             delay = 0;
-        }else {
+        } else {
             // check if sword is drawn or not if not coming back from dungeon
             if (this.parent.scene.character.swordDrawn) {
                 // start idle animation with sword

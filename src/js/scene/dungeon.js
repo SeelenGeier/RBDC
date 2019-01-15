@@ -61,8 +61,8 @@ class dungeonScene extends Phaser.Scene {
 
             // add health indicator for player character
             this.addEnemyHealth(this.sys.game.config.width * 0.75, this.sys.game.config.height * 0.3);
-        }else {
-            if(this.isTrapArmed()) {
+        } else {
+            if (this.isTrapArmed()) {
                 this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
             }
         }
@@ -343,29 +343,29 @@ class dungeonScene extends Phaser.Scene {
         let damage = {};
         let resistance = {};
 
-        for(let category in itemCategories) {
-            if(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
+        for (let category in itemCategories) {
+            if (saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
                 let itemStats = this.adjustValuesByQuality(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]);
 
                 // add all damage numbers to overall damage counter
-                if(typeof itemStats.damage != 'undefined') {
-                    for(let damageType in itemStats.damage) {
+                if (typeof itemStats.damage != 'undefined') {
+                    for (let damageType in itemStats.damage) {
                         // set damage type to new damage type or add it to existing
-                        if(typeof damage[damageType] == 'undefined') {
+                        if (typeof damage[damageType] == 'undefined') {
                             damage[damageType] = itemStats.damage[damageType];
-                        }else {
+                        } else {
                             damage[damageType] += itemStats.damage[damageType];
                         }
                     }
                 }
 
                 // add all resistance numbers to overall resistance counter
-                if(typeof itemStats.resistance != 'undefined') {
-                    for(let resistanceType in itemStats.resistance) {
+                if (typeof itemStats.resistance != 'undefined') {
+                    for (let resistanceType in itemStats.resistance) {
                         // set resistance type to new resistance type or add it to existing
-                        if(typeof resistance[resistanceType] == 'undefined') {
+                        if (typeof resistance[resistanceType] == 'undefined') {
                             resistance[resistanceType] = itemStats.resistance[resistanceType];
-                        }else {
+                        } else {
                             resistance[resistanceType] += itemStats.resistance[resistanceType];
                         }
                     }
@@ -375,14 +375,14 @@ class dungeonScene extends Phaser.Scene {
 
         // update character resistance on stats
         this.characterStatsResistance.text = '';
-        for(let resistanceType in resistance) {
+        for (let resistanceType in resistance) {
             // set resistance type to resistance text
             this.characterStatsResistance.text += resistanceType + ': ' + resistance[resistanceType] + '\n';
         }
 
         // update character damage on stats
         this.characterStatsDamage.text = '';
-        for(let damageType in damage) {
+        for (let damageType in damage) {
             // set damage type to damage text
             this.characterStatsDamage.text += damageType + ': ' + damage[damageType] + '\n';
         }
@@ -390,10 +390,10 @@ class dungeonScene extends Phaser.Scene {
 
     addEnemy(x, y) {
         // add enemy sprite
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetX != 'undefined') {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetX != 'undefined') {
             x += saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetX;
         }
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetY != 'undefined') {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetY != 'undefined') {
             y += saveObject.profiles[saveObject.currentProfile].room.enemy.image.offsetY;
         }
         this.enemy = this.add.sprite(x, y, saveObject.profiles[saveObject.currentProfile].room.enemy.type);
@@ -443,31 +443,31 @@ class dungeonScene extends Phaser.Scene {
         let resistance = {};
 
         // remove stats if enemy is dead
-        if(!this.isEnemyAlive()) {
+        if (!this.isEnemyAlive()) {
             this.enemyStatsResistance.text = '';
             this.enemyStatsDamage.text = '';
             return;
         }
 
         // add all damage numbers to overall damage counter
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.damage != 'undefined') {
-            for(let damageType in saveObject.profiles[saveObject.currentProfile].room.enemy.damage) {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.enemy.damage != 'undefined') {
+            for (let damageType in saveObject.profiles[saveObject.currentProfile].room.enemy.damage) {
                 // set damage type to new damage type or add it to existing
-                if(typeof damage[damageType] == 'undefined') {
+                if (typeof damage[damageType] == 'undefined') {
                     damage[damageType] = saveObject.profiles[saveObject.currentProfile].room.enemy.damage[damageType];
-                }else {
+                } else {
                     damage[damageType] += saveObject.profiles[saveObject.currentProfile].room.enemy.damage[damageType];
                 }
             }
         }
 
         // add all resistance numbers to overall resistance counter
-        if(typeof saveObject.profiles[saveObject.currentProfile].room.enemy.resistance != 'undefined') {
-            for(let resistanceType in saveObject.profiles[saveObject.currentProfile].room.enemy.resistance) {
+        if (typeof saveObject.profiles[saveObject.currentProfile].room.enemy.resistance != 'undefined') {
+            for (let resistanceType in saveObject.profiles[saveObject.currentProfile].room.enemy.resistance) {
                 // set resistance type to new resistance type or add it to existing
-                if(typeof resistance[resistanceType] == 'undefined') {
+                if (typeof resistance[resistanceType] == 'undefined') {
                     resistance[resistanceType] = saveObject.profiles[saveObject.currentProfile].room.enemy.resistance[resistanceType];
-                }else {
+                } else {
                     resistance[resistanceType] += saveObject.profiles[saveObject.currentProfile].room.enemy.resistance[resistanceType];
                 }
             }
@@ -475,14 +475,14 @@ class dungeonScene extends Phaser.Scene {
 
         // update enemy resistance on stats
         this.enemyStatsResistance.text = '';
-        for(let resistanceType in resistance) {
+        for (let resistanceType in resistance) {
             // set resistance type to resistance text
             this.enemyStatsResistance.text += resistanceType + ': ' + resistance[resistanceType] + '\n';
         }
 
         // update character damage on stats
         this.enemyStatsDamage.text = '';
-        for(let damageType in damage) {
+        for (let damageType in damage) {
             // set damage type to damage text
             this.enemyStatsDamage.text += damageType + ': ' + damage[damageType] + '\n';
         }
@@ -508,9 +508,9 @@ class dungeonScene extends Phaser.Scene {
         let green = Math.trunc((currentHealth / maxHealth) * 255);
         let color = Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
         this.characterHealth.setTint(color.color);
-        if(currentHealth > 0) {
+        if (currentHealth > 0) {
             this.characterHealth.setScale(((currentHealth / maxHealth) * 0.8) + 0.2);
-        }else {
+        } else {
             this.characterHealth.setScale(0);
         }
     }
@@ -535,9 +535,9 @@ class dungeonScene extends Phaser.Scene {
         let green = Math.trunc((currentHealth / maxHealth) * 255);
         let color = Phaser.Display.Color.RGBStringToColor('rgb(' + red + ', ' + green + ', 0)');
         this.enemyHealth.setTint(color.color);
-        if(currentHealth > 0) {
+        if (currentHealth > 0) {
             this.enemyHealth.setScale(((currentHealth / maxHealth) * 0.8) + 0.2);
-        }else {
+        } else {
             this.enemyHealth.setScale(0);
         }
     }
@@ -649,13 +649,13 @@ class dungeonScene extends Phaser.Scene {
         enemy.maxHealth = enemy.health;
 
         // modify damage depending on roomcounter
-        for(let damage in enemy.damage) {
+        for (let damage in enemy.damage) {
             enemy.damage[damage] = Math.round((enemy.damage[damage] * 0.25) + (enemy.damage[damage] * 2 * (saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
         }
 
         // modify resistance depending on roomcounter
-        for(let resistance in enemy.resistance) {
-            enemy.resistance[resistance] = Math.round((enemy.resistance[resistance] * 0.25) + (enemy.resistance[resistance] * 2 *(saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
+        for (let resistance in enemy.resistance) {
+            enemy.resistance[resistance] = Math.round((enemy.resistance[resistance] * 0.25) + (enemy.resistance[resistance] * 2 * (saveObject.profiles[saveObject.currentProfile].roomsCleared / 100)));
         }
 
         // save enemy to room
@@ -763,7 +763,9 @@ class dungeonScene extends Phaser.Scene {
         this.removeEnemyAttackOffset();
 
         // add sound for monster dying (a bit later due to animation and sound sync)
-        setTimeout(function(){ playSound('monsterDeath'); }, 400);
+        setTimeout(function () {
+            playSound('monsterDeath');
+        }, 400);
 
         // spawn chest with fixed chance
         if (Math.random() < config.default.setting.chestSpawnChanceAfterKillDefault + (config.default.setting.chestSpawnChanceAfterKillModifier * saveObject.profiles[saveObject.currentProfile].roomsCleared)) {
@@ -775,7 +777,7 @@ class dungeonScene extends Phaser.Scene {
         }
 
         // spawn trap image if armed trap is present
-        if(this.isTrapArmed()) {
+        if (this.isTrapArmed()) {
             this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
         }
 
@@ -822,9 +824,9 @@ class dungeonScene extends Phaser.Scene {
     playerDamaged(fixDamage = 0) {
         // use fix damage or calculate
         let damage;
-        if(fixDamage != 0) {
+        if (fixDamage != 0) {
             damage = fixDamage;
-        }else {
+        } else {
             // calculate damage based on weapon and defense
             damage = this.calculateDamage(saveObject.profiles[saveObject.currentProfile].room.enemy, saveObject.profiles[saveObject.currentProfile].character);
         }
@@ -880,9 +882,9 @@ class dungeonScene extends Phaser.Scene {
                 }
             } else {
                 // set attacker item to use monster configuration as weapon
-                if(equipmentType == 'weapon') {
+                if (equipmentType == 'weapon') {
                     attackerItem = attacker;
-                }else {
+                } else {
                     // skip all other items for monsters since they only have one weapon
                     attackerItem = undefined;
                 }
@@ -896,9 +898,9 @@ class dungeonScene extends Phaser.Scene {
                 }
             } else {
                 // set defender item to use monster configuration as armor
-                if(equipmentType == 'armor') {
+                if (equipmentType == 'armor') {
                     defenderItem = defender;
-                }else {
+                } else {
                     // skip all other items for monsters since they only have one armor
                     defenderItem = undefined;
                 }
@@ -1170,15 +1172,15 @@ class dungeonScene extends Phaser.Scene {
         let itemCategories = ['weapon', 'armor', 'offhand', 'trinket'];
 
         // go through all equipment slots and remove durability by chance
-        for(let category in itemCategories) {
-            if(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
-                if(getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability != null) {
+        for (let category in itemCategories) {
+            if (saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]] != null) {
+                if (getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability != null) {
                     // make item loose durability depending on the configured chance
-                    if(Math.random() < config.default.setting.durabilityLossChance) {
+                    if (Math.random() < config.default.setting.durabilityLossChance) {
                         getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability--;
 
                         // if the item lost all durability, remove it from the inventory
-                        if(getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability <= 0) {
+                        if (getItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]).durability <= 0) {
                             removeItem(saveObject.profiles[saveObject.currentProfile].character[itemCategories[category]]);
                         }
                         this.updateEquipped(itemCategories[category]);
@@ -1196,11 +1198,11 @@ class dungeonScene extends Phaser.Scene {
 
     disarmTrap() {
         // spawn and trigger trap if no armed trap in room
-        if(!this.isTrapArmed()) {
+        if (!this.isTrapArmed()) {
             this.spawnTrap();
             this.addTrap(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.65);
             this.triggerTrap();
-        }else {
+        } else {
             // show trap message
             new Dialog('Trap disarmed!', 'You managed to disarm a trap:\n' + saveObject.profiles[saveObject.currentProfile].room.trap.name, this.scene);
 
@@ -1220,7 +1222,7 @@ class dungeonScene extends Phaser.Scene {
 
     triggerTrap() {
         // do nothing if no armed trap in room
-        if(!this.isTrapArmed()) {
+        if (!this.isTrapArmed()) {
             return;
         }
 
@@ -1239,7 +1241,9 @@ class dungeonScene extends Phaser.Scene {
 
     pauseTweens() {
         // pause all tweens of dungeon scene in 100ms because otherwise it would not stop (bug?)
-        setTimeout(function(){ game.scene.getScene('dungeon').tweens.pauseAll(); }, 100);
+        setTimeout(function () {
+            game.scene.getScene('dungeon').tweens.pauseAll();
+        }, 100);
 
         // stop running audio
         pauseSound();
@@ -1261,7 +1265,7 @@ class dungeonScene extends Phaser.Scene {
 
     addEnemyAttackOffset() {
         // move enemy sprite during attack animation if not yet offset
-        if((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && !this.enemy.attackOffset) {
+        if ((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && !this.enemy.attackOffset) {
             this.enemy.x += saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.x;
             this.enemy.y += saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
 
@@ -1272,7 +1276,7 @@ class dungeonScene extends Phaser.Scene {
 
     removeEnemyAttackOffset() {
         // reset enemy sprite during attack animation if enemy is offset right now
-        if((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && this.enemy.attackOffset) {
+        if ((typeof saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset != 'undefined') && this.enemy.attackOffset) {
             this.enemy.x -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.x;
             this.enemy.y -= saveObject.profiles[saveObject.currentProfile].room.enemy.image.attackOffset.y;
 
@@ -1287,19 +1291,19 @@ class dungeonScene extends Phaser.Scene {
         let itemValues = config[item.type][item.name];
 
         // only modify non-standard items
-        if(item.durability != null) {
+        if (item.durability != null) {
             // modify item damage based on current durability
             item.damage = {};
-            for(let damage in itemValues.damage) {
+            for (let damage in itemValues.damage) {
                 item.damage[damage] = Math.trunc((itemValues.damage[damage] * 0.5) + itemValues.damage[damage] * (item.durability / 100));
             }
 
             // modify item resistance based on current durability
             item.resistance = {};
-            for(let resistance in itemValues.resistance) {
+            for (let resistance in itemValues.resistance) {
                 item.resistance[resistance] = Math.trunc((itemValues.resistance[resistance] * 0.5) + itemValues.resistance[resistance] * (item.durability / 100));
             }
-        }else {
+        } else {
             // use unmodified default values for default equipment
             item.damage = itemValues.damage;
             item.resistance = itemValues.resistance;
