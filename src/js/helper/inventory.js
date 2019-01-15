@@ -60,6 +60,9 @@ function removeItem(id, profile = saveObject.currentProfile, trackItemLoss = tru
     // remove item from inventory
     delete saveObject.profiles[profile].inventory.items[id];
 
+    // add check to limit removal of items to only the next in line
+    let nextItemRemoved = false;
+
     // fix keys for all items after the sold item
     for (let itemId in saveObject.profiles[saveObject.currentProfile].inventory.items) {
         if (itemId > id) {
@@ -72,13 +75,15 @@ function removeItem(id, profile = saveObject.currentProfile, trackItemLoss = tru
                 equipItem(itemId - 1);
             }
 
-            // remove item with old id
-            removeItem(itemId, profile, false);
+            // remove item with old id (only if it is the next in line, otherwise skip)
+            if(!nextItemRemoved && removeItem(itemId, profile, false)) {
+                nextItemRemoved = true;
+            }
         }
     }
 
-    // return true if removal was successful
-    return saveObject.profiles[profile].inventory.items.hasOwnProperty(id);
+    // return true if item was successfully removed
+    return true
 }
 
 function generateItemId(profile = saveObject.currentProfile) {

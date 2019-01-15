@@ -502,14 +502,16 @@ class shopScene extends Phaser.Scene {
 
         // loop through all selected items
         for (let selectedItem in this.selectedItems) {
+            if(window.done){
+                window.done = true;
+                continue;
+            }
+
             // subtract amount of sold items to compensate for key offset after selling an item
             let currentItem = selectedItem - soldItems;
 
-            // get infos on current item including the value
-            let currentItemValue = getItemValue(saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem]);
-
-            // add value to currency
-            saveObject.profiles[saveObject.currentProfile].inventory.currency += currentItemValue;
+            // get infos on current item including the value and add value to currency
+            saveObject.profiles[saveObject.currentProfile].inventory.currency += getItemValue(saveObject.profiles[saveObject.currentProfile].inventory.items[currentItem]);
 
             // remove item from inventory
             removeItem(currentItem);
@@ -522,7 +524,7 @@ class shopScene extends Phaser.Scene {
         playSound('checkout');
 
         // save changes to profile
-        saveData();
+        //saveData();
 
         // clear list of selected items
         this.selectedItems = {};
