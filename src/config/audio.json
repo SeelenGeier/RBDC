@@ -109,5 +109,9 @@
   "skeleton_2Attack": {
     "filename": "skeleton_attack.mp3",
     "volume": 0.15
+  },
+  "minotaurAttack": {
+    "filename": "minotaur_attack.wav",
+    "volume": 0.2
   }
 }
