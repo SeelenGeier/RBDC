@@ -524,7 +524,7 @@ class shopScene extends Phaser.Scene {
         playSound('checkout');
 
         // save changes to profile
-        //saveData();
+        saveData();
 
         // clear list of selected items
         this.selectedItems = {};
