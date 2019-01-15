@@ -3,7 +3,7 @@
     "name": "Necklace",
     "description": "A beautiful necklace.",
     "image": "necklace",
-    "value": 10
+    "value": 15
   },
   "diamond": {
     "name": "Diamond",
@@ -19,8 +19,38 @@
   },
   "tome": {
     "name": "Tome",
-    "description": "An old tome.",
+    "description": "An ancient tome.",
     "image": "tome",
-    "value": 20
+    "value": 40
+  },
+  "scroll": {
+    "name": "Scroll",
+    "description": "A scroll with important information.",
+    "image": "tome",
+    "value": 25
+  },
+  "tools": {
+    "name": "Tools",
+    "description": "Old rusty tools but still worth some coins.",
+    "image": "tome",
+    "value": 10
+  },
+  "envelope": {
+    "name": "Envelope",
+    "description": "A sealed envelope probably with valuable information.",
+    "image": "envelope",
+    "value": 15
+  },
+  "map": {
+    "name": "Map",
+    "description": "A map indicating key positions in the dungeon.",
+    "image": "document",
+    "value": 30
+  },
+  "backpack": {
+    "name": "Backpack",
+    "description": "A backpack often used by adventurers.",
+    "image": "backpack",
+    "value": 5
   }
 }

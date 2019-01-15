@@ -39,5 +39,33 @@
       "impact": 4,
       "slash": 7
     }
+  },
+  "broadaxe": {
+    "name": "Broadaxe",
+    "description": "A broadaxe used for battle.",
+    "image": "axeDouble",
+    "value": 40,
+    "damage": {
+      "impact": 6,
+      "slash": 12
+    }
+  },
+  "hammer": {
+    "name": "Hammer",
+    "description": "A big hammer to crush your enemies.",
+    "image": "hammer",
+    "value": 35,
+    "damage": {
+      "impact": 15
+    }
+  },
+  "bow": {
+    "name": "Bow",
+    "description": "A wooden bow with a strong sinew.",
+    "image": "bow",
+    "value": 25,
+    "damage": {
+      "puncture": 12
+    }
   }
 }

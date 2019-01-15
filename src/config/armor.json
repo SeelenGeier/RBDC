@@ -30,5 +30,16 @@
       "puncture": 20,
       "slash": 8
     }
+  },
+  "boots": {
+    "name": "Adventurer Boots",
+    "description": "A pair of heavy boots perfect for adventuring.",
+    "image": "boots",
+    "value": 20,
+    "resistance": {
+      "puncture": 2,
+      "slash": 5,
+      "impact": 5
+    }
   }
 }
