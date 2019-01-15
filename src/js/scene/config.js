@@ -184,15 +184,31 @@ class configScene extends Phaser.Scene {
 
         // make text clickable as well
         this.buttonCreditsLabel.setInteractive();
-        this.buttonCreditsLabel.on('pointerup', this.showCredits, this);
+        this.buttonCreditsLabel.on('pointerup', this.showCredits1, this);
 
         // add button next to logout text with the same functionality
         new Button('buttonCredits', ['gameicons', 'massiveMultiplayer.png'], this.buttonCreditsLabel.x - 35, this.buttonCreditsLabel.y + this.buttonCreditsLabel.height / 2, this);
-        this.buttonCredits.on('pointerup', this.showCredits, this);
+        this.buttonCredits.on('pointerup', this.showCredits1, this);
     }
 
-    showCredits() {
-        // show credits in dialog box
-        this.credits = new Dialog('Credits', config.default.setting.credits, this.scene);
+    showCredits1() {
+        // show code credits in dialog box
+        this.credits1 = new Dialog('Credits', config.default.setting.credits1, this.scene);
+
+        // add event trigger when attack animation is complete to switch to second attack animation
+        this.dialogButtonOK.on('pointerup', this.showCredits2, this);
+    }
+
+    showCredits2() {
+        // show code credits in dialog box
+        this.credits2 = new Dialog('Credits', config.default.setting.credits2, this.scene);
+
+        // add event trigger when attack animation is complete to switch to second attack animation
+        this.dialogButtonOK.on('pointerup', this.showCredits3, this);
+    }
+
+    showCredits3() {
+        // show code credits in dialog box
+        this.credits3 = new Dialog('Credits', config.default.setting.credits3, this.scene);
     }
 }
