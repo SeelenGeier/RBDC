@@ -82,9 +82,17 @@
     "filename": "slime_attack.wav",
     "volume": 0.2
   },
+  "slimeDie": {
+    "filename": "slime_die.wav",
+    "volume": 0.3
+  },
   "snakeAttack": {
     "filename": "snake_attack.wav",
     "volume": 0.2
+  },
+  "snakeDie": {
+    "filename": "snake_die.wav",
+    "volume": 0.4
   },
   "skeleton_1Die": {
     "filename": "skeleton_die.wav",
@@ -94,8 +102,12 @@
     "filename": "skeleton_die.wav",
     "volume": 0.4
   },
-  "snakeDie": {
-    "filename": "snake_die.wav",
-    "volume": 0.4
+  "skeleton_1Attack": {
+    "filename": "skeleton_attack.mp3",
+    "volume": 0.15
+  },
+  "skeleton_2Attack": {
+    "filename": "skeleton_attack.mp3",
+    "volume": 0.15
   }
 }
