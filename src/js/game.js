@@ -151,11 +151,12 @@ function create() {
     // load possible save data
     loadData();
 
-    this.loadingText = this.add.text(this.sys.game.config.width * 0.3, this.sys.game.config.height * 0.5, 'LOADING ' + (game.scene.getScene('default').load.progress * 100) + '%', {
+    this.loadingText = this.add.text(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.5, 'LOADING ' + (game.scene.getScene('default').load.progress * 100) + '%', {
         fontFamily: config.default.setting.fontFamily,
         fontSize: 24,
         color: '#ffffff'
     });
+    this.loadingText.setOrigin(0.5, 0.5);
 
     // start game if finished loading
     startGame();
