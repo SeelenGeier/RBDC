@@ -60,19 +60,7 @@ function removeItem(id, profile = saveObject.currentProfile, trackItemLoss = tru
     // remove item from inventory
     delete saveObject.profiles[profile].inventory.items[id];
 
-    // if there are any items after this item in the inventory, correct their ids by moving them one id down
-    if (saveObject.profiles[profile].inventory.items.hasOwnProperty(id + 1)) {
-        // move item id of next item to current item
-        saveObject.profiles[saveObject.currentProfile].inventory.items[id] = saveObject.profiles[saveObject.currentProfile].inventory.items[id + 1];
-
-        // check if next item is equipped and swap equipped id with new id
-        if (saveObject.profiles[profile].character[getItem(id, profile).type] == id + 1) {
-            saveObject.profiles[profile].character[getItem(id, profile).type] = id;
-        }
-
-        // and remove item id from next item
-        removeItem(id + 1, profile, false)
-    }
+    correctInventoryIds();
 
     // return true if item was successfully removed
     return true
