@@ -196,9 +196,21 @@ function correctInventoryIds() {
         // assign item to new id in new inventory
         newInventory[newItemId] = saveObject.profiles[profile].inventory.items[itemId];
 
-        // check if item is currently equipped
+        // check if item is currently equipped in weapon slot
         if(saveObject.profiles[profile].character.weapon == itemId) {
             saveObject.profiles[profile].character.weapon = newItemId;
+        }
+        // check if item is currently equipped in armor slot
+        if(saveObject.profiles[profile].character.armor == itemId) {
+            saveObject.profiles[profile].character.armor = newItemId;
+        }
+        // check if item is currently equipped in offhand slot
+        if(saveObject.profiles[profile].character.offhand == itemId) {
+            saveObject.profiles[profile].character.offhand = newItemId;
+        }
+        // check if item is currently equipped in trinket slot
+        if(saveObject.profiles[profile].character.trinket == itemId) {
+            saveObject.profiles[profile].character.trinket = newItemId;
         }
 
         newItemId++;
