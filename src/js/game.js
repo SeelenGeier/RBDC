@@ -20,14 +20,23 @@ let fullscreen = url.searchParams.get("fullscreen");
 let canvas = document.getElementById(gameConfig.parent);
 
 if(fullscreen) {
+    // hide navigation
     document.getElementById('navigation').style.display = 'none';
+
+    // resize game to fit the current window
     gameConfig.width = window.innerWidth;
     gameConfig.height = window.innerHeight;
+
+    // hide scroll navigation bar on mobile devices
+    /mobile/i.test(navigator.userAgent) && setTimeout(function
+        () {   window.scrollTo(0, 1); }, 1000);
 }else {
+    // fix position of game in center of the screen
     canvas.style.maxWidth = gameConfig.width + 'px';
     canvas.style.margin = '50px auto';
 }
 
+// initialize game with Phaser
 let game = new Phaser.Game(gameConfig);
 
 // global config (e.g. config.weapon[config.default.equipment.weapon])
