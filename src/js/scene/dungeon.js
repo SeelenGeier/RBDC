@@ -27,10 +27,10 @@ class dungeonScene extends Phaser.Scene {
         this.addNavigationExit(this.sys.game.config.width * 0.1, this.sys.game.config.height * 0.5);
 
         // add button to exit the shop
-        this.addNavigationAction(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.3);
+        this.addNavigationAction(this.sys.game.config.width * 0.9, this.sys.game.config.height * 0.5);
 
         // add button to exit the shop
-        this.addNavigationNextRoom(this.sys.game.config.width * 0.9, this.sys.game.config.height * 0.5);
+        this.addNavigationNextRoom(this.sys.game.config.width * 0.5, this.sys.game.config.height * 0.3);
 
         // add character to the left center of the screen
         this.addCharacter(this.sys.game.config.width * 0.25, this.sys.game.config.height * 0.62);
