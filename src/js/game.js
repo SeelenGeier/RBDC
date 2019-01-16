@@ -26,10 +26,9 @@ if(fullscreen) {
     // resize game to fit the current window
     gameConfig.width = window.innerWidth;
     gameConfig.height = window.innerHeight;
-
-    // hide scroll navigation bar on mobile devices
-    /mobile/i.test(navigator.userAgent) && setTimeout(function
-        () {   window.scrollTo(0, 1); }, 1000);
+    
+    // try to hide mobile navigation bar
+    document.location.href = "#";
 }else {
     // fix position of game in center of the screen
     canvas.style.maxWidth = gameConfig.width + 'px';
