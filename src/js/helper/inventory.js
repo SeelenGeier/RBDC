@@ -175,7 +175,7 @@ function generateRareShopItems() {
         // generate 0-3 items for each category
         let i;
         for (i = 1; i < (Math.random() * 4); i++) {
-            let randomItem = getRandomItem(null, equipmentType, false);
+            let randomItem = getRandomItem(config.default.setting.rareShopItemsQuality, equipmentType, false);
 
             // add new item to rare shop items list
             saveObject.profiles[saveObject.currentProfile].rareShopItems[nextItemId] = randomItem;

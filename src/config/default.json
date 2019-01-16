@@ -18,7 +18,8 @@
     "chestImageOpen": "chest/chest_open.png",
     "chestImageClosed": "chest/chest_closed.png",
     "coinImage": "item/coin.png",
-    "defaultItemDurability": 20
+    "defaultItemDurability": 20,
+    "rareShopItemsQuality": 2
   },
   "equipment": {
     "weapon": "wood_sword",
