@@ -229,6 +229,11 @@ class profileOverviewScene extends Phaser.Scene {
         let image = '';
         let durabilityText = '';
 
+        // check if item exists, otherwise unequip slot
+        if(typeof getItem(saveObject.profiles[saveObject.currentProfile].character[type]) == 'undefined') {
+            saveObject.profiles[saveObject.currentProfile].character[type] = null;
+        }
+
         // check if character has any item equipped in this slot
         if (saveObject.profiles[saveObject.currentProfile].character[type] != null) {
             // get image from item config
