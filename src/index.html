@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1">
     <title>RDBC - Room Based Dungeon Crawler</title>
     <!-- import Phaser 3 Game Framework -->
     <!-- TODO: replace with minified version -->
@@ -14,11 +15,16 @@
                 families: ['MedievalSharp']
             }
         });
+        function fullscreen() {
+            document.getElementById('navigation').style.display = 'none';
+        }
     </script>
 </head>
 <body>
-    <div><a href="https://seelengeier.github.io/projects/index.html">Back to Overview</a></div>
-    <div><a href="" onclick="resetSave()">RESET</a></div>
+    <div id="navigation">
+        <div><a href="https://seelengeier.github.io/projects/index.html">Back to Overview</a></div>
+        <div><a href="#" onclick="resetSave()">RESET</a>    <a href="#" onclick="fullscreen()">Fullscreen</a></div>
+    </div>
     <div class="game" id="rbdcGame"></div>
     <!-- import helper -->
     <script src="js/helper/save_data.js"></script>
