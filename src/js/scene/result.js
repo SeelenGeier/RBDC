@@ -168,7 +168,7 @@ class resultScene extends Phaser.Scene {
 
         // list all items acquired during the last run
         for (let item in saveObject.profiles[saveObject.currentProfile].itemsAcquired) {
-            this.itemsAcquiredText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].type + '/' + saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].name, {
+            this.itemsAcquiredText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsAcquired[item].name, {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 24,
                 color: '#ffffff'
@@ -198,7 +198,7 @@ class resultScene extends Phaser.Scene {
 
         // list all items lost during the last run
         for (let item in saveObject.profiles[saveObject.currentProfile].itemsLost) {
-            this.itemsLostText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsLost[item].type + '/' + saveObject.profiles[saveObject.currentProfile].itemsLost[item].name, {
+            this.itemsLostText[loopCounter] = this.add.text(x, y + 10 + (25 * loopCounter), saveObject.profiles[saveObject.currentProfile].itemsLost[item].name, {
                 fontFamily: config.default.setting.fontFamily,
                 fontSize: 24,
                 color: '#ffffff'
