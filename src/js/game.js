@@ -13,10 +13,20 @@ let gameConfig = {
     antialiasing: false
 };
 
+let url = new URL(window.location.href);
+let fullscreen = url.searchParams.get("fullscreen");
+
 // always keep the screen centered in the browser
 let canvas = document.getElementById(gameConfig.parent);
-canvas.style.maxWidth = gameConfig.width + 'px';
-canvas.style.margin = '50px auto';
+
+if(fullscreen) {
+    document.getElementById('navigation').style.display = 'none';
+    gameConfig.width = window.innerWidth;
+    gameConfig.height = window.innerHeight;
+}else {
+    canvas.style.maxWidth = gameConfig.width + 'px';
+    canvas.style.margin = '50px auto';
+}
 
 let game = new Phaser.Game(gameConfig);
 
