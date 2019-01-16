@@ -26,6 +26,7 @@ if(fullscreen) {
     // resize game to fit the current window
     gameConfig.width = window.innerWidth;
     gameConfig.height = window.innerHeight;
+    document.body.style.margin = '0';
 }else {
     // fix position of game in center of the screen
     canvas.style.maxWidth = gameConfig.width + 'px';
