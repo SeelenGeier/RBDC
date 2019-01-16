@@ -134,7 +134,8 @@ function getRandomItem(quality = 1, category = null, logItem = true) {
 
     // get a list of all items in selected category
     for (let prop in config[category]) {
-        if (config[category].hasOwnProperty(prop)) {
+        // do not add default equipment
+        if (config.default.equipment[category] != prop) {
             keys.push(prop);
         }
     }
