@@ -167,3 +167,41 @@ function loadAnimationTrap() {
         frameRate: 24
     });
 }
+
+function loadAnimationRat() {
+    game.anims.create({
+        key: 'ratIdle',
+        frames: game.anims.generateFrameNumbers('rat', {start: 0, end: 9}),
+        frameRate: 16,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'ratAttack',
+        frames: game.anims.generateFrameNumbers('rat', {start: 30, end: 39}),
+        frameRate: 16
+    });
+    game.anims.create({
+        key: 'ratDie',
+        frames: game.anims.generateFrameNumbers('rat', {start: 40, end: 49}),
+        frameRate: 16
+    });
+}
+
+function loadAnimationBat() {
+    game.anims.create({
+        key: 'batIdle',
+        frames: game.anims.generateFrameNumbers('bat', {start: 50, end: 59}),
+        frameRate: 16,
+        repeat: -1
+    });
+    game.anims.create({
+        key: 'batAttack',
+        frames: game.anims.generateFrameNumbers('bat', {start: 80, end: 89}),
+        frameRate: 16
+    });
+    game.anims.create({
+        key: 'batDie',
+        frames: game.anims.generateFrameNumbers('bat', {start: 90, end: 99}),
+        frameRate: 16
+    });
+}

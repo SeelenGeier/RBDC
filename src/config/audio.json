@@ -113,5 +113,21 @@
   "minotaurDie": {
     "filename": "minotaur_die.wav",
     "volume": 0.4
+  },
+  "ratAttack": {
+    "filename": "snake_attack.wav",
+    "volume": 0.2
+  },
+  "ratDie": {
+    "filename": "slime_attack.wav",
+    "volume": 0.2
+  },
+  "batAttack": {
+    "filename": "snake_attack.wav",
+    "volume": 0.2
+  },
+  "batDie": {
+    "filename": "slime_attack.wav",
+    "volume": 0.2
   }
 }

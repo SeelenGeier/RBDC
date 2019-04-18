@@ -9,7 +9,7 @@
       "scale": 2.5,
       "direction": 1
     },
-    "health": 12,
+    "health": 18,
     "damage": {
       "impact": 5,
       "poison": 2
@@ -18,6 +18,49 @@
       "impact": 10,
       "slash": 3,
       "poison": 10
+    }
+  },
+  "rat": {
+    "type": "rat",
+    "name": "Rat",
+    "image": {
+      "file": "rat_bat.png",
+      "width": 32,
+      "height": 32,
+      "scale": 3,
+      "direction": 1
+    },
+    "health": 5,
+    "damage": {
+      "poison": 5,
+      "slash": 3,
+      "puncture": 5
+    },
+    "resistance": {
+      "poison": 15,
+      "puncture": 5
+    }
+  },
+  "bat": {
+    "type": "bat",
+    "name": "Bat",
+    "image": {
+      "file": "rat_bat.png",
+      "width": 32,
+      "height": 32,
+      "scale": 3,
+      "direction": 1
+    },
+    "health": 10,
+    "damage": {
+      "poison": 4,
+      "slash": 2,
+      "puncture": 8
+    },
+    "resistance": {
+      "slash": 10,
+      "puncture": 5,
+      "impact": 5
     }
   },
   "skeleton_1": {
